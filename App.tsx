@@ -1,6 +1,7 @@
 
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { HashRouter, Routes, Route, Outlet, Navigate, Link, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Outlet, Navigate, Link, useLocation } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
@@ -233,7 +234,7 @@ const App: React.FC = () => {
   
   return (
     <ThemeProvider>
-      <HashRouter>
+      <BrowserRouter>
         <AuthProvider>
           <ContactProvider>
             <OurStoryProvider>
@@ -302,7 +303,7 @@ const App: React.FC = () => {
             </OurStoryProvider>
           </ContactProvider>
         </AuthProvider>
-      </HashRouter>
+      </BrowserRouter>
     </ThemeProvider>
   );
 };

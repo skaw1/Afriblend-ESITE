@@ -122,12 +122,12 @@ const ProductDetailPage: React.FC = () => {
             "@type": "ListItem",
             "position": 2,
             "name": "Products",
-            "item": `${window.location.origin}/#/products`
+            "item": `${window.location.origin}/products`
         },{
             "@type": "ListItem",
             "position": 3,
             "name": category.name,
-            "item": `${window.location.origin}/#/products?categoryId=${category.id}`
+            "item": `${window.location.origin}/products?categoryId=${category.id}`
         },{
             "@type": "ListItem",
             "position": 4,

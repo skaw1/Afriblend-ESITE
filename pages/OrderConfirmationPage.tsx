@@ -21,7 +21,7 @@ const OrderConfirmationPage: React.FC = () => {
         );
     }
     
-    const trackingUrl = `${window.location.origin}/#/track/${order.trackingId}`;
+    const trackingUrl = `${window.location.origin}/track/${order.trackingId}`;
 
     return (
         <div className="bg-white dark:bg-dark-bg">
