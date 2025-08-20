@@ -84,7 +84,7 @@ const AdminOrdersPage: React.FC = () => {
                 />
             )}
 
-            <div className="bg-white dark:bg-dark-card shadow-lg rounded-lg overflow-hidden">
+            <div className="bg-white dark:bg-dark-bg shadow-lg rounded-lg overflow-hidden">
                 <div className="overflow-x-auto">
                     <table className="min-w-full divide-y divide-gray-200 dark:divide-dark-border">
                         <thead className="bg-gray-50 dark:bg-gray-700">
@@ -97,7 +97,7 @@ const AdminOrdersPage: React.FC = () => {
                                 <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-dark-subtext uppercase tracking-wider">Actions</th>
                             </tr>
                         </thead>
-                        <tbody className="bg-white divide-y divide-gray-200 dark:bg-dark-card dark:divide-dark-border">
+                        <tbody className="bg-white divide-y divide-gray-200 dark:bg-dark-bg dark:divide-dark-border">
                             {orders.map((order) => (
                                 <tr key={order.id}>
                                     <td className="px-4 py-4 whitespace-nowrap">
