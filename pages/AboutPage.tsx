@@ -15,36 +15,42 @@ const AboutPage: React.FC = () => {
   }, []);
 
   return (
-    // Ensure the root element of the page does not overflow.
-    <div className="bg-brand-bg dark:bg-dark-bg animate-fade-in overflow-x-hidden">
+    <div className="bg-brand-bg dark:bg-dark-bg animate-fade-in">
       {/* 
         This is a robust container pattern. 
         - `max-w-7xl` sets the maximum width on large screens.
         - `mx-auto` centers the container.
         - `px-6` provides horizontal padding, crucial for mobile.
-        - `w-full` ensures it takes up available width on small screens.
+        - `w-full` ensures it takes up available width on all screens.
       */}
       <div className="max-w-7xl mx-auto px-6 py-16 md:py-24 w-full">
-        {/* Responsive grid: stacks on mobile, two columns on medium screens and up */}
-        <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
+        {/* 
+          Responsive Flexbox Layout:
+          - `flex-col` on mobile (default): Stacks image on top of text.
+          - `md:flex-row` on medium screens and up: Creates a side-by-side layout.
+          - `items-center` vertically aligns content in the row layout.
+        */}
+        <div className="flex flex-col md:flex-row items-center gap-12 lg:gap-16">
           
-          {/* Image Column: Appears on top on mobile */}
-          <div className="w-full h-80 md:h-full max-h-[500px] rounded-lg shadow-2xl overflow-hidden group">
-            <img 
-              src={ourStory.imageUrl} 
-              alt="Artisan crafting traditional African textiles, representing the heritage of Afriblend." 
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
-            />
+          {/* Image Column */}
+          <div className="w-full md:w-5/12 flex-shrink-0">
+            <div className="rounded-lg shadow-2xl overflow-hidden group aspect-w-3 aspect-h-4">
+              <img 
+                src={ourStory.imageUrl} 
+                alt="Artisan crafting traditional African textiles, representing the heritage of Afriblend." 
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+              />
+            </div>
           </div>
 
-          {/* Text Column: Appears below image on mobile */}
-          <div className="flex flex-col justify-center text-left">
+          {/* Text Column */}
+          <div className="w-full md:w-7/12 flex flex-col justify-center text-center md:text-left">
             <h1 className="text-4xl md:text-5xl font-serif font-bold text-brand-primary dark:text-dark-text mb-6">
               {ourStory.title}
             </h1>
             
-            {/* Using `break-word` for robust text wrapping */}
-            <p className="text-lg text-gray-700 dark:text-dark-subtext leading-relaxed break-word">
+            {/* Using `break-words` for robust text wrapping, ensuring no overflow */}
+            <p className="text-lg text-gray-700 dark:text-dark-subtext leading-relaxed break-words">
               {ourStory.text}
             </p>
 

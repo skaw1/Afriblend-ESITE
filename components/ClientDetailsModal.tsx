@@ -82,8 +82,19 @@ const ClientDetailsModal: React.FC<ClientDetailsModalProps> = ({ order, onClose,
                                 <input type="text" name="address" id="address" required value={details.address} onChange={handleChange} className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-brand-secondary focus:border-brand-secondary p-2 dark:bg-gray-700 dark:border-dark-border dark:text-dark-text" />
                             </div>
                             <div>
-                                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 dark:text-dark-subtext">Phone Number</label>
-                                <input type="tel" name="phone" id="phone" required value={details.phone} onChange={handleChange} className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-brand-secondary focus:border-brand-secondary p-2 dark:bg-gray-700 dark:border-dark-border dark:text-dark-text" />
+                                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 dark:text-dark-subtext">Phone Number (with country code)</label>
+                                <input 
+                                    type="tel" 
+                                    name="phone" 
+                                    id="phone" 
+                                    required 
+                                    value={details.phone} 
+                                    onChange={handleChange} 
+                                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-brand-secondary focus:border-brand-secondary p-2 dark:bg-gray-700 dark:border-dark-border dark:text-dark-text"
+                                    placeholder="+254712345678"
+                                    pattern="\+[0-9]{1,4}[0-9]{9,}"
+                                    title="Please enter the phone number with a country code, starting with a '+' sign."
+                                />
                             </div>
                         </form>
                     </div>

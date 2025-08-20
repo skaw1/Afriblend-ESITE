@@ -2,6 +2,8 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Outlet, Navigate, Link, useLocation } from 'react-router-dom';
+import { doc, onSnapshot, setDoc } from 'firebase/firestore';
+import { db } from './services/firebase';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
@@ -57,23 +59,30 @@ interface NotificationContextType {
 const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
 
 export const NotificationProvider = ({ children }: { children: React.ReactNode }) => {
-  const [notification, setNotification] = useState<Notification>(() => {
-    try {
-      const localData = localStorage.getItem('afriblend-notification');
-      return localData ? JSON.parse(localData) : INITIAL_NOTIFICATION;
-    } catch (error) {
-      console.error("Could not parse notification from localStorage", error);
-      return INITIAL_NOTIFICATION;
-    }
-  });
+  const [notification, setNotification] = useState<Notification>(INITIAL_NOTIFICATION);
 
   useEffect(() => {
-    localStorage.setItem('afriblend-notification', JSON.stringify(notification));
-  }, [notification]);
+    const notificationRef = doc(db, 'content', 'notification');
+    const unsubscribe = onSnapshot(notificationRef, (docSnap) => {
+        if (docSnap.exists()) {
+            setNotification(docSnap.data() as Notification);
+        } else {
+            // Document doesn't exist, initialize it with defaults
+            console.log("No notification document found in Firestore. Creating one.");
+            setDoc(notificationRef, INITIAL_NOTIFICATION);
+            setNotification(INITIAL_NOTIFICATION);
+        }
+    });
 
-  const updateNotification = (newNotification: Notification) => {
-    setNotification(newNotification);
+    return () => unsubscribe();
+  }, []);
+
+  const updateNotification = async (newNotification: Notification) => {
+    const notificationRef = doc(db, 'content', 'notification');
+    await setDoc(notificationRef, newNotification);
+    // The onSnapshot listener will update the local state automatically
   };
+
 
   return React.createElement(NotificationContext.Provider, {
     value: { notification, updateNotification }

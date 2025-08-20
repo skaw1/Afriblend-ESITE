@@ -44,7 +44,17 @@ const RiderFormModal: React.FC<{
                             </div>
                             <div>
                                 <label htmlFor="rider-phone" className="block text-sm font-medium text-gray-700 dark:text-dark-subtext">Rider Phone</label>
-                                <input type="tel" id="rider-phone" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+2547..." className="mt-1 w-full border-gray-300 rounded-md shadow-sm p-2 focus:border-brand-accent focus:ring focus:ring-brand-accent focus:ring-opacity-50 dark:bg-dark-bg dark:border-dark-border dark:text-dark-text" required />
+                                <input 
+                                    type="tel" 
+                                    id="rider-phone" 
+                                    value={phone} 
+                                    onChange={(e) => setPhone(e.target.value)} 
+                                    placeholder="+254712345678" 
+                                    className="mt-1 w-full border-gray-300 rounded-md shadow-sm p-2 focus:border-brand-accent focus:ring focus:ring-brand-accent focus:ring-opacity-50 dark:bg-dark-bg dark:border-dark-border dark:text-dark-text" 
+                                    required 
+                                    pattern="\+[0-9]{1,4}[0-9]{9,}"
+                                    title="Please enter the phone number with a country code, starting with a '+' sign."
+                                />
                             </div>
                         </div>
                     </div>
