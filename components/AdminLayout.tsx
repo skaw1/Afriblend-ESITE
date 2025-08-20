@@ -175,7 +175,7 @@ const AdminLayout: React.FC = () => {
                             >
                                 <Menu className="h-6 w-6"/>
                             </button>
-                            <h1 className="text-xl md:text-2xl font-bold text-gray-800 dark:text-dark-text">{getPageTitle()}</h1>
+                            <h1 className="text-lg md:text-xl font-bold text-gray-800 dark:text-dark-text">{getPageTitle()}</h1>
                         </div>
                         <div className="flex items-center space-x-4">
                             <button
