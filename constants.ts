@@ -337,9 +337,9 @@ export const INITIAL_CONTACT_INFO: ContactInfo = {
 };
 
 export const INITIAL_OUR_STORY_CONTENT: OurStoryContent = {
-    title: 'Weaving Stories, Crafting Futures',
-    text: "Afriblend was born from a desire to bridge timeless African artistry with contemporary global fashion. We believe in fair trade, sustainable practices, and creating a platform that honors the skill and heritage behind each product.",
-    imageUrl: 'https://picsum.photos/seed/about-home/600/450',
+    title: 'Heritage Woven into Modern Style',
+    text: "Afriblend was born from a single belief: that the soul of African artistry deserves a place in the modern wardrobe. We journey across the continent to partner with master artisans, honoring timeless techniques passed down through generations. Each piece in our collection is more than just fashion; it's a story woven in thread, a culture celebrated in color, and a future crafted with sustainable, ethical practices. We invite you to wear a piece of heritage, beautifully reimagined.",
+    imageUrl: 'https://picsum.photos/seed/artisan-hands/800/1200',
 };
 
 export const INITIAL_RIDERS: Rider[] = [

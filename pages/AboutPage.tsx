@@ -15,20 +15,24 @@ const AboutPage: React.FC = () => {
     }
   }, []);
 
+  const truncatedText = ourStory.text.length > 450 
+    ? `${ourStory.text.substring(0, 450)}...` 
+    : ourStory.text;
+
   return (
     <div className="bg-brand-bg dark:bg-dark-bg animate-fade-in">
-      <div className="container mx-auto px-6 py-16 md:py-24">
+      <div className="container mx-auto px-6 py-12 md:py-16">
         <div className="max-w-5xl mx-auto">
           {/* Title with custom underline */}
-          <h1 className="relative text-4xl md:text-5xl font-serif font-bold text-brand-primary dark:text-dark-text text-center mb-16 pb-4">
+          <h1 className="relative text-4xl md:text-5xl font-serif font-bold text-brand-primary dark:text-dark-text text-center mb-12 pb-4">
             Our Story
             <span className="absolute bottom-0 left-1/2 -translate-x-1/2 h-1 w-24 bg-gradient-to-r from-brand-secondary to-brand-accent dark:from-dark-accent dark:to-brand-secondary"></span>
           </h1>
 
           {/* Two-column layout */}
-          <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-center">
+          <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
             {/* Image Column */}
-            <div className="w-full h-96 md:h-[500px] rounded-lg shadow-xl overflow-hidden">
+            <div className="w-full h-80 md:h-[450px] rounded-lg shadow-xl overflow-hidden">
               <img 
                 src={ourStory.imageUrl} 
                 alt="A weaver working on a traditional loom, creating colorful African fabric." 
@@ -39,7 +43,7 @@ const AboutPage: React.FC = () => {
             {/* Text Column */}
             <div className="flex flex-col justify-center h-full">
               <p className="text-gray-700 dark:text-dark-subtext leading-relaxed text-lg mb-8">
-                {ourStory.text}
+                {truncatedText}
               </p>
               <div className="mt-auto pt-4">
                 <Link 
