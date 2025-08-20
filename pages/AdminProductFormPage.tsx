@@ -3,15 +3,9 @@ import * as ReactRouterDOM from 'react-router-dom';
 import { useProducts } from '../hooks/useProducts';
 import { Product } from '../types';
 import { useCategories } from '../hooks/useCategories';
-import { X, CloudUpload, CheckCircle2 } from 'lucide-react';
-
-// Helper function to convert a file to a Base64 string
-const toBase64 = (file: File): Promise<string> => new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = error => reject(error);
-});
+import { X, CloudUpload, CheckCircle2, LoaderCircle } from 'lucide-react';
+import { storage } from '../services/firebase';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 const AdminProductFormPage: React.FC = () => {
     const { id } = ReactRouterDOM.useParams<{ id: string }>();
@@ -21,6 +15,7 @@ const AdminProductFormPage: React.FC = () => {
     
     const [product, setProduct] = useState<Omit<Product, 'id' | 'slug' | 'sku' | 'rating' | 'reviewCount'> | Product | null>(null);
     const [isSaving, setIsSaving] = useState(false);
+    const [isUploading, setIsUploading] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
     const [imageUrlInput, setImageUrlInput] = useState('');
     const formInitialized = useRef(false);
@@ -88,18 +83,27 @@ const AdminProductFormPage: React.FC = () => {
     
     const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files.length > 0) {
+            setIsUploading(true);
             try {
                 const fileList = Array.from(e.target.files);
-                const base64Promises = fileList.map(file => toBase64(file));
-                const base64Images = await Promise.all(base64Promises);
+                const uploadPromises = fileList.map(async (file) => {
+                    const storageRef = ref(storage, `products/${Date.now()}-${file.name}`);
+                    const snapshot = await uploadBytes(storageRef, file);
+                    const downloadURL = await getDownloadURL(snapshot.ref);
+                    return downloadURL;
+                });
+
+                const imageUrls = await Promise.all(uploadPromises);
 
                 setProduct(prev => {
                     if (!prev) return null;
-                    return { ...prev, images: [...prev.images, ...base64Images] };
+                    return { ...prev, images: [...prev.images, ...imageUrls] };
                 });
             } catch (error) {
-                console.error("Error converting files to Base64", error);
-                alert("Failed to upload one or more images.");
+                console.error("Error uploading files to Firebase Storage:", error);
+                alert("Failed to upload one or more images. Please check your Firebase Storage rules.");
+            } finally {
+                setIsUploading(false);
             }
         }
     };
@@ -179,8 +183,7 @@ const AdminProductFormPage: React.FC = () => {
     
     const inputStyles = "mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2 bg-gray-100 focus:border-brand-accent focus:ring focus:ring-brand-accent focus:ring-opacity-50 transition-all duration-200 dark:bg-dark-bg dark:border-dark-border dark:text-dark-text";
     const selectStyles = "mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2 bg-gray-100 focus:border-brand-accent focus:ring focus:ring-brand-accent focus:ring-opacity-50 transition-all duration-200 dark:bg-dark-bg dark:border-dark-border dark:text-dark-text";
-    const imageUrlInputStyles = "flex-grow border-gray-300 rounded-l-md shadow-sm p-2 bg-gray-100 focus:border-brand-accent focus:ring focus:ring-brand-accent focus:ring-opacity-50 transition-all duration-200 dark:bg-dark-bg dark:border-dark-border dark:text-dark-text";
-
+    
     return (
         <form onSubmit={handleSubmit} className="bg-white dark:bg-dark-card p-6 rounded-lg shadow-lg space-y-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -253,11 +256,20 @@ const AdminProductFormPage: React.FC = () => {
                             </div>
                         </div>
                          <div className="flex flex-col items-center justify-center">
-                            <label htmlFor="file-upload" className="w-full cursor-pointer bg-brand-secondary text-white font-bold py-2 px-4 rounded-md hover:bg-brand-primary transition-colors flex items-center justify-center dark:bg-dark-accent dark:text-dark-bg dark:hover:bg-opacity-90">
-                                <CloudUpload className="mr-2 h-5 w-5" />
-                                Upload from Device (Multiple)
+                            <label htmlFor="file-upload" className={`w-full cursor-pointer bg-brand-secondary text-white font-bold py-2 px-4 rounded-md hover:bg-brand-primary transition-colors flex items-center justify-center dark:bg-dark-accent dark:text-dark-bg dark:hover:bg-opacity-90 ${isUploading ? 'cursor-not-allowed bg-gray-400' : ''}`}>
+                                 {isUploading ? (
+                                    <>
+                                        <LoaderCircle className="animate-spin mr-2 h-5 w-5" />
+                                        Uploading...
+                                    </>
+                                ) : (
+                                    <>
+                                        <CloudUpload className="mr-2 h-5 w-5" />
+                                        Upload from Device (Multiple)
+                                    </>
+                                )}
                             </label>
-                            <input id="file-upload" name="file-upload" type="file" className="sr-only" onChange={handleImageUpload} accept="image/*" multiple />
+                            <input id="file-upload" name="file-upload" type="file" className="sr-only" onChange={handleImageUpload} accept="image/*" multiple disabled={isUploading} />
                          </div>
                     </div>
                 </div>
