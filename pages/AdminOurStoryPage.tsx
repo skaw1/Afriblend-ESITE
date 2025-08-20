@@ -13,30 +13,31 @@ const toBase64 = (file: File): Promise<string> => new Promise((resolve, reject) 
 
 const AdminOurStoryPage: React.FC = () => {
     const { ourStory, updateOurStory } = useOurStory();
-    const [localContent, setLocalContent] = useState<OurStoryContent>(ourStory);
+    const [localContent, setLocalContent] = useState<OurStoryContent | null>(null);
     const [isSaving, setIsSaving] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
 
-    // This effect ensures that if the `ourStory` data changes in the context
-    // (e.g., after a successful save), the local form state is updated to match.
     useEffect(() => {
-        setLocalContent(ourStory);
+        if (ourStory) {
+            setLocalContent(ourStory);
+        }
     }, [ourStory]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
-        setLocalContent(prev => ({ ...prev, [name]: value }));
+        setLocalContent(prev => (prev ? { ...prev, [name]: value } : null));
     };
     
     const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
             const base64 = await toBase64(e.target.files[0]);
-            setLocalContent(prev => ({ ...prev, imageUrl: base64 }));
+            setLocalContent(prev => (prev ? { ...prev, imageUrl: base64 } : null));
         }
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (!localContent) return;
         setIsSaving(true);
         setSuccessMessage('');
 
@@ -53,6 +54,14 @@ const AdminOurStoryPage: React.FC = () => {
     };
 
     const inputStyles = "mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2 bg-gray-100 focus:border-brand-accent focus:ring focus:ring-brand-accent focus:ring-opacity-50 transition-all duration-200 dark:bg-dark-bg dark:border-dark-border dark:text-dark-text";
+
+    if (!localContent) {
+        return (
+            <div className="bg-white dark:bg-dark-card shadow-lg rounded-lg p-6 flex justify-center items-center h-96">
+                <p className="text-gray-500 dark:text-dark-subtext">Loading content...</p>
+            </div>
+        );
+    }
 
     return (
         <form onSubmit={handleSubmit} className="space-y-8">
