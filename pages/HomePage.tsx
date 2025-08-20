@@ -183,29 +183,9 @@ const HomePage: React.FC = () => {
                     </div>
                 </div>
             </section>
-            
-            {/* About Us Section */}
-            <section id="about-us" className="py-16 md:py-24 bg-brand-bg dark:bg-dark-bg">
-                <div className="container mx-auto px-6">
-                    <div className="grid md:grid-cols-2 gap-12 items-center">
-                        <div className="order-2 md:order-1">
-                            <h2 className="text-3xl md:text-4xl font-serif text-brand-primary dark:text-dark-text mb-4">{ourStory.title}</h2>
-                            <p className="text-gray-600 dark:text-dark-subtext mb-6 leading-relaxed">
-                               {ourStory.text}
-                            </p>
-                            <Link to="/about" className="font-bold text-brand-secondary dark:text-dark-accent hover:underline">
-                                Learn More About Our Journey
-                            </Link>
-                        </div>
-                        <div className="order-1 md:order-2">
-                             <img src={ourStory.imageUrl} alt="Artisan weaving a colorful fabric" className="rounded-lg shadow-xl w-full h-full object-cover"/>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
             {/* FAQ Section */}
-            <section id="faq" className="py-16 md:py-24 bg-white dark:bg-dark-card">
+            <section id="faq" className="py-16 md:py-24 bg-brand-bg dark:bg-dark-bg">
                  <div className="container mx-auto px-6 max-w-3xl">
                     <h2 className="text-3xl md:text-4xl font-serif text-center text-brand-primary dark:text-dark-text mb-12">Frequently Asked Questions</h2>
                     <div className="space-y-2">
@@ -217,7 +197,7 @@ const HomePage: React.FC = () => {
             </section>
 
             {/* Contact Us Section */}
-            <section id="contact-us" className="py-16 md:py-24 bg-brand-bg dark:bg-dark-bg">
+            <section id="contact-us" className="py-16 md:py-24 bg-white dark:bg-dark-card">
                 <div className="container mx-auto px-6 text-center">
                     <h2 className="text-3xl md:text-4xl font-serif text-brand-primary dark:text-dark-text mb-4">{contactInfo.title}</h2>
                     <p className="max-w-2xl mx-auto text-gray-600 dark:text-dark-subtext mb-12">

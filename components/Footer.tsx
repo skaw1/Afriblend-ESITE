@@ -42,7 +42,7 @@ const Footer: React.FC = () => {
           <div>
             <h4 className="font-semibold mb-4">About</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link to="/#about-us" className="hover:text-brand-accent dark:hover:text-dark-accent">Our Story</Link></li>
+              <li><Link to="/about" className="hover:text-brand-accent dark:hover:text-dark-accent">Our Story</Link></li>
               <li><Link to="/track" className="hover:text-brand-accent dark:hover:text-dark-accent">Track Your Order</Link></li>
               <li><Link to="/#contact-us" className="hover:text-brand-accent dark:hover:text-dark-accent">Contact Us</Link></li>
               <li><Link to="/#faq" className="hover:text-brand-accent dark:hover:text-dark-accent">FAQs</Link></li>
