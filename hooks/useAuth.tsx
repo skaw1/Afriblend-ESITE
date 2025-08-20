@@ -1,67 +1,67 @@
-
 import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { User as FirebaseUser, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../services/firebase';
 import { UserRole } from '../types';
 
 interface AuthContextType {
   isAuthenticated: boolean;
   userRole: UserRole | null;
-  login: (user: string, pass: string) => Promise<void>;
-  developerLogin: () => void;
+  login: (email: string, pass: string) => Promise<void>;
   logout: () => void;
+  isLoading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
-    return localStorage.getItem('afriblend-auth') === 'true';
-  });
-  const [userRole, setUserRole] = useState<UserRole | null>(() => {
-    return localStorage.getItem('afriblend-role') as UserRole | null;
-  });
+  const [user, setUser] = useState<FirebaseUser | null>(null);
+  const [userRole, setUserRole] = useState<UserRole | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    localStorage.setItem('afriblend-auth', String(isAuthenticated));
-    if (isAuthenticated && userRole) {
-      localStorage.setItem('afriblend-role', userRole);
-    } else {
-      localStorage.removeItem('afriblend-role');
-    }
-  }, [isAuthenticated, userRole]);
-
-  const login = (user: string, pass: string): Promise<void> => {
-    return new Promise((resolve, reject) => {
-      // Mock authentication
-      if (user.startsWith('dev@') && pass === 'password') {
-        setIsAuthenticated(true);
-        setUserRole('Developer');
-        resolve();
-      } else if (user.toLowerCase() === 'admin@afriblend.co.ke' && pass === 'password') {
-        setIsAuthenticated(true);
-        setUserRole('Store Owner');
-        resolve();
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      if (currentUser) {
+        // Simple role system based on email
+        if (currentUser.email === 'admin@afriblend.co.ke') {
+          setUserRole('Store Owner');
+        } else if (currentUser.email?.startsWith('dev@')) {
+          setUserRole('Developer');
+        } else {
+          // Fallback role for any other authenticated user.
+          // In a real app, this would come from a database.
+          setUserRole('Store Owner');
+        }
       } else {
-        reject(new Error('Invalid email or password'));
+        setUserRole(null);
       }
+      setIsLoading(false);
     });
-  };
+    return () => unsubscribe();
+  }, []);
 
-  const developerLogin = () => {
-    setIsAuthenticated(true);
-    setUserRole('Developer');
+  const login = async (email: string, pass: string): Promise<void> => {
+    await signInWithEmailAndPassword(auth, email, pass);
   };
 
   const logout = () => {
-    setIsAuthenticated(false);
-    setUserRole(null);
+    signOut(auth);
     navigate('/');
+  };
+  
+  const value = {
+    isAuthenticated: !!user,
+    userRole,
+    login,
+    logout,
+    isLoading,
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, userRole, login, developerLogin, logout }}>
-      {children}
+    <AuthContext.Provider value={value}>
+      {!isLoading && children}
     </AuthContext.Provider>
   );
 };

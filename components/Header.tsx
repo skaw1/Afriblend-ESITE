@@ -1,6 +1,7 @@
 
-import React, { useState, useRef } from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+
+import React, { useState } from 'react';
+import { Link, NavLink } from 'react-router-dom';
 import CartIcon from './CartIcon';
 import { useAuth } from '../hooks/useAuth';
 import { useTheme } from '../hooks/useTheme';
@@ -10,10 +11,8 @@ import { Moon, Sun } from 'lucide-react';
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   // const [isModalOpen, setIsModalOpen] = useState(false);
-  const { isAuthenticated, developerLogin } = useAuth();
+  const { isAuthenticated } = useAuth();
   const { theme, toggleTheme } = useTheme();
-  const navigate = useNavigate();
-  const longPressTimer = useRef<number | null>(null);
 
   const navLinkClasses = ({ isActive }: { isActive: boolean }) =>
     `py-2 text-sm font-medium transition-colors duration-300 ${isActive ? 'text-brand-accent dark:text-dark-accent border-b-2 border-brand-accent dark:border-dark-accent' : 'text-brand-primary dark:text-dark-text hover:text-brand-secondary dark:hover:text-dark-accent'}`;
@@ -29,20 +28,6 @@ const Header: React.FC = () => {
   };
   */
 
-  const handlePressStart = () => {
-    longPressTimer.current = window.setTimeout(() => {
-        developerLogin();
-        navigate('/admin/dashboard');
-    }, 5000); // 5 seconds
-  };
-
-  const handlePressEnd = () => {
-      if (longPressTimer.current) {
-          clearTimeout(longPressTimer.current);
-          longPressTimer.current = null;
-      }
-  };
-
   return (
     <>
       <header className="bg-brand-bg/80 dark:bg-dark-card/80 backdrop-blur-md sticky top-0 z-40 shadow-sm dark:shadow-dark-border/20">
@@ -50,12 +35,6 @@ const Header: React.FC = () => {
           <Link 
             to="/" 
             className="flex-shrink-0"
-            onMouseDown={handlePressStart}
-            onMouseUp={handlePressEnd}
-            onMouseLeave={handlePressEnd}
-            onTouchStart={handlePressStart}
-            onTouchEnd={handlePressEnd}
-            onContextMenu={(e) => e.preventDefault()}
           >
             <img 
               src="https://res.cloudinary.com/dwwvh34yi/image/upload/v1753865210/Afriblend_uyhbef.png" 

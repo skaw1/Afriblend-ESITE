@@ -31,8 +31,8 @@ const AdminLayout: React.FC = () => {
     };
 
     const navLinkClasses = ({ isActive }: { isActive: boolean }) =>
-        `relative flex items-center px-4 py-3 text-gray-300 transition-colors duration-200 transform rounded-md hover:bg-gray-700/50 dark:hover:bg-gray-600/50 ${
-            isActive ? 'bg-gray-700 dark:bg-gray-600 text-white' : ''
+        `relative flex items-center px-4 py-3 text-gray-300 transition-colors duration-200 transform rounded-lg hover:bg-gray-700/50 dark:hover:bg-dark-bg ${
+            isActive ? 'bg-gray-700/70 dark:bg-dark-bg text-white' : ''
         }`;
 
     const closeSidebar = () => setIsSidebarOpen(false);
@@ -41,7 +41,7 @@ const AdminLayout: React.FC = () => {
 
     return (
         <>
-            <div className="bg-gray-100 dark:bg-black font-sans">
+            <div className="bg-gray-100 dark:bg-dark-bg font-sans">
                 {/* Overlay */}
                 <div
                     onClick={closeSidebar}
@@ -56,7 +56,7 @@ const AdminLayout: React.FC = () => {
                         isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
                     }`}
                 >
-                    <div className="flex items-center justify-between h-20 px-4 flex-shrink-0">
+                    <div className="flex items-center justify-between h-20 px-4 flex-shrink-0 border-b border-gray-700/50 dark:border-dark-border">
                         <Link to="/" onClick={closeSidebar}>
                              <img 
                                 src="https://res.cloudinary.com/dwwvh34yi/image/upload/v1753865210/Afriblend_uyhbef.png" 
@@ -69,7 +69,7 @@ const AdminLayout: React.FC = () => {
                         </button>
                     </div>
                     
-                    <nav className="flex-1 px-3 py-4 space-y-2 overflow-y-auto">
+                    <nav className="flex-1 px-3 py-4 space-y-2 overflow-y-auto scrollbar-hide">
                         <NavLink to="/admin/dashboard" className={navLinkClasses} onClick={closeSidebar}>
                             <LayoutGrid className="mr-3 h-5 w-5" /> Dashboard
                         </NavLink>
@@ -85,11 +85,11 @@ const AdminLayout: React.FC = () => {
                         <NavLink to="/admin/products" className={navLinkClasses} onClick={closeSidebar}>
                             <Package className="mr-3 h-5 w-5" /> Products
                         </NavLink>
+                         <NavLink to="/admin/categories" className={navLinkClasses} onClick={closeSidebar}>
+                            <Tags className="mr-3 h-5 w-5" /> Categories
+                        </NavLink>
                         <NavLink to="/admin/riders" className={navLinkClasses} onClick={closeSidebar}>
                             <Bike className="mr-3 h-5 w-5" /> Riders
-                        </NavLink>
-                        <NavLink to="/admin/categories" className={navLinkClasses} onClick={closeSidebar}>
-                            <Tags className="mr-3 h-5 w-5" /> Categories
                         </NavLink>
                          
                         {isDeveloper && (
@@ -123,17 +123,15 @@ const AdminLayout: React.FC = () => {
                         )}
                     </nav>
 
-                    <div className="px-3 py-4 mt-auto flex-shrink-0">
-                        <div className="border-t border-gray-700 dark:border-gray-600 pt-4">
-                            <div className="flex items-center space-x-3 px-1">
-                                <UserCircle className="h-9 w-9 text-gray-300" />
-                                <div>
-                                    <p className="font-semibold text-sm text-white">{userRole}</p>
-                                </div>
+                    <div className="px-3 py-4 mt-auto flex-shrink-0 border-t border-gray-700/50 dark:border-dark-border">
+                         <Link to="/" className={`${navLinkClasses({isActive: false})} !mt-2`}>
+                            <ArrowLeft className="mr-3 h-5 w-5" /> Back to Store
+                        </Link>
+                         <div className="flex items-center space-x-3 p-3 mt-4 bg-gray-700/50 dark:bg-dark-bg/50 rounded-lg">
+                            <UserCircle className="h-9 w-9 text-dark-accent" />
+                            <div>
+                                <p className="font-semibold text-sm text-white">{userRole}</p>
                             </div>
-                            <Link to="/" className={`${navLinkClasses({isActive: false})} !mt-4`}>
-                                <ArrowLeft className="mr-3 h-5 w-5" /> Back to Store
-                            </Link>
                         </div>
                     </div>
                 </aside>
@@ -149,27 +147,27 @@ const AdminLayout: React.FC = () => {
                             >
                                 <Menu className="h-6 w-6"/>
                             </button>
-                            <h1 className="text-xl font-bold text-gray-800 dark:text-dark-text">{getPageTitle()}</h1>
+                            <h1 className="text-lg md:text-xl font-bold text-gray-800 dark:text-dark-text">{getPageTitle()}</h1>
                         </div>
                         <div className="flex items-center space-x-4">
                             <button
                                 onClick={() => setIsSearchOpen(true)}
-                                className="flex items-center bg-gray-100 dark:bg-dark-bg text-gray-600 dark:text-dark-subtext font-medium py-2 px-4 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors rounded-md"
+                                className="flex items-center bg-gray-100 dark:bg-dark-bg text-gray-600 dark:text-dark-subtext font-medium py-2 px-4 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors rounded-lg"
                                 aria-label="Open search"
                             >
                                 <Search className="mr-2 h-5 w-5" />
-                                Search
+                                <span className="hidden sm:inline">Search...</span>
                             </button>
                             <button
                                 onClick={logout}
-                                className="flex items-center bg-brand-secondary text-white font-bold py-2 px-4 hover:bg-brand-primary transition-colors rounded-md dark:bg-dark-accent dark:text-dark-bg dark:hover:bg-opacity-90"
+                                className="flex items-center bg-brand-secondary text-white font-bold py-2 px-4 hover:bg-brand-primary transition-colors rounded-lg dark:bg-dark-accent dark:text-dark-bg dark:hover:bg-opacity-90"
                             >
                                 <LogOut className="mr-2 h-5 w-5" />
-                                Logout
+                                <span className="hidden sm:inline">Logout</span>
                             </button>
                         </div>
                     </header>
-                    <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 dark:bg-black p-6">
+                    <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 dark:bg-dark-bg p-6">
                         <Outlet />
                     </main>
                 </div>

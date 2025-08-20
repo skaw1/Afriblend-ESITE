@@ -45,7 +45,7 @@ const AdminProductsPage: React.FC = () => {
     };
     
     return (
-        <div className="bg-white dark:bg-dark-card p-6 rounded-2xl shadow-sm border dark:border-dark-border/50">
+        <div className="bg-white dark:bg-dark-card p-6 rounded-lg shadow-md border dark:border-dark-border/50">
             {productToDelete && (
                 <ConfirmationModal
                     isOpen={isModalOpen}
@@ -68,7 +68,7 @@ const AdminProductsPage: React.FC = () => {
                         <Search className="h-5 w-5 text-gray-400" />
                     </div>
                 </div>
-                <Link to="/admin/products/new" className="bg-brand-primary text-white font-bold py-2 px-4 rounded-md hover:bg-brand-secondary transition-colors flex items-center dark:bg-dark-accent dark:text-dark-bg dark:hover:bg-opacity-90">
+                <Link to="/admin/products/new" className="bg-brand-primary text-white font-bold py-2 px-4 rounded-lg hover:bg-brand-secondary transition-colors flex items-center dark:bg-dark-accent dark:text-dark-bg dark:hover:bg-opacity-90">
                     <Plus className="mr-2 h-5 w-5" />
                     Add Product
                 </Link>
@@ -78,18 +78,18 @@ const AdminProductsPage: React.FC = () => {
                 <table className="min-w-full">
                     <thead>
                         <tr>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-dark-subtext uppercase tracking-wider">Product</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-dark-subtext uppercase tracking-wider">Category</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-dark-subtext uppercase tracking-wider">Price</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-dark-subtext uppercase tracking-wider">Stock</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-dark-subtext uppercase tracking-wider">Visibility</th>
-                            <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-dark-subtext uppercase tracking-wider">Actions</th>
+                            <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-dark-subtext uppercase tracking-wider">Product</th>
+                            <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-dark-subtext uppercase tracking-wider">Category</th>
+                            <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-dark-subtext uppercase tracking-wider">Price</th>
+                            <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-dark-subtext uppercase tracking-wider">Stock</th>
+                            <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-dark-subtext uppercase tracking-wider">Visibility</th>
+                            <th className="px-6 py-4 text-right text-xs font-medium text-gray-500 dark:text-dark-subtext uppercase tracking-wider">Actions</th>
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 dark:bg-dark-card dark:divide-dark-border">
                         {filteredProducts.map(product => (
                             <tr key={product.id} className="hover:bg-gray-50 dark:hover:bg-dark-bg/50 transition-colors">
-                                <td className="px-6 py-4 whitespace-nowrap">
+                                <td className="px-6 py-5 whitespace-nowrap">
                                     <div className="flex items-center">
                                         <div className="flex-shrink-0 h-12 w-12">
                                             <img className="h-12 w-12 rounded-md object-cover" src={product.images[0]} alt={product.name} />
@@ -99,10 +99,10 @@ const AdminProductsPage: React.FC = () => {
                                         </div>
                                     </div>
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-dark-subtext">{getCategoryById(product.categoryId)?.name || 'N/A'}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-dark-text">KSH {Math.round(product.price)}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-dark-text">{product.stock}</td>
-                                <td className="px-6 py-4 whitespace-nowrap">
+                                <td className="px-6 py-5 whitespace-nowrap text-sm text-gray-500 dark:text-dark-subtext">{getCategoryById(product.categoryId)?.name || 'N/A'}</td>
+                                <td className="px-6 py-5 whitespace-nowrap text-sm text-gray-900 dark:text-dark-text">KSH {Math.round(product.price)}</td>
+                                <td className="px-6 py-5 whitespace-nowrap text-sm text-gray-900 dark:text-dark-text">{product.stock}</td>
+                                <td className="px-6 py-5 whitespace-nowrap">
                                     <label htmlFor={`visible-${product.id}`} className="flex items-center cursor-pointer">
                                         <div className="relative">
                                             <input type="checkbox" id={`visible-${product.id}`} className="sr-only" checked={product.isVisible !== false} onChange={() => handleVisibilityToggle(product)} />
@@ -111,13 +111,15 @@ const AdminProductsPage: React.FC = () => {
                                         </div>
                                     </label>
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-4">
-                                    <Link to={`/admin/products/edit/${product.id}`} className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">
-                                      <Edit size={18} />
-                                    </Link>
-                                    <button onClick={() => openDeleteModal(product)} className="text-red-600 hover:text-red-900">
-                                      <Trash2 size={18} />
-                                    </button>
+                                <td className="px-6 py-5 whitespace-nowrap text-right text-sm font-medium">
+                                    <div className="flex items-center justify-end space-x-2">
+                                        <Link to={`/admin/products/edit/${product.id}`} className="text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors p-2 rounded-full hover:bg-gray-100 dark:hover:bg-dark-bg">
+                                            <Edit size={18} />
+                                        </Link>
+                                        <button onClick={() => openDeleteModal(product)} className="text-gray-400 hover:text-red-600 transition-colors p-2 rounded-full hover:bg-gray-100 dark:hover:bg-dark-bg">
+                                            <Trash2 size={18} />
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         ))}

@@ -21,6 +21,14 @@ const AdminLoginPage: React.FC = () => {
     usernameInputRef.current?.focus();
   }, []);
 
+  if (auth.isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-dark-bg">
+        <div className="text-brand-primary dark:text-dark-text">Loading session...</div>
+      </div>
+    );
+  }
+
 
   // If user is already authenticated, redirect them away from the login page.
   if (auth.isAuthenticated) {
@@ -34,9 +42,14 @@ const AdminLoginPage: React.FC = () => {
 
     try {
       await auth.login(username, password);
-      // Navigation is handled by the declarative <Navigate> component above
+      // Navigation is now handled by onAuthStateChanged triggering a re-render
     } catch (err: any) {
-      setError(err.message);
+      if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
+        setError('Invalid email or password. Please try again.');
+      } else {
+        setError('An unexpected error occurred. Please try again later.');
+      }
+      console.error("Firebase Auth Error:", err);
     } finally {
       setIsLoading(false);
     }
@@ -83,7 +96,7 @@ const AdminLoginPage: React.FC = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-brand-secondary focus:border-brand-secondary focus:z-10 sm:text-sm dark:bg-gray-700 dark:border-dark-border dark:placeholder-dark-subtext dark:text-dark-text"
-                placeholder="Password (password)"
+                placeholder="Password"
               />
             </div>
           </div>

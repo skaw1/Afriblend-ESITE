@@ -10,13 +10,13 @@ import { Banknote, Hourglass, Package, Receipt } from 'lucide-react';
 
 const StatCard = ({ title, value, icon: Icon, linkTo, gradient }: { title: string; value: string | number; icon: React.ElementType; linkTo?: string; gradient: string }) => {
     const content = (
-         <div className="bg-white dark:bg-dark-card p-6 rounded-2xl shadow-sm hover:shadow-xl border border-transparent dark:border-dark-border/50 hover:border-brand-secondary/20 dark:hover:border-dark-accent/30 transition-all duration-300 transform hover:-translate-y-1">
+         <div className="bg-white dark:bg-dark-card p-6 rounded-lg shadow-md border border-transparent dark:border-dark-border/50 hover:border-brand-secondary/20 dark:hover:border-dark-accent/30 transition-all duration-300 transform hover:-translate-y-1 group">
             <div className="flex justify-between items-start">
-                <div>
+                <div className="flex-1">
                     <p className="text-sm font-medium text-gray-500 dark:text-dark-subtext uppercase tracking-wider">{title}</p>
                     <p className="text-3xl font-bold text-brand-primary dark:text-dark-text mt-2">{value}</p>
                 </div>
-                <div className={`p-4 rounded-full ${gradient}`}>
+                <div className={`p-4 rounded-lg ${gradient} group-hover:scale-110 transition-transform duration-300`}>
                     <Icon className="h-7 w-7 text-white" />
                 </div>
             </div>
@@ -80,7 +80,7 @@ const AdminDashboardPage: React.FC = () => {
             </div>
             
             {/* Notification Management Panel */}
-            <div className="bg-white dark:bg-dark-card shadow-sm border dark:border-dark-border/50 rounded-2xl p-6">
+            <div className="bg-white dark:bg-dark-card shadow-md border dark:border-dark-border/50 rounded-lg p-6">
                 <div className="flex justify-between items-start mb-4 pb-4 border-b dark:border-dark-border">
                     <div>
                         <h2 className="text-xl font-serif font-bold text-brand-primary dark:text-dark-text">Sales Notification Popup</h2>

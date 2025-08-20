@@ -1,10 +1,10 @@
-
 import React, { useState } from 'react';
 import { useOrders } from '../hooks/useOrders';
 import { useRiders } from '../hooks/useRiders';
 import { Order, OrderStatus, ClientDetails, Rider, PaymentStatus } from '../types';
 import ClientDetailsModal from '../components/ClientDetailsModal';
 import DispatchModal from '../components/DispatchModal';
+import { FileText, MessageSquare, Send } from 'lucide-react';
 
 const AdminOrdersPage: React.FC = () => {
     const { orders, updateOrderStatus, updateClientDetails, updateOrderPaymentStatus, assignRiderToOrder } = useOrders();
@@ -83,37 +83,37 @@ const AdminOrdersPage: React.FC = () => {
                 />
             )}
 
-            <div className="bg-white dark:bg-dark-card shadow-sm border dark:border-dark-border/50 rounded-2xl overflow-hidden">
-                <div className="p-6">
+            <div className="bg-white dark:bg-dark-card shadow-md border dark:border-dark-border/50 rounded-lg overflow-hidden">
+                <div className="p-6 border-b dark:border-dark-border">
                      <h2 className="text-xl font-serif font-bold text-brand-primary dark:text-dark-text">All Orders</h2>
                 </div>
                 <div className="overflow-x-auto">
                     <table className="min-w-full">
                         <thead className="bg-gray-50 dark:bg-dark-bg/30">
                             <tr>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-dark-subtext uppercase tracking-wider">Order</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-dark-subtext uppercase tracking-wider">Client</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-dark-subtext uppercase tracking-wider">Total</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-dark-subtext uppercase tracking-wider">Payment</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-dark-subtext uppercase tracking-wider">Status</th>
-                                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-dark-subtext uppercase tracking-wider">Actions</th>
+                                <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-dark-subtext uppercase tracking-wider">Order</th>
+                                <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-dark-subtext uppercase tracking-wider">Client</th>
+                                <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-dark-subtext uppercase tracking-wider">Total</th>
+                                <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-dark-subtext uppercase tracking-wider">Payment</th>
+                                <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-dark-subtext uppercase tracking-wider">Status</th>
+                                <th className="px-6 py-4 text-right text-xs font-medium text-gray-500 dark:text-dark-subtext uppercase tracking-wider">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-200 dark:divide-dark-border">
                             {orders.map((order) => (
                                 <tr key={order.id} className="hover:bg-gray-50 dark:hover:bg-dark-bg/50 transition-colors">
-                                    <td className="px-6 py-4 whitespace-nowrap">
+                                    <td className="px-6 py-5 whitespace-nowrap">
                                         <div className="text-sm font-medium text-gray-900 dark:text-dark-text">#{order.id.substring(0,6)}...</div>
                                         <div className="text-sm text-gray-500 dark:text-dark-subtext">{new Date(order.orderDate).toLocaleDateString()}</div>
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap">
+                                    <td className="px-6 py-5 whitespace-nowrap">
                                         <div className="text-sm font-medium text-gray-900 dark:text-dark-text">{order.clientDetails.name}</div>
                                         <div className="text-sm text-gray-500 dark:text-dark-subtext">{order.clientDetails.phone}</div>
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap">
+                                    <td className="px-6 py-5 whitespace-nowrap">
                                         <span className="text-sm text-gray-900 dark:text-dark-text">KSH {Math.round(order.total)}</span>
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap">
+                                    <td className="px-6 py-5 whitespace-nowrap">
                                         <select 
                                             value={order.paymentStatus} 
                                             onChange={(e) => handlePaymentStatusChange(order.id, e.target.value as PaymentStatus)} 
@@ -123,7 +123,7 @@ const AdminOrdersPage: React.FC = () => {
                                             <option value="Paid">Paid</option>
                                         </select>
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap">
+                                    <td className="px-6 py-5 whitespace-nowrap">
                                         <select value={order.status} onChange={(e) => handleStatusChange(order.id, e.target.value as OrderStatus)} className="p-1 border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-xs focus:ring-brand-accent focus:border-brand-accent bg-transparent text-gray-800 dark:text-gray-200">
                                             <option>Pending Payment</option>
                                             <option>Processing</option>
@@ -132,10 +132,12 @@ const AdminOrdersPage: React.FC = () => {
                                             <option>Cancelled</option>
                                         </select>
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-3">
-                                        <button onClick={() => setSelectedOrderForDetails(order)} className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 font-semibold">Details</button>
-                                        <button onClick={() => handleWhatsAppShare(order)} className="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300 font-semibold">Client</button>
-                                        <button onClick={() => setSelectedOrderForDispatch(order)} className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 font-semibold">Dispatch</button>
+                                    <td className="px-6 py-5 whitespace-nowrap text-right text-sm font-medium">
+                                        <div className="flex items-center justify-end space-x-2">
+                                            <button onClick={() => setSelectedOrderForDetails(order)} className="text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors p-2 rounded-full hover:bg-gray-100 dark:hover:bg-dark-bg"><FileText size={18} /></button>
+                                            <button onClick={() => handleWhatsAppShare(order)} className="text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors p-2 rounded-full hover:bg-gray-100 dark:hover:bg-dark-bg"><MessageSquare size={18} /></button>
+                                            <button onClick={() => setSelectedOrderForDispatch(order)} className="text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors p-2 rounded-full hover:bg-gray-100 dark:hover:bg-dark-bg"><Send size={18} /></button>
+                                        </div>
                                     </td>
                                 </tr>
                             ))}

@@ -10,8 +10,16 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, allowedRoles }) => {
-  const { isAuthenticated, userRole } = useAuth();
+  const { isAuthenticated, userRole, isLoading } = useAuth();
   const location = useLocation();
+
+  if (isLoading) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-gray-100 dark:bg-dark-bg">
+        <div className="text-brand-primary dark:text-dark-text">Verifying authentication...</div>
+      </div>
+    );
+  }
 
   if (!isAuthenticated) {
     // Redirect them to the /login page, but save the current location they were
