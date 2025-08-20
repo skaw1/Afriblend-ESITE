@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { HashRouter, Routes, Route, Outlet, Navigate, Link, useLocation } from 'react-router-dom';
 import Header from './components/Header';
@@ -266,8 +267,8 @@ const App: React.FC = () => {
                                   <Route path="products/new" element={<ProtectedRoute allowedRoles={storeOwnerRoles}><AdminProductFormPage /></ProtectedRoute>} />
                                   <Route path="products/edit/:id" element={<ProtectedRoute allowedRoles={storeOwnerRoles}><AdminProductFormPage /></ProtectedRoute>} />
                                   <Route path="riders" element={<ProtectedRoute allowedRoles={storeOwnerRoles}><AdminRidersPage /></ProtectedRoute>} />
+                                  <Route path="categories" element={<ProtectedRoute allowedRoles={storeOwnerRoles}><AdminCategoriesPage /></ProtectedRoute>} />
 
-                                  <Route path="categories" element={<ProtectedRoute allowedRoles={developerRoles}><AdminCategoriesPage /></ProtectedRoute>} />
                                   <Route path="settings" element={<ProtectedRoute allowedRoles={developerRoles}><AdminSettingsPage /></ProtectedRoute>} />
                                   <Route path="image-generator" element={<ProtectedRoute allowedRoles={developerRoles}><AdminImageGeneratorPage /></ProtectedRoute>} />
                                   <Route path="faq" element={<ProtectedRoute allowedRoles={developerRoles}><AdminFaqPage /></ProtectedRoute>} />

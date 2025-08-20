@@ -1,3 +1,4 @@
+
 import React, { useState, useRef } from 'react';
 import { NavLink, Outlet, useLocation, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
@@ -115,13 +116,13 @@ const AdminLayout: React.FC = () => {
                             <Bike className="mr-3 h-6 w-6" />
                             Riders
                         </NavLink>
+                        <NavLink to="/admin/categories" className={navLinkClasses} onClick={closeSidebar}>
+                            <Tags className="mr-3 h-6 w-6" />
+                            Categories
+                        </NavLink>
                          
                         {isDeveloper && (
                             <>
-                                <NavLink to="/admin/categories" className={navLinkClasses} onClick={closeSidebar}>
-                                    <Tags className="mr-3 h-6 w-6" />
-                                    Categories
-                                </NavLink>
                                 <div className="pt-2">
                                     <p className="px-4 text-xs text-gray-400 uppercase">Content</p>
                                     <div className="space-y-2 mt-2">
@@ -165,7 +166,7 @@ const AdminLayout: React.FC = () => {
                 </aside>
 
                 {/* Main content */}
-                <div className="flex-1 flex flex-col md:ml-64">
+                <div className="flex-1 flex flex-col md:ml-64 min-h-screen">
                     <header className="flex justify-between items-center p-6 bg-white dark:bg-dark-card border-b-2 border-gray-200 dark:border-dark-border">
                         <div className="flex items-center">
                             <button
