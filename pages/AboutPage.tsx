@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useOurStory } from '../hooks/useOurStory';
@@ -15,12 +14,8 @@ const AboutPage: React.FC = () => {
     }
   }, []);
 
-  const truncatedText = ourStory.text.length > 450 
-    ? `${ourStory.text.substring(0, 450)}...` 
-    : ourStory.text;
-
   return (
-    <div className="bg-brand-bg dark:bg-dark-bg animate-fade-in">
+    <div className="bg-brand-bg dark:bg-dark-bg animate-fade-in overflow-x-hidden">
       <div className="container mx-auto px-6 py-12 md:py-16">
         <div className="max-w-5xl mx-auto">
           {/* Title with custom underline */}
@@ -43,7 +38,7 @@ const AboutPage: React.FC = () => {
             {/* Text Column */}
             <div className="flex flex-col justify-center h-full">
               <p className="text-gray-700 dark:text-dark-subtext leading-relaxed text-lg mb-8">
-                {truncatedText}
+                {ourStory.text}
               </p>
               <div className="mt-auto pt-4">
                 <Link 
