@@ -15,53 +15,58 @@ const AboutPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="bg-brand-bg dark:bg-dark-bg animate-fade-in">
+    <div className="bg-brand-bg dark:bg-dark-bg animate-fade-in overflow-hidden">
       {/* 
-        This is a robust container pattern. 
-        - `max-w-7xl` sets the maximum width on large screens.
-        - `mx-auto` centers the container.
-        - `px-6` provides horizontal padding, crucial for mobile.
-        - `w-full` ensures it takes up available width on all screens.
+        This new container ensures the content is centered vertically on large screens, 
+        creating the "single page" feel the user requested.
       */}
-      <div className="max-w-7xl mx-auto px-6 py-16 md:py-24 w-full">
-        {/* 
-          Responsive Flexbox Layout:
-          - `flex-col` on mobile (default): Stacks image on top of text.
-          - `md:flex-row` on medium screens and up: Creates a side-by-side layout.
-          - `items-center` vertically aligns content in the row layout.
-        */}
-        <div className="flex flex-col md:flex-row items-center gap-12 lg:gap-16">
-          
-          {/* Image Column */}
-          <div className="w-full md:w-5/12 flex-shrink-0">
-            <div className="rounded-lg shadow-2xl overflow-hidden group aspect-w-3 aspect-h-4">
+      <div className="container mx-auto px-6 flex items-center justify-center min-h-screen py-20 md:py-32">
+        <div className="max-w-7xl w-full">
+          {/* 
+            A sophisticated grid layout for perfect balance on large screens.
+            - `lg:grid-cols-2` creates the side-by-side view.
+            - `items-center` ensures vertical alignment.
+            - `gap-16 lg:gap-24` provides generous, premium spacing.
+          */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-16 lg:gap-24">
+            
+            {/* Image Column - now with constrained and styled presentation */}
+            <div className="w-full h-full flex items-center justify-center">
+              {/* 
+                The image is given a max-height to prevent it from becoming too large.
+                The shadow adds depth and a premium, tangible feel.
+              */}
               <img 
                 src={ourStory.imageUrl} 
                 alt="Artisan crafting traditional African textiles, representing the heritage of Afriblend." 
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                className="rounded-lg object-cover w-full max-h-[600px] shadow-2xl"
               />
             </div>
-          </div>
 
-          {/* Text Column */}
-          <div className="w-full md:w-7/12 flex flex-col justify-center text-center md:text-left">
-            <h1 className="text-4xl md:text-5xl font-serif font-bold text-brand-primary dark:text-dark-text mb-6">
-              {ourStory.title}
-            </h1>
-            
-            {/* Using `break-words` for robust text wrapping, ensuring no overflow */}
-            <p className="text-lg text-gray-700 dark:text-dark-subtext leading-relaxed break-words">
-              {ourStory.text}
-            </p>
+            {/* Text Column - with enhanced typography and layout */}
+            <div className="flex flex-col justify-center text-center lg:text-left">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif font-bold text-brand-primary dark:text-dark-text leading-tight">
+                {ourStory.title}
+              </h1>
+              
+              {/* 
+                `max-w-prose` ensures the text has a comfortable reading width, improving legibility.
+                `text-lg` and `leading-relaxed` enhance readability for a premium experience.
+              */}
+              <p className="mt-6 text-lg text-gray-700 dark:text-dark-subtext leading-relaxed max-w-prose mx-auto lg:mx-0">
+                {ourStory.text}
+              </p>
 
-            <div className="mt-8">
-              <Link 
-                to="/products" 
-                className="inline-block bg-brand-secondary text-white font-bold py-3 px-10 text-lg hover:bg-brand-primary transition-transform duration-300 hover:scale-105 dark:bg-dark-accent dark:text-dark-bg dark:hover:bg-opacity-90 rounded-md"
-              >
-                Shop The Collection
-              </Link>
+              <div className="mt-10">
+                <Link 
+                  to="/products" 
+                  className="inline-block bg-brand-secondary text-white font-bold py-4 px-12 text-lg hover:bg-brand-primary transition-transform duration-300 hover:scale-105 dark:bg-dark-accent dark:text-dark-bg dark:hover:bg-opacity-90 rounded-md"
+                >
+                  Explore The Collection
+                </Link>
+              </div>
             </div>
+
           </div>
         </div>
       </div>
