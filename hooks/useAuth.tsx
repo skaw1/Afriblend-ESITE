@@ -38,7 +38,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         setIsAuthenticated(true);
         setUserRole('Developer');
         resolve();
-      } else if (user.startsWith('admin@') && pass === 'password') {
+      } else if (user.toLowerCase() === 'admin@afriblend.co.ke' && pass === 'password') {
         setIsAuthenticated(true);
         setUserRole('Store Owner');
         resolve();
