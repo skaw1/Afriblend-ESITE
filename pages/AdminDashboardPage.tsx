@@ -1,6 +1,4 @@
 
-
-
 import React, { useState, useEffect } from 'react';
 import { useOrders } from '../hooks/useOrders';
 import { useProducts } from '../hooks/useProducts';
@@ -10,15 +8,17 @@ import { useNotification } from '../App';
 import { Banknote, Hourglass, Package, Receipt } from 'lucide-react';
 
 
-const StatCard = ({ title, value, icon: Icon, linkTo }: { title: string; value: string | number; icon: React.ElementType; linkTo?: string }) => {
+const StatCard = ({ title, value, icon: Icon, linkTo, gradient }: { title: string; value: string | number; icon: React.ElementType; linkTo?: string; gradient: string }) => {
     const content = (
-         <div className="bg-white dark:bg-dark-card p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 flex items-center space-x-4">
-            <div className="bg-brand-secondary/10 dark:bg-dark-accent/10 p-4 rounded-full">
-                <Icon className="h-8 w-8 text-brand-secondary dark:text-dark-accent" />
-            </div>
-            <div>
-                <h3 className="text-lg font-semibold text-gray-500 dark:text-dark-subtext">{title}</h3>
-                <p className="text-3xl font-bold text-brand-primary dark:text-dark-text">{value}</p>
+         <div className="bg-white dark:bg-dark-card p-6 rounded-2xl shadow-sm hover:shadow-xl border border-transparent dark:border-dark-border/50 hover:border-brand-secondary/20 dark:hover:border-dark-accent/30 transition-all duration-300 transform hover:-translate-y-1">
+            <div className="flex justify-between items-start">
+                <div>
+                    <p className="text-sm font-medium text-gray-500 dark:text-dark-subtext uppercase tracking-wider">{title}</p>
+                    <p className="text-3xl font-bold text-brand-primary dark:text-dark-text mt-2">{value}</p>
+                </div>
+                <div className={`p-4 rounded-full ${gradient}`}>
+                    <Icon className="h-7 w-7 text-white" />
+                </div>
             </div>
         </div>
     );
@@ -73,18 +73,18 @@ const AdminDashboardPage: React.FC = () => {
         <div className="space-y-8">
             {/* Stats */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                 <StatCard title="Total Sales" value={`KSH ${Math.round(totalSales)}`} icon={Banknote} />
-                 <StatCard title="Pending Orders" value={pendingOrdersCount} icon={Hourglass} linkTo="/admin/orders" />
-                 <StatCard title="Total Products" value={products.length} icon={Package} linkTo="/admin/products" />
-                 <StatCard title="Total Orders" value={orders.length} icon={Receipt} linkTo="/admin/orders" />
+                 <StatCard title="Total Sales" value={`KSH ${Math.round(totalSales)}`} icon={Banknote} gradient="bg-gradient-to-br from-green-500 to-green-400" />
+                 <StatCard title="Pending Orders" value={pendingOrdersCount} icon={Hourglass} linkTo="/admin/orders" gradient="bg-gradient-to-br from-yellow-500 to-yellow-400" />
+                 <StatCard title="Total Products" value={products.length} icon={Package} linkTo="/admin/products" gradient="bg-gradient-to-br from-blue-500 to-blue-400" />
+                 <StatCard title="Total Orders" value={orders.length} icon={Receipt} linkTo="/admin/orders" gradient="bg-gradient-to-br from-indigo-500 to-indigo-400" />
             </div>
             
             {/* Notification Management Panel */}
-            <div className="mt-8 bg-white dark:bg-dark-card shadow-lg rounded-lg p-6">
-                <div className="flex justify-between items-start mb-4">
+            <div className="bg-white dark:bg-dark-card shadow-sm border dark:border-dark-border/50 rounded-2xl p-6">
+                <div className="flex justify-between items-start mb-4 pb-4 border-b dark:border-dark-border">
                     <div>
-                        <h2 className="text-2xl font-serif font-bold text-brand-primary dark:text-dark-text">Sales Notification Popup</h2>
-                        <p className="text-sm text-gray-500 dark:text-dark-subtext">Control the promotional popup shown to users.</p>
+                        <h2 className="text-xl font-serif font-bold text-brand-primary dark:text-dark-text">Sales Notification Popup</h2>
+                        <p className="text-sm text-gray-500 dark:text-dark-subtext mt-1">Control the promotional popup shown to users.</p>
                     </div>
                     <label htmlFor="isActive" className="flex items-center cursor-pointer">
                         <span className="mr-3 text-sm font-medium text-gray-900 dark:text-gray-300">Activate</span>

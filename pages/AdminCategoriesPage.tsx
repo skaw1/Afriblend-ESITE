@@ -1,12 +1,11 @@
 
-
 import React, { useState } from 'react';
 import { useCategories } from '../hooks/useCategories';
 import { useProducts } from '../hooks/useProducts';
 import { Category } from '../types';
 import ConfirmationModal from '../components/ConfirmationModal';
 import CategoryFormModal from '../components/CategoryFormModal';
-import { Plus } from 'lucide-react';
+import { Plus, Edit, Trash2 } from 'lucide-react';
 
 const AdminCategoriesPage: React.FC = () => {
     const { categories, addCategory, updateCategory, deleteCategory } = useCategories();
@@ -79,17 +78,17 @@ const AdminCategoriesPage: React.FC = () => {
                     }
                 />
             )}
-            <div className="bg-white dark:bg-dark-card p-6 rounded-lg shadow-lg">
-                <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-xl font-bold text-gray-800 dark:text-dark-text">Manage Categories</h2>
+            <div className="bg-white dark:bg-dark-card p-6 rounded-2xl shadow-sm border dark:border-dark-border/50">
+                <div className="flex justify-between items-center mb-6 pb-4 border-b dark:border-dark-border">
+                    <h2 className="text-xl font-serif font-bold text-gray-800 dark:text-dark-text">Manage Categories</h2>
                     <button onClick={() => openFormModal()} className="bg-brand-primary text-white font-bold py-2 px-4 rounded-md hover:bg-brand-secondary transition-colors flex items-center dark:bg-dark-accent dark:text-dark-bg dark:hover:bg-opacity-90">
                         <Plus className="mr-2 h-5 w-5" />
                         Add Category
                     </button>
                 </div>
                 <div className="overflow-x-auto">
-                    <table className="min-w-full divide-y divide-gray-200 dark:divide-dark-border">
-                         <thead className="bg-gray-50 dark:bg-gray-700">
+                    <table className="min-w-full">
+                         <thead>
                             <tr>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-dark-subtext uppercase tracking-wider">Category Name</th>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-dark-subtext uppercase tracking-wider">Products</th>
@@ -98,15 +97,15 @@ const AdminCategoriesPage: React.FC = () => {
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200 dark:bg-dark-card dark:divide-dark-border">
                             {categories.map(category => (
-                                <tr key={category.id}>
+                                <tr key={category.id} className="hover:bg-gray-50 dark:hover:bg-dark-bg/50 transition-colors">
                                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-dark-text">{category.name}</td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-dark-subtext">
                                         {products.filter(p => p.categoryId === category.id).length}
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <button onClick={() => openFormModal(category)} className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 mr-4">Edit</button>
+                                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-4">
+                                        <button onClick={() => openFormModal(category)} className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300"><Edit size={18} /></button>
                                         <button onClick={() => openDeleteModal(category)} className={`text-red-600 hover:text-red-900 ${isCategoryInUse(category.id) ? 'opacity-50 cursor-not-allowed' : ''}`}>
-                                            Delete
+                                            <Trash2 size={18} />
                                         </button>
                                     </td>
                                 </tr>

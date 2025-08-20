@@ -1,10 +1,11 @@
+
 import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useProducts } from '../hooks/useProducts';
 import ConfirmationModal from '../components/ConfirmationModal';
 import { Product } from '../types';
 import { useCategories } from '../hooks/useCategories';
-import { Search, Plus } from 'lucide-react';
+import { Search, Plus, Edit, Trash2 } from 'lucide-react';
 
 const AdminProductsPage: React.FC = () => {
     const { products, deleteProduct, updateProduct } = useProducts();
@@ -44,7 +45,7 @@ const AdminProductsPage: React.FC = () => {
     };
     
     return (
-        <div className="bg-white dark:bg-dark-card p-6 rounded-lg shadow-lg">
+        <div className="bg-white dark:bg-dark-card p-6 rounded-2xl shadow-sm border dark:border-dark-border/50">
             {productToDelete && (
                 <ConfirmationModal
                     isOpen={isModalOpen}
@@ -54,7 +55,7 @@ const AdminProductsPage: React.FC = () => {
                     message={`Are you sure you want to delete "${productToDelete.name}"? This action cannot be undone.`}
                 />
             )}
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex justify-between items-center mb-6 pb-4 border-b dark:border-dark-border">
                 <div className="relative w-full max-w-xs">
                      <input
                         type="text"
@@ -74,8 +75,8 @@ const AdminProductsPage: React.FC = () => {
             </div>
 
             <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200 dark:divide-dark-border">
-                    <thead className="bg-gray-50 dark:bg-gray-700">
+                <table className="min-w-full">
+                    <thead>
                         <tr>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-dark-subtext uppercase tracking-wider">Product</th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-dark-subtext uppercase tracking-wider">Category</th>
@@ -87,11 +88,11 @@ const AdminProductsPage: React.FC = () => {
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 dark:bg-dark-card dark:divide-dark-border">
                         {filteredProducts.map(product => (
-                            <tr key={product.id}>
+                            <tr key={product.id} className="hover:bg-gray-50 dark:hover:bg-dark-bg/50 transition-colors">
                                 <td className="px-6 py-4 whitespace-nowrap">
                                     <div className="flex items-center">
-                                        <div className="flex-shrink-0 h-10 w-10">
-                                            <img className="h-10 w-10 rounded-full object-cover" src={product.images[0]} alt={product.name} />
+                                        <div className="flex-shrink-0 h-12 w-12">
+                                            <img className="h-12 w-12 rounded-md object-cover" src={product.images[0]} alt={product.name} />
                                         </div>
                                         <div className="ml-4">
                                             <div className="text-sm font-medium text-gray-900 dark:text-dark-text">{product.name}</div>
@@ -110,9 +111,13 @@ const AdminProductsPage: React.FC = () => {
                                         </div>
                                     </label>
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <Link to={`/admin/products/edit/${product.id}`} className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 mr-4">Edit</Link>
-                                    <button onClick={() => openDeleteModal(product)} className="text-red-600 hover:text-red-900">Delete</button>
+                                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-4">
+                                    <Link to={`/admin/products/edit/${product.id}`} className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">
+                                      <Edit size={18} />
+                                    </Link>
+                                    <button onClick={() => openDeleteModal(product)} className="text-red-600 hover:text-red-900">
+                                      <Trash2 size={18} />
+                                    </button>
                                 </td>
                             </tr>
                         ))}

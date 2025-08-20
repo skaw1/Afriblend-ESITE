@@ -110,16 +110,16 @@ const AdminRidersPage: React.FC = () => {
                     message={`Are you sure you want to delete rider "${selectedRider.name}"? This action cannot be undone.`}
                 />
             )}
-            <div className="bg-white dark:bg-dark-card p-6 rounded-lg shadow-lg">
-                <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-xl font-bold text-gray-800 dark:text-dark-text">Manage Riders</h2>
+            <div className="bg-white dark:bg-dark-card p-6 rounded-2xl shadow-sm border dark:border-dark-border/50">
+                <div className="flex justify-between items-center mb-6 pb-4 border-b dark:border-dark-border">
+                    <h2 className="text-xl font-serif font-bold text-gray-800 dark:text-dark-text">Manage Riders</h2>
                     <button onClick={() => openFormModal()} className="bg-brand-primary text-white font-bold py-2 px-4 rounded-md hover:bg-brand-secondary transition-colors flex items-center dark:bg-dark-accent dark:text-dark-bg dark:hover:bg-opacity-90">
                         <Plus className="mr-2 h-5 w-5" /> Add Rider
                     </button>
                 </div>
                 <div className="overflow-x-auto">
-                    <table className="min-w-full divide-y divide-gray-200 dark:divide-dark-border">
-                        <thead className="bg-gray-50 dark:bg-gray-700">
+                    <table className="min-w-full">
+                        <thead>
                             <tr>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-dark-subtext uppercase tracking-wider">Name</th>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-dark-subtext uppercase tracking-wider">Phone</th>
@@ -128,7 +128,7 @@ const AdminRidersPage: React.FC = () => {
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200 dark:bg-dark-card dark:divide-dark-border">
                             {riders.map(rider => (
-                                <tr key={rider.id}>
+                                <tr key={rider.id} className="hover:bg-gray-50 dark:hover:bg-dark-bg/50 transition-colors">
                                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-dark-text">{rider.name}</td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-dark-subtext">{rider.phone}</td>
                                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-4">
