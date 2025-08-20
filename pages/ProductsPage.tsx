@@ -1,0 +1,400 @@
+
+import React, { useState, useMemo, useEffect } from 'react';
+import { useSearchParams, Link } from 'react-router-dom';
+import { useProducts } from '../hooks/useProducts';
+import ProductCard from '../components/ProductCard';
+import { useCategories } from '../hooks/useCategories';
+import { Frown, ChevronLeft, Search, X, SlidersHorizontal } from 'lucide-react';
+
+// --- Color Map Helper ---
+const colorMap: { [key: string]: string } = {
+  // Single Colors
+  'royal blue': '#4169E1',
+  'sunset orange': '#FD5E53',
+  'emerald green': '#50C878',
+  'ruby red': '#E0115F',
+  'indigo blue': '#4B0082',
+  'forest green': '#228B22',
+  'indigo': '#4B0082',
+  'red': '#FF0000',
+  'black': '#000000',
+  'white': '#FFFFFF',
+  
+  // Gradients for multi-color names
+  'rainbow': 'linear-gradient(to right, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3)',
+  'monochrome': 'linear-gradient(to right, #000000, #888888, #FFFFFF)',
+  'black/gold': 'linear-gradient(45deg, black 49%, gold 51%)',
+  'navy/blue': 'linear-gradient(45deg, navy 49%, blue 51%)',
+  'black/white': 'linear-gradient(45deg, black 49%, white 51%)',
+  'rust/cream': 'linear-gradient(45deg, #B7410E 49%, #FFFDD0 51%)',
+  'natural/gold': 'linear-gradient(45deg, #F0EAD6 49%, gold 51%)',
+  'black/cream': 'linear-gradient(45deg, black 49%, #FFFDD0 51%)'
+};
+
+const getColorStyle = (colorName: string): React.CSSProperties => {
+  const normalizedColor = colorName.toLowerCase();
+  const colorValue = colorMap[normalizedColor];
+  
+  if (!colorValue) {
+    // Fallback for simple CSS colors not in the map (e.g. 'blue', 'green')
+    return { backgroundColor: normalizedColor.replace(/\s/g, '') };
+  }
+  
+  if (colorValue.startsWith('linear-gradient')) {
+    return { backgroundImage: colorValue };
+  }
+  
+  return { backgroundColor: colorValue };
+};
+
+
+const ProductsPage: React.FC = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const searchTerm = searchParams.get('q') || '';
+  const { products } = useProducts();
+  const { categories } = useCategories();
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+
+  useEffect(() => {
+    // --- SEO: Set Meta Tags ---
+    document.title = 'Shop Our Collection | Afriblend';
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+        metaDescription.setAttribute('content', 'Explore our full collection of modern African fashion. Find handcrafted dresses, accessories, menswear, and home decor that tell a story.');
+    }
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
+        if (window.innerWidth >= 1024 && isSidebarOpen) {
+            setIsSidebarOpen(false);
+        }
+    };
+
+    if (isSidebarOpen && window.innerWidth < 1024) {
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = 'unset';
+    }
+
+    window.addEventListener('resize', handleResize);
+    
+    return () => {
+        document.body.style.overflow = 'unset';
+        window.removeEventListener('resize', handleResize);
+    };
+  }, [isSidebarOpen]);
+
+  const handleSearchChange = (value: string) => {
+    const newParams = new URLSearchParams(searchParams);
+    if (value) {
+      newParams.set('q', value);
+    } else {
+      newParams.delete('q');
+    }
+    setSearchParams(newParams, { replace: true });
+  };
+
+  const handleSuggestionClick = (suggestion: string) => {
+    handleSearchChange(suggestion);
+    setSuggestions([]);
+  };
+
+  const allSearchableTerms = useMemo(() => {
+    const terms = new Set<string>();
+    products.forEach(p => {
+        terms.add(p.name);
+        if (p.culturalInspiration) terms.add(p.culturalInspiration);
+        if (p.material) terms.add(p.material);
+    });
+    categories.forEach(c => {
+        terms.add(c.name);
+    });
+    return Array.from(terms);
+  }, [products, categories]);
+
+  useEffect(() => {
+    if (searchTerm.trim().length < 2) {
+      setSuggestions([]);
+      return;
+    }
+
+    const lowerCaseSearch = searchTerm.toLowerCase();
+    const matchingSuggestions = allSearchableTerms
+        .filter(term => term.toLowerCase().includes(lowerCaseSearch))
+        .slice(0, 5); 
+
+    setSuggestions(matchingSuggestions);
+  }, [searchTerm, allSearchableTerms]);
+
+  const filters = useMemo(() => ({
+    categoryId: searchParams.get('categoryId'),
+    minPrice: searchParams.get('minPrice') ? Number(searchParams.get('minPrice')) : 0,
+    maxPrice: searchParams.get('maxPrice') ? Number(searchParams.get('maxPrice')) : 500,
+    size: searchParams.get('size'),
+    color: searchParams.get('color'),
+    material: searchParams.get('material'),
+  }), [searchParams]);
+
+  const handleFilterChange = (key: string, value: string | null) => {
+    const newParams = new URLSearchParams(searchParams);
+    if (value) {
+      newParams.set(key, value);
+    } else {
+      newParams.delete(key);
+    }
+    setSearchParams(newParams);
+  };
+  
+  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleFilterChange('maxPrice', e.target.value);
+  }
+  
+  const handleClearFilters = () => {
+    setSearchParams({});
+  };
+
+  const isFilterActive = useMemo(() => {
+    return searchParams.toString() !== '';
+  }, [searchParams]);
+
+  const allSizes = useMemo(() => {
+    const sizes = new Set<string>();
+    products.forEach(p => p.sizes.forEach(s => sizes.add(s)));
+    return Array.from(sizes).sort();
+  }, [products]);
+
+  const allColors = useMemo(() => {
+    const colors = new Set<string>();
+    products.forEach(p => p.colors.forEach(c => colors.add(c)));
+    return Array.from(colors);
+  }, [products]);
+
+  const allMaterials = useMemo(() => {
+    const materials = new Set<string>();
+    products.forEach(p => {
+        if (p.material) materials.add(p.material);
+    });
+    return Array.from(materials).sort();
+  }, [products]);
+
+  const filteredProducts = useMemo(() => {
+    const currentSearchTerm = (searchParams.get('q') || '').toLowerCase();
+    return products.filter(product => {
+      if (product.isVisible === false) return false;
+
+      const searchMatch = currentSearchTerm === '' || product.name.toLowerCase().includes(currentSearchTerm) || product.description.toLowerCase().includes(currentSearchTerm);
+      const categoryMatch = !filters.categoryId || product.categoryId === filters.categoryId;
+      const priceMatch = product.price >= filters.minPrice && product.price <= filters.maxPrice;
+      const sizeMatch = !filters.size || product.sizes.includes(filters.size);
+      const colorMatch = !filters.color || product.colors.includes(filters.color);
+      const materialMatch = !filters.material || product.material === filters.material;
+      return searchMatch && categoryMatch && priceMatch && sizeMatch && colorMatch && materialMatch;
+    });
+  }, [searchParams, filters, products]);
+
+  const FilterContent = () => (
+    <>
+      <Link to="/" className="inline-flex items-center text-sm text-gray-500 hover:text-brand-primary dark:text-dark-subtext dark:hover:text-dark-text mb-6 transition-colors">
+        <ChevronLeft className="h-4 w-4 mr-1" />
+        Back to Home
+      </Link>
+      <div className="flex justify-between items-center pt-6 border-t dark:border-dark-border">
+        <h3 className="text-lg font-semibold text-gray-800 dark:text-dark-text">Options</h3>
+        {isFilterActive && (
+          <button onClick={handleClearFilters} className="text-sm font-semibold text-brand-secondary dark:text-dark-accent hover:underline">
+              Clear All
+          </button>
+        )}
+      </div>
+      
+      <div className="mt-6 mb-6">
+        <label htmlFor="search" className="block text-sm font-medium text-gray-700 dark:text-dark-text">Search</label>
+        <div className="relative mt-1">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <Search className="h-5 w-5 text-gray-400" />
+          </div>
+          <input
+            type="text"
+            id="search"
+            placeholder="Search products..."
+            value={searchTerm}
+            onChange={e => handleSearchChange(e.target.value)}
+            onBlur={() => setTimeout(() => setSuggestions([]), 200)}
+            className="block w-full pl-10 pr-10 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-brand-secondary focus:border-brand-secondary sm:text-sm dark:bg-dark-bg dark:border-dark-border dark:text-dark-text dark:placeholder:text-dark-subtext"
+            autoComplete="off"
+          />
+          {searchTerm && (
+            <button
+              type="button"
+              onClick={() => handleSearchChange('')}
+              className="absolute inset-y-0 right-0 pr-3 flex items-center"
+              aria-label="Clear search"
+            >
+              <X className="h-5 w-5 text-gray-500 hover:text-gray-700" />
+            </button>
+          )}
+          {suggestions.length > 0 && (
+            <ul className="absolute z-10 w-full mt-1 bg-white dark:bg-dark-card border border-gray-300 dark:border-dark-border rounded-md shadow-lg max-h-60 overflow-auto">
+              {suggestions.map((suggestion, index) => (
+                <li
+                  key={index}
+                  className="px-4 py-2 text-sm text-gray-700 dark:text-dark-text cursor-pointer hover:bg-gray-100 dark:hover:bg-dark-bg"
+                  onMouseDown={() => handleSuggestionClick(suggestion)}
+                >
+                  {suggestion}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+
+      <div className="mb-6">
+        <h3 className="font-semibold mb-2">Category</h3>
+        <div className="space-y-2">
+          <button onClick={() => handleFilterChange('categoryId', null)} className={`block w-full text-left text-sm ${!filters.categoryId ? 'text-brand-secondary dark:text-dark-accent font-bold' : 'text-gray-600 dark:text-dark-subtext hover:text-brand-primary dark:hover:text-dark-text'}`}>All</button>
+          {categories.map(cat => (
+            <button key={cat.id} onClick={() => handleFilterChange('categoryId', cat.id.toString())} className={`block w-full text-left text-sm ${filters.categoryId === cat.id ? 'text-brand-secondary dark:text-dark-accent font-bold' : 'text-gray-600 dark:text-dark-subtext hover:text-brand-primary dark:hover:text-dark-text'}`}>{cat.name}</button>
+          ))}
+        </div>
+      </div>
+
+      <div className="mb-6">
+        <h3 className="font-semibold mb-2">Price</h3>
+        <input type="range" min="0" max="500" value={filters.maxPrice} onChange={handlePriceChange} className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-brand-secondary dark:accent-dark-accent" />
+        <div className="flex justify-between text-sm text-gray-600 dark:text-dark-subtext mt-1">
+          <span>KSH 0</span>
+          <span>KSH {filters.maxPrice}</span>
+        </div>
+      </div>
+
+      <div className="mb-6">
+        <h3 className="font-semibold mb-2">Size</h3>
+        <div className="flex flex-wrap gap-2">
+          {allSizes.map(size => (
+            <button
+              key={size}
+              onClick={() => handleFilterChange('size', filters.size === size ? null : size)}
+              className={`px-3 py-1.5 border rounded-md text-sm font-medium transition-colors ${filters.size === size ? 'bg-brand-primary text-white border-brand-primary dark:bg-dark-accent dark:text-dark-bg dark:border-dark-accent' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50 dark:bg-dark-card dark:text-dark-text dark:border-dark-border dark:hover:bg-gray-700'}`}
+            >
+              {size}
+            </button>
+          ))}
+        </div>
+      </div>
+      
+      <div className="mb-6">
+        <h3 className="font-semibold mb-2">Color</h3>
+        <div className="flex flex-wrap gap-3">
+          {allColors.map(color => (
+            <button
+              key={color}
+              onClick={() => handleFilterChange('color', filters.color === color ? null : color)}
+              className={`w-8 h-8 rounded-full border-2 transition-all ${filters.color === color ? 'border-brand-secondary dark:border-dark-accent ring-2 ring-offset-2 dark:ring-offset-dark-card ring-brand-secondary/70 dark:ring-dark-accent' : 'border-gray-200 dark:border-dark-border hover:border-brand-secondary/50'}`} 
+              style={getColorStyle(color)}
+              title={color}
+              aria-label={color}
+            >
+              <span className="sr-only">{color}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+      
+      <div className="mb-6">
+        <h3 className="font-semibold mb-2">Material</h3>
+        <div className="space-y-2">
+            <button onClick={() => handleFilterChange('material', null)} className={`block w-full text-left text-sm ${!filters.material ? 'text-brand-secondary dark:text-dark-accent font-bold' : 'text-gray-600 dark:text-dark-subtext hover:text-brand-primary dark:hover:text-dark-text'}`}>All</button>
+            {allMaterials.map(material => (
+              <button key={material} onClick={() => handleFilterChange('material', material)} className={`block w-full text-left text-sm ${filters.material === material ? 'text-brand-secondary dark:text-dark-accent font-bold' : 'text-gray-600 dark:text-dark-subtext hover:text-brand-primary dark:hover:text-dark-text'}`}>{material}</button>
+            ))}
+        </div>
+      </div>
+    </>
+  );
+
+  return (
+    <div className="container mx-auto px-6 py-8">
+      <div className="text-center py-8">
+        <h1 className="text-4xl font-serif font-bold text-brand-primary dark:text-dark-text">Our Collection</h1>
+        <p className="mt-2 text-gray-600 dark:text-dark-subtext">Explore handcrafted pieces that blend tradition with modern style.</p>
+      </div>
+
+      <div className="lg:hidden mb-4">
+        <button
+          onClick={() => setIsSidebarOpen(true)}
+          className="w-full flex items-center justify-center p-3 border rounded-md font-semibold text-brand-primary dark:text-dark-text bg-white dark:bg-dark-card hover:bg-gray-50 dark:hover:bg-dark-border"
+          aria-controls="filter-sidebar"
+          aria-expanded={isSidebarOpen}
+        >
+          <SlidersHorizontal className="h-5 w-5 mr-2" />
+          Filter & Sort
+        </button>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        {isSidebarOpen && (
+          <div className="fixed inset-0 bg-black/50 z-40 lg:hidden" onClick={() => setIsSidebarOpen(false)} aria-hidden="true" />
+        )}
+
+        <aside 
+          id="filter-sidebar" 
+          className={`
+            fixed inset-y-0 left-0 z-50 w-[85vw] max-w-sm bg-white dark:bg-dark-card
+            transform transition-transform duration-300 ease-in-out
+            flex flex-col
+            ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+            lg:relative lg:translate-x-0 lg:col-span-1 lg:w-auto lg:h-fit lg:shadow-sm lg:rounded-lg lg:p-6 lg:z-auto lg:inset-auto lg:block
+          `}
+        >
+          <div className="p-6 flex-grow overflow-y-auto">
+            <div className="flex justify-between items-center mb-6 lg:hidden">
+              <h2 className="text-xl font-semibold text-brand-primary dark:text-dark-text">Filters</h2>
+              <button
+                onClick={() => setIsSidebarOpen(false)}
+                className="p-1 text-brand-primary dark:text-dark-text"
+                aria-label="Close filters"
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
+            <div className="hidden lg:block">
+              <h2 className="text-xl font-semibold text-brand-primary dark:text-dark-text">Filters</h2>
+            </div>
+            <div className="mt-4 pt-4 border-t dark:border-dark-border lg:mt-0 lg:pt-0 lg:border-t-0">
+              <FilterContent />
+            </div>
+          </div>
+          <div className="flex-shrink-0 p-4 border-t dark:border-dark-border lg:hidden">
+            <button
+              onClick={() => setIsSidebarOpen(false)}
+              className="w-full bg-brand-primary text-white font-bold py-3 px-8 text-lg hover:bg-brand-secondary transition-colors dark:bg-dark-accent dark:text-dark-bg dark:hover:bg-opacity-90 rounded-md"
+            >
+              Show {filteredProducts.length} Results
+            </button>
+          </div>
+        </aside>
+
+        <main className="lg:col-span-3">
+          {filteredProducts.length > 0 ? (
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-12">
+              {filteredProducts.map(product => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-20 bg-white dark:bg-dark-card rounded-lg shadow-sm">
+                <Frown className="mx-auto h-16 w-16 text-gray-400 dark:text-dark-subtext" />
+                <h3 className="mt-4 text-xl font-semibold text-brand-primary dark:text-dark-text">No Products Found</h3>
+                <p className="mt-2 text-gray-500 dark:text-dark-subtext">Try adjusting your filters to find what you're looking for.</p>
+            </div>
+          )}
+        </main>
+      </div>
+    </div>
+  );
+};
+
+export default ProductsPage;
