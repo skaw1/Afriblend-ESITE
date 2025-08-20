@@ -15,52 +15,45 @@ const AboutPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="bg-brand-bg dark:bg-dark-bg animate-fade-in overflow-hidden">
+    <div className="bg-brand-bg dark:bg-dark-bg animate-fade-in overflow-x-hidden">
       {/* 
-        This new container ensures the content is centered vertically on large screens, 
-        creating the "single page" feel the user requested.
+        This container provides consistent padding and centers the content.
+        The padding is adjusted for different screen sizes for a balanced look.
       */}
-      <div className="container mx-auto px-6 flex items-center justify-center min-h-screen py-20 md:py-32">
-        <div className="max-w-7xl w-full">
+      <div className="container mx-auto px-6 py-16 md:py-24">
+        <div className="max-w-7xl mx-auto">
           {/* 
-            A sophisticated grid layout for perfect balance on large screens.
-            - `lg:grid-cols-2` creates the side-by-side view.
-            - `items-center` ensures vertical alignment.
-            - `gap-16 lg:gap-24` provides generous, premium spacing.
+            CORE LAYOUT FIX: Using a robust flexbox layout.
+            - `flex-col`: Stacks items vertically on mobile (photo on top, text below), as requested.
+            - `md:flex-row`: Switches to a side-by-side layout on medium screens and up.
+            - `items-center`: Vertically aligns the image and text when side-by-side.
+            - `gap-12 md:gap-16`: Provides appropriate spacing for all screen sizes.
           */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-16 lg:gap-24">
+          <div className="flex flex-col md:flex-row items-center gap-12 md:gap-16">
             
-            {/* Image Column - now with constrained and styled presentation */}
-            <div className="w-full h-full flex items-center justify-center">
-              {/* 
-                The image is given a max-height to prevent it from becoming too large.
-                The shadow adds depth and a premium, tangible feel.
-              */}
+            {/* Image Column: Appears first in markup to be on top on mobile */}
+            <div className="w-full md:w-5/12">
               <img 
                 src={ourStory.imageUrl} 
                 alt="Artisan crafting traditional African textiles, representing the heritage of Afriblend." 
-                className="rounded-lg object-cover w-full max-h-[600px] shadow-2xl"
+                className="rounded-lg object-cover w-full h-auto shadow-2xl"
               />
             </div>
 
-            {/* Text Column - with enhanced typography and layout */}
-            <div className="flex flex-col justify-center text-center lg:text-left">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif font-bold text-brand-primary dark:text-dark-text leading-tight">
+            {/* Text Column */}
+            <div className="w-full md:w-7/12 text-center md:text-left">
+              <h1 className="text-4xl sm:text-5xl font-serif font-bold text-brand-primary dark:text-dark-text leading-tight">
                 {ourStory.title}
               </h1>
               
-              {/* 
-                `max-w-prose` ensures the text has a comfortable reading width, improving legibility.
-                `text-lg` and `leading-relaxed` enhance readability for a premium experience.
-              */}
-              <p className="mt-6 text-lg text-gray-700 dark:text-dark-subtext leading-relaxed max-w-prose mx-auto lg:mx-0">
+              <p className="mt-6 text-lg text-gray-700 dark:text-dark-subtext leading-relaxed max-w-prose mx-auto md:mx-0">
                 {ourStory.text}
               </p>
 
               <div className="mt-10">
                 <Link 
                   to="/products" 
-                  className="inline-block bg-brand-secondary text-white font-bold py-4 px-12 text-lg hover:bg-brand-primary transition-transform duration-300 hover:scale-105 dark:bg-dark-accent dark:text-dark-bg dark:hover:bg-opacity-90 rounded-md"
+                  className="inline-block bg-brand-secondary text-white font-bold py-3 px-10 text-lg hover:bg-brand-primary transition-transform duration-300 hover:scale-105 dark:bg-dark-accent dark:text-dark-bg dark:hover:bg-opacity-90 rounded-md"
                 >
                   Explore The Collection
                 </Link>
