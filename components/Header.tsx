@@ -1,18 +1,15 @@
 
-
-
-
 import React, { useState, useRef } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import CartIcon from './CartIcon';
 import { useAuth } from '../hooks/useAuth';
 import { useTheme } from '../hooks/useTheme';
-import StyleMeModal from './StyleMeModal';
+// import StyleMeModal from './StyleMeModal';
 import { Moon, Sun } from 'lucide-react';
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
   const { isAuthenticated, developerLogin } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
@@ -25,10 +22,12 @@ const Header: React.FC = () => {
 
   const closeMenu = () => setIsMenuOpen(false);
 
+  /*
   const handleOpenModal = () => {
     closeMenu();
     setIsModalOpen(true);
   };
+  */
 
   const handlePressStart = () => {
     longPressTimer.current = window.setTimeout(() => {
@@ -69,7 +68,7 @@ const Header: React.FC = () => {
           <nav className="hidden md:flex items-center space-x-8">
             <NavLink to="/" className={navLinkClasses}>Home</NavLink>
             <NavLink to="/products" className={navLinkClasses}>Shop</NavLink>
-            <button onClick={() => setIsModalOpen(true)} className={buttonClasses}>AI Stylist</button>
+            {/* <button onClick={() => setIsModalOpen(true)} className={buttonClasses}>AI Stylist</button> */}
             <NavLink to="/about" className={navLinkClasses}>About</NavLink>
             <NavLink to="/track" className={navLinkClasses}>Track Order</NavLink>
             <NavLink to="/#contact-us" className={navLinkClasses}>Contact</NavLink>
@@ -102,7 +101,7 @@ const Header: React.FC = () => {
             <nav className="flex flex-col items-center space-y-4">
               <NavLink to="/" className={navLinkClasses} onClick={closeMenu}>Home</NavLink>
               <NavLink to="/products" className={navLinkClasses} onClick={closeMenu}>Shop</NavLink>
-              <button onClick={handleOpenModal} className={buttonClasses}>AI Stylist</button>
+              {/* <button onClick={handleOpenModal} className={buttonClasses}>AI Stylist</button> */}
               <NavLink to="/about" className={navLinkClasses} onClick={closeMenu}>About</NavLink>
               <NavLink to="/track" className={navLinkClasses} onClick={closeMenu}>Track Order</NavLink>
               <NavLink to="/#contact-us" className={navLinkClasses} onClick={closeMenu}>Contact</NavLink>
@@ -113,7 +112,7 @@ const Header: React.FC = () => {
           </div>
         )}
       </header>
-      {isModalOpen && <StyleMeModal onClose={() => setIsModalOpen(false)} />}
+      {/* {isModalOpen && <StyleMeModal onClose={() => setIsModalOpen(false)} />} */}
     </>
   );
 };

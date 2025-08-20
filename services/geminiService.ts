@@ -1,5 +1,4 @@
-
-
+/*
 import { GoogleGenAI, Type } from "@google/genai";
 import { Product, Category } from '../types';
 
@@ -122,3 +121,4 @@ export const generateImages = async (
     throw new Error("Sorry, an error occurred while generating images. Please try again later.");
   }
 };
+*/

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { generateImages } from '../services/geminiService';
+// import { generateImages } from '../services/geminiService';
 import { Download, LoaderCircle, Wand2, ImageOff } from 'lucide-react';
 
 const AdminImageGeneratorPage: React.FC = () => {
@@ -12,6 +12,9 @@ const AdminImageGeneratorPage: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setError('The AI Image Generator is currently disabled.');
+        // The original implementation is commented out below.
+        /*
         if (!prompt.trim()) {
             setError('Please enter a prompt.');
             return;
@@ -29,6 +32,7 @@ const AdminImageGeneratorPage: React.FC = () => {
         } finally {
             setIsLoading(false);
         }
+        */
     };
     
     const aspectRatios = ["1:1", "16:9", "9:16", "4:3", "3:4"];

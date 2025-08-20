@@ -1,3 +1,4 @@
+/*
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getStyleRecommendation, StyleRecommendation } from '../services/geminiService';
@@ -115,3 +116,4 @@ const StyleMeModal: React.FC<StyleMeModalProps> = ({ onClose }) => {
 };
 
 export default StyleMeModal;
+*/
