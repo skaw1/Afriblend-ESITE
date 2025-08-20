@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useOurStory } from '../hooks/useOurStory';
 import { OurStoryContent } from '../types';
 import { CheckCircle2 } from 'lucide-react';
@@ -16,6 +16,12 @@ const AdminOurStoryPage: React.FC = () => {
     const [localContent, setLocalContent] = useState<OurStoryContent>(ourStory);
     const [isSaving, setIsSaving] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
+
+    // This effect ensures that if the `ourStory` data changes in the context
+    // (e.g., after a successful save), the local form state is updated to match.
+    useEffect(() => {
+        setLocalContent(ourStory);
+    }, [ourStory]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
