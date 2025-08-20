@@ -15,18 +15,12 @@ const AboutPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="bg-brand-bg dark:bg-dark-bg animate-fade-in">
-      {/* 
-        This is a robust, mobile-first layout.
-        - On mobile (default), it's a single-column grid. The image is first, followed by the padded text container.
-        - On large screens (lg:), it becomes a two-column grid for a side-by-side view.
-        This structure guarantees the image is full-width on mobile while the text remains contained, solving all previous issues.
-      */}
+    // Add overflow-x-hidden as a failsafe against any future content breaking the layout.
+    <div className="bg-brand-bg dark:bg-dark-bg animate-fade-in overflow-x-hidden">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 lg:items-center">
           
           {/* --- Image Column --- */}
-          {/* The image takes up the full width on mobile. On desktop, it's the first column. */}
           <div className="w-full">
             <img 
               src={ourStory.imageUrl} 
@@ -36,14 +30,15 @@ const AboutPage: React.FC = () => {
           </div>
 
           {/* --- Text Column --- */}
-          {/* This container has padding on all screen sizes to ensure text doesn't touch the edges. */}
           <div className="p-8 md:p-12 lg:p-16">
-            <div className="text-center lg:text-left">
-              <h1 className="text-4xl sm:text-5xl font-serif font-bold text-brand-primary dark:text-dark-text leading-tight">
+            {/* Set text alignment to left for better readability on all devices */}
+            <div className="text-left">
+              <h1 className="text-4xl sm:text-5xl font-serif font-bold text-brand-primary dark:text-dark-text leading-tight break-words">
                 {ourStory.title}
               </h1>
               
-              <p className="mt-6 text-lg text-gray-700 dark:text-dark-subtext leading-relaxed max-w-prose mx-auto lg:mx-0">
+              {/* Added 'break-words' to prevent long text strings from overflowing their container. */}
+              <p className="mt-6 text-lg text-gray-700 dark:text-dark-subtext leading-relaxed max-w-prose break-words">
                 {ourStory.text}
               </p>
 
