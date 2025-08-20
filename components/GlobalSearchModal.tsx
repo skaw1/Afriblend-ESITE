@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import * as ReactRouterDOM from 'react-router-dom';
 import { useProducts } from '../hooks/useProducts';
 import { useOrders } from '../hooks/useOrders';
 import { useRiders } from '../hooks/useRiders';
@@ -112,9 +112,9 @@ const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({ isOpen, onClose }
   );
   
   const ResultLink: React.FC<{ to: string; children: React.ReactNode }> = ({ to, children }) => (
-     <Link to={to} onClick={onClose} className="block px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+     <ReactRouterDOM.Link to={to} onClick={onClose} className="block px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
         {children}
-     </Link>
+     </ReactRouterDOM.Link>
   );
 
   return (

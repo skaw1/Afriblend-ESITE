@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import * as ReactRouterDOM from 'react-router-dom';
 import { useProducts } from '../hooks/useProducts';
 import { useCart } from '../hooks/useCart';
 import { useCategories } from '../hooks/useCategories';
@@ -49,7 +49,7 @@ const getColorStyle = (colorName: string): React.CSSProperties => {
 
 
 const ProductDetailPage: React.FC = () => {
-  const { slug } = useParams<{ slug: string }>();
+  const { slug } = ReactRouterDOM.useParams<{ slug: string }>();
   const { getProductBySlug } = useProducts();
   const product = getProductBySlug(slug || '');
   const { addToCart } = useCart();
@@ -166,10 +166,10 @@ const ProductDetailPage: React.FC = () => {
   return (
     <div className="bg-white dark:bg-dark-bg">
       <div className="container mx-auto px-4 sm:px-6 py-8 md:py-12">
-        <Link to="/products" className="inline-flex items-center text-sm text-gray-500 hover:text-brand-primary dark:text-dark-subtext dark:hover:text-dark-text mb-4 transition-colors">
+        <ReactRouterDOM.Link to="/products" className="inline-flex items-center text-sm text-gray-500 hover:text-brand-primary dark:text-dark-subtext dark:hover:text-dark-text mb-4 transition-colors">
           <ChevronLeft className="h-4 w-4 mr-1" />
           Back to Collection
-        </Link>
+        </ReactRouterDOM.Link>
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-x-12 gap-y-8">
           
           {/* Image Gallery (Sticky on desktop) */}
@@ -205,7 +205,7 @@ const ProductDetailPage: React.FC = () => {
           {/* Product Info */}
           <div className="lg:col-span-3">
             <div className="py-2">
-              <Link to={`/products?categoryId=${product.categoryId}`} className="text-xs sm:text-sm text-gray-500 hover:text-brand-primary dark:text-dark-subtext dark:hover:text-dark-text">{category?.name || 'Category'}</Link>
+              <ReactRouterDOM.Link to={`/products?categoryId=${product.categoryId}`} className="text-xs sm:text-sm text-gray-500 hover:text-brand-primary dark:text-dark-subtext dark:hover:text-dark-text">{category?.name || 'Category'}</ReactRouterDOM.Link>
               <h1 className="text-xl sm:text-3xl md:text-4xl font-serif font-bold text-brand-primary dark:text-dark-text mt-1 sm:mt-2">{product.name}</h1>
               
               <p className="text-2xl md:text-3xl font-semibold text-brand-primary dark:text-dark-text mt-4 sm:mt-6">KSH {Math.round(product.price)}</p>

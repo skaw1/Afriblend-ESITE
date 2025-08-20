@@ -1,9 +1,7 @@
-
-
 import React, { useState } from 'react';
 import { useCart } from '../hooks/useCart';
 import { useOrders } from '../hooks/useOrders';
-import { useNavigate, Link } from 'react-router-dom';
+import * as ReactRouterDOM from 'react-router-dom';
 import { ClientDetails } from '../types';
 import { Wallet, ChevronLeft } from 'lucide-react';
 import { useSettings } from '../hooks/useSettings';
@@ -12,7 +10,7 @@ const CheckoutPage: React.FC = () => {
     const { cartItems, getCartTotal, clearCart } = useCart();
     const { addOrder } = useOrders();
     const { settings } = useSettings();
-    const navigate = useNavigate();
+    const navigate = ReactRouterDOM.useNavigate();
 
     const [clientDetails, setClientDetails] = useState<ClientDetails>({
         name: '',
@@ -29,9 +27,9 @@ const CheckoutPage: React.FC = () => {
         return (
             <div className="container mx-auto px-6 py-12 text-center">
                 <h1 className="text-2xl font-semibold">Your cart is empty.</h1>
-                <Link to="/products" className="mt-4 inline-block text-brand-secondary dark:text-dark-accent">
+                <ReactRouterDOM.Link to="/products" className="mt-4 inline-block text-brand-secondary dark:text-dark-accent">
                     Continue Shopping
-                </Link>
+                </ReactRouterDOM.Link>
             </div>
         );
     }
@@ -67,10 +65,10 @@ const CheckoutPage: React.FC = () => {
         <div className="bg-white dark:bg-dark-bg">
             <div className="container mx-auto px-6 py-12">
                  <div className="text-center mb-12">
-                    <Link to="/cart" className="inline-flex items-center text-sm text-gray-500 hover:text-brand-primary dark:text-dark-subtext dark:hover:text-dark-text mb-4 transition-colors">
+                    <ReactRouterDOM.Link to="/cart" className="inline-flex items-center text-sm text-gray-500 hover:text-brand-primary dark:text-dark-subtext dark:hover:text-dark-text mb-4 transition-colors">
                       <ChevronLeft className="h-4 w-4 mr-1" />
                       Back to Cart
-                    </Link>
+                    </ReactRouterDOM.Link>
                     <h1 className="text-3xl md:text-4xl font-serif font-bold text-brand-primary dark:text-dark-text">Checkout</h1>
                 </div>
                 <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-16">

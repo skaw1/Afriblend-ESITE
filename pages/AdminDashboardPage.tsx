@@ -1,9 +1,8 @@
-
 import React, { useState, useEffect } from 'react';
 import { useOrders } from '../hooks/useOrders';
 import { useProducts } from '../hooks/useProducts';
 import { Notification } from '../types';
-import { Link } from 'react-router-dom';
+import * as ReactRouterDOM from 'react-router-dom';
 import { useNotification } from '../App';
 import { Banknote, Hourglass, Package, Receipt } from 'lucide-react';
 
@@ -24,7 +23,7 @@ const StatCard = ({ title, value, icon: Icon, linkTo, gradient }: { title: strin
     );
 
     if (linkTo) {
-        return <Link to={linkTo} className="block">{content}</Link>;
+        return <ReactRouterDOM.Link to={linkTo} className="block">{content}</ReactRouterDOM.Link>;
     }
     return <div>{content}</div>;
 }

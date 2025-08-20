@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+import * as ReactRouterDOM from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { UserRole } from '../types';
 
@@ -11,7 +10,7 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, allowedRoles }) => {
   const { isAuthenticated, userRole, isLoading } = useAuth();
-  const location = useLocation();
+  const location = ReactRouterDOM.useLocation();
 
   if (isLoading) {
     return (
@@ -24,14 +23,14 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, allowedRoles 
   if (!isAuthenticated) {
     // Redirect them to the /login page, but save the current location they were
     // trying to go to. This allows us to send them along to that page after they login.
-    return <Navigate to="/admin/login" state={{ from: location }} replace />;
+    return <ReactRouterDOM.Navigate to="/admin/login" state={{ from: location }} replace />;
   }
   
   // If roles are specified, check if the user has one of the allowed roles
   if (allowedRoles && (!userRole || !allowedRoles.includes(userRole))) {
       // Redirect to a safe page if role is not allowed.
       // e.g. A Store Owner trying to access a dev page will be sent to their dashboard.
-      return <Navigate to="/admin/dashboard" replace />;
+      return <ReactRouterDOM.Navigate to="/admin/dashboard" replace />;
   }
 
   return children;

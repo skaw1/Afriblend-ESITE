@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import * as ReactRouterDOM from 'react-router-dom';
 import { useProducts } from '../hooks/useProducts';
 import ProductCard from '../components/ProductCard';
 import { useSettings } from '../hooks/useSettings';
@@ -134,12 +134,12 @@ const HomePage: React.FC = () => {
                     <div className="transition-all duration-700 ease-out" key={sliderImages[currentImage].id}>
                          <h1 className="text-4xl md:text-6xl font-serif font-bold leading-tight animate-fade-in">{sliderImages[currentImage].title}</h1>
                         <p className="mt-4 text-lg md:text-xl max-w-3xl mx-auto animate-fade-in animation-delay-300">{sliderImages[currentImage].subtitle}</p>
-                        <Link 
+                        <ReactRouterDOM.Link 
                             to={sliderImages[currentImage].link}
                             className="mt-8 inline-block bg-brand-secondary text-white font-bold py-3 px-8 text-lg hover:bg-brand-accent transition-transform duration-300 hover:scale-105 dark:bg-dark-accent dark:text-dark-bg dark:hover:bg-opacity-90 animate-fade-in animation-delay-500"
                         >
                             Shop Now
-                        </Link>
+                        </ReactRouterDOM.Link>
                     </div>
                 </div>
 
@@ -177,9 +177,9 @@ const HomePage: React.FC = () => {
                         ))}
                     </div>
                     <div className="text-center mt-16">
-                        <Link to="/products" className="inline-block bg-brand-primary text-white font-bold py-3 px-12 text-lg hover:bg-brand-secondary transition-colors dark:bg-dark-accent dark:text-dark-bg dark:hover:bg-opacity-90">
+                        <ReactRouterDOM.Link to="/products" className="inline-block bg-brand-primary text-white font-bold py-3 px-12 text-lg hover:bg-brand-secondary transition-colors dark:bg-dark-accent dark:text-dark-bg dark:hover:bg-opacity-90">
                             View All Products
-                        </Link>
+                        </ReactRouterDOM.Link>
                     </div>
                 </div>
             </section>

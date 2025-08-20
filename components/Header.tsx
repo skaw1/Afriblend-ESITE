@@ -1,7 +1,5 @@
-
-
 import React, { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import * as ReactRouterDOM from 'react-router-dom';
 import CartIcon from './CartIcon';
 import { useAuth } from '../hooks/useAuth';
 import { useTheme } from '../hooks/useTheme';
@@ -32,7 +30,7 @@ const Header: React.FC = () => {
     <>
       <header className="bg-brand-bg/80 dark:bg-dark-card/80 backdrop-blur-md sticky top-0 z-40 shadow-sm dark:shadow-dark-border/20">
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-          <Link 
+          <ReactRouterDOM.Link 
             to="/" 
             className="flex-shrink-0"
           >
@@ -41,18 +39,18 @@ const Header: React.FC = () => {
               alt="Afriblend Logo" 
               className="h-10 w-auto" 
             />
-          </Link>
+          </ReactRouterDOM.Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <NavLink to="/" className={navLinkClasses}>Home</NavLink>
-            <NavLink to="/products" className={navLinkClasses}>Shop</NavLink>
+            <ReactRouterDOM.NavLink to="/" className={navLinkClasses}>Home</ReactRouterDOM.NavLink>
+            <ReactRouterDOM.NavLink to="/products" className={navLinkClasses}>Shop</ReactRouterDOM.NavLink>
             {/* <button onClick={() => setIsModalOpen(true)} className={buttonClasses}>AI Stylist</button> */}
-            <NavLink to="/about" className={navLinkClasses}>About</NavLink>
-            <NavLink to="/track" className={navLinkClasses}>Track Order</NavLink>
-            <NavLink to="/#contact-us" className={navLinkClasses}>Contact</NavLink>
+            <ReactRouterDOM.NavLink to="/about" className={navLinkClasses}>About</ReactRouterDOM.NavLink>
+            <ReactRouterDOM.NavLink to="/track" className={navLinkClasses}>Track Order</ReactRouterDOM.NavLink>
+            <ReactRouterDOM.NavLink to="/#contact-us" className={navLinkClasses}>Contact</ReactRouterDOM.NavLink>
             {isAuthenticated && (
-              <NavLink to="/admin/dashboard" className={navLinkClasses}>Admin</NavLink>
+              <ReactRouterDOM.NavLink to="/admin/dashboard" className={navLinkClasses}>Admin</ReactRouterDOM.NavLink>
             )}
           </nav>
 
@@ -78,14 +76,14 @@ const Header: React.FC = () => {
         {isMenuOpen && (
           <div className="md:hidden bg-brand-bg dark:bg-dark-card pb-4">
             <nav className="flex flex-col items-center space-y-4">
-              <NavLink to="/" className={navLinkClasses} onClick={closeMenu}>Home</NavLink>
-              <NavLink to="/products" className={navLinkClasses} onClick={closeMenu}>Shop</NavLink>
+              <ReactRouterDOM.NavLink to="/" className={navLinkClasses} onClick={closeMenu}>Home</ReactRouterDOM.NavLink>
+              <ReactRouterDOM.NavLink to="/products" className={navLinkClasses} onClick={closeMenu}>Shop</ReactRouterDOM.NavLink>
               {/* <button onClick={handleOpenModal} className={buttonClasses}>AI Stylist</button> */}
-              <NavLink to="/about" className={navLinkClasses} onClick={closeMenu}>About</NavLink>
-              <NavLink to="/track" className={navLinkClasses} onClick={closeMenu}>Track Order</NavLink>
-              <NavLink to="/#contact-us" className={navLinkClasses} onClick={closeMenu}>Contact</NavLink>
+              <ReactRouterDOM.NavLink to="/about" className={navLinkClasses} onClick={closeMenu}>About</ReactRouterDOM.NavLink>
+              <ReactRouterDOM.NavLink to="/track" className={navLinkClasses} onClick={closeMenu}>Track Order</ReactRouterDOM.NavLink>
+              <ReactRouterDOM.NavLink to="/#contact-us" className={navLinkClasses} onClick={closeMenu}>Contact</ReactRouterDOM.NavLink>
               {isAuthenticated && (
-                  <NavLink to="/admin/dashboard" className={navLinkClasses} onClick={closeMenu}>Admin</NavLink>
+                  <ReactRouterDOM.NavLink to="/admin/dashboard" className={navLinkClasses} onClick={closeMenu}>Admin</ReactRouterDOM.NavLink>
               )}
             </nav>
           </div>

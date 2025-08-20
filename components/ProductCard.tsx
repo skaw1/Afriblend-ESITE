@@ -1,7 +1,5 @@
-
-
 import React from 'react';
-import { Link } from 'react-router-dom';
+import * as ReactRouterDOM from 'react-router-dom';
 import { Product } from '../types';
 
 interface ProductCardProps {
@@ -15,7 +13,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   };
 
   return (
-    <Link to={`/product/${product.slug}`} className="group block overflow-hidden">
+    <ReactRouterDOM.Link to={`/product/${product.slug}`} className="group block overflow-hidden">
       <div className="relative h-[220px] sm:h-[280px] overflow-hidden bg-gray-200 dark:bg-dark-border">
         <img
           src={product.images[0]}
@@ -32,7 +30,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <h3 className="text-lg font-semibold text-brand-primary dark:text-dark-text group-hover:text-brand-secondary dark:group-hover:text-dark-accent transition-colors">{product.name}</h3>
         <p className="mt-2 font-semibold text-brand-primary dark:text-dark-text">KSH {Math.round(product.price)}</p>
       </div>
-    </Link>
+    </ReactRouterDOM.Link>
   );
 };
 

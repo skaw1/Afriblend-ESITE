@@ -1,6 +1,5 @@
-
 import React, { useState, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import * as ReactRouterDOM from 'react-router-dom';
 import { useProducts } from '../hooks/useProducts';
 import ConfirmationModal from '../components/ConfirmationModal';
 import { Product } from '../types';
@@ -68,10 +67,10 @@ const AdminProductsPage: React.FC = () => {
                         <Search className="h-5 w-5 text-gray-400" />
                     </div>
                 </div>
-                <Link to="/admin/products/new" className="bg-brand-primary text-white font-bold py-2 px-4 rounded-lg hover:bg-brand-secondary transition-colors flex items-center dark:bg-dark-accent dark:text-dark-bg dark:hover:bg-opacity-90">
+                <ReactRouterDOM.Link to="/admin/products/new" className="bg-brand-primary text-white font-bold py-2 px-4 rounded-lg hover:bg-brand-secondary transition-colors flex items-center dark:bg-dark-accent dark:text-dark-bg dark:hover:bg-opacity-90">
                     <Plus className="mr-2 h-5 w-5" />
                     Add Product
-                </Link>
+                </ReactRouterDOM.Link>
             </div>
 
             <div className="overflow-x-auto">
@@ -113,9 +112,9 @@ const AdminProductsPage: React.FC = () => {
                                 </td>
                                 <td className="px-6 py-5 whitespace-nowrap text-right text-sm font-medium">
                                     <div className="flex items-center justify-end space-x-2">
-                                        <Link to={`/admin/products/edit/${product.id}`} className="text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors p-2 rounded-full hover:bg-gray-100 dark:hover:bg-dark-bg">
+                                        <ReactRouterDOM.Link to={`/admin/products/edit/${product.id}`} className="text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors p-2 rounded-full hover:bg-gray-100 dark:hover:bg-dark-bg">
                                             <Edit size={18} />
-                                        </Link>
+                                        </ReactRouterDOM.Link>
                                         <button onClick={() => openDeleteModal(product)} className="text-gray-400 hover:text-red-600 transition-colors p-2 rounded-full hover:bg-gray-100 dark:hover:bg-dark-bg">
                                             <Trash2 size={18} />
                                         </button>

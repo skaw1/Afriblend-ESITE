@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { Link } from 'react-router-dom';
+import * as ReactRouterDOM from 'react-router-dom';
 import { useCategories } from '../hooks/useCategories';
 import { useContact } from '../hooks/useContact';
 import { IconMap } from './IconMap';
@@ -33,19 +32,19 @@ const Footer: React.FC = () => {
           <div>
             <h4 className="font-semibold mb-4">Shop</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link to="/products" className="hover:text-brand-accent dark:hover:text-dark-accent">All Products</Link></li>
+              <li><ReactRouterDOM.Link to="/products" className="hover:text-brand-accent dark:hover:text-dark-accent">All Products</ReactRouterDOM.Link></li>
               {shopCategories.map(category => (
-                 <li key={category.id}><Link to={`/products?categoryId=${category.id}`} className="hover:text-brand-accent dark:hover:text-dark-accent">{category.name}</Link></li>
+                 <li key={category.id}><ReactRouterDOM.Link to={`/products?categoryId=${category.id}`} className="hover:text-brand-accent dark:hover:text-dark-accent">{category.name}</ReactRouterDOM.Link></li>
               ))}
             </ul>
           </div>
           <div>
             <h4 className="font-semibold mb-4">About</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link to="/about" className="hover:text-brand-accent dark:hover:text-dark-accent">Our Story</Link></li>
-              <li><Link to="/track" className="hover:text-brand-accent dark:hover:text-dark-accent">Track Your Order</Link></li>
-              <li><Link to="/#contact-us" className="hover:text-brand-accent dark:hover:text-dark-accent">Contact Us</Link></li>
-              <li><Link to="/#faq" className="hover:text-brand-accent dark:hover:text-dark-accent">FAQs</Link></li>
+              <li><ReactRouterDOM.Link to="/about" className="hover:text-brand-accent dark:hover:text-dark-accent">Our Story</ReactRouterDOM.Link></li>
+              <li><ReactRouterDOM.Link to="/track" className="hover:text-brand-accent dark:hover:text-dark-accent">Track Your Order</ReactRouterDOM.Link></li>
+              <li><ReactRouterDOM.Link to="/#contact-us" className="hover:text-brand-accent dark:hover:text-dark-accent">Contact Us</ReactRouterDOM.Link></li>
+              <li><ReactRouterDOM.Link to="/#faq" className="hover:text-brand-accent dark:hover:text-dark-accent">FAQs</ReactRouterDOM.Link></li>
             </ul>
           </div>
           <div>
@@ -59,7 +58,7 @@ const Footer: React.FC = () => {
         </div>
         <div className="border-t border-white/20 dark:border-dark-border mt-10 pt-6 text-center text-sm text-gray-400 dark:text-dark-subtext">
           <p className="flex justify-center items-center space-x-4 flex-wrap">
-            <Link to="/admin/login" className="hover:text-brand-accent dark:hover:text-dark-accent transition-colors">Admin</Link>
+            <ReactRouterDOM.Link to="/admin/login" className="hover:text-brand-accent dark:hover:text-dark-accent transition-colors">Admin</ReactRouterDOM.Link>
             <span>&copy; 2025 Afriblend</span>
             <span className="text-gray-500" aria-hidden="true">|</span>
             <span>

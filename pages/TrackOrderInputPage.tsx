@@ -1,14 +1,12 @@
-
-
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import * as ReactRouterDOM from 'react-router-dom';
 import { useOrders } from '../hooks/useOrders';
 import { Compass } from 'lucide-react';
 
 const TrackOrderInputPage: React.FC = () => {
     const [inputValue, setInputValue] = useState('');
     const [error, setError] = useState('');
-    const navigate = useNavigate();
+    const navigate = ReactRouterDOM.useNavigate();
     const { getOrderByTrackingId, getOrdersByPhone, getOrderById } = useOrders();
 
     const handleSubmit = (e: React.FormEvent) => {

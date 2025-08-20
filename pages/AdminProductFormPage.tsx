@@ -1,6 +1,5 @@
-
 import React, { useState, useEffect, ChangeEvent, useRef } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import * as ReactRouterDOM from 'react-router-dom';
 import { useProducts } from '../hooks/useProducts';
 import { Product } from '../types';
 import { useCategories } from '../hooks/useCategories';
@@ -15,8 +14,8 @@ const toBase64 = (file: File): Promise<string> => new Promise((resolve, reject) 
 });
 
 const AdminProductFormPage: React.FC = () => {
-    const { id } = useParams<{ id: string }>();
-    const navigate = useNavigate();
+    const { id } = ReactRouterDOM.useParams<{ id: string }>();
+    const navigate = ReactRouterDOM.useNavigate();
     const { getProductById, addProduct, updateProduct } = useProducts();
     const { categories } = useCategories();
     

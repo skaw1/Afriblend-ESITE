@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import * as ReactRouterDOM from 'react-router-dom';
 import { useOurStory } from '../hooks/useOurStory';
 
 const AboutPage: React.FC = () => {
@@ -43,12 +43,12 @@ const AboutPage: React.FC = () => {
               </p>
 
               <div className="mt-10">
-                <Link 
+                <ReactRouterDOM.Link 
                   to="/products" 
                   className="inline-block bg-brand-secondary text-white font-bold py-3 px-10 text-lg hover:bg-brand-primary transition-transform duration-300 hover:scale-105 dark:bg-dark-accent dark:text-dark-bg dark:hover:bg-opacity-90 rounded-md"
                 >
                   Explore The Collection
-                </Link>
+                </ReactRouterDOM.Link>
               </div>
             </div>
           </div>

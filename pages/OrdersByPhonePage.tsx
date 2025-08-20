@@ -1,18 +1,14 @@
-
-
-
-
 import React from 'react';
-import { useParams, Link, Navigate } from 'react-router-dom';
+import * as ReactRouterDOM from 'react-router-dom';
 import { useOrders } from '../hooks/useOrders';
 import { ChevronRight } from 'lucide-react';
 
 const OrdersByPhonePage: React.FC = () => {
-    const { phone } = useParams<{ phone: string }>();
+    const { phone } = ReactRouterDOM.useParams<{ phone: string }>();
     const { getOrdersByPhone } = useOrders();
 
     if (!phone) {
-        return <Navigate to="/track" replace />;
+        return <ReactRouterDOM.Navigate to="/track" replace />;
     }
 
     const orders = getOrdersByPhone(phone);
@@ -22,9 +18,9 @@ const OrdersByPhonePage: React.FC = () => {
              <div className="container mx-auto px-6 py-12 text-center">
                 <h1 className="text-2xl font-semibold dark:text-dark-text">No orders found for this phone number.</h1>
                 <p className="mt-2 text-gray-600 dark:text-dark-subtext">Please check the phone number and try again.</p>
-                <Link to="/track" className="mt-4 inline-block text-brand-secondary dark:text-dark-accent">
+                <ReactRouterDOM.Link to="/track" className="mt-4 inline-block text-brand-secondary dark:text-dark-accent">
                     Try Again
-                </Link>
+                </ReactRouterDOM.Link>
             </div>
         )
     }
@@ -37,7 +33,7 @@ const OrdersByPhonePage: React.FC = () => {
                 
                 <div className="max-w-3xl mx-auto space-y-6">
                     {orders.map(order => (
-                        <Link to={`/track/${order.trackingId}`} key={order.id} className="block bg-gray-50 dark:bg-dark-card p-6 rounded-lg shadow-sm hover:shadow-lg hover:scale-[1.02] transition-all duration-300">
+                        <ReactRouterDOM.Link to={`/track/${order.trackingId}`} key={order.id} className="block bg-gray-50 dark:bg-dark-card p-6 rounded-lg shadow-sm hover:shadow-lg hover:scale-[1.02] transition-all duration-300">
                             <div className="flex justify-between items-center">
                                 <div>
                                     <p className="font-bold text-lg text-brand-primary dark:text-dark-text">Order #{order.id}</p>
@@ -55,7 +51,7 @@ const OrdersByPhonePage: React.FC = () => {
                                 </div>
                                 <ChevronRight className="h-6 w-6 text-gray-400 dark:text-dark-subtext" />
                             </div>
-                        </Link>
+                        </ReactRouterDOM.Link>
                     ))}
                 </div>
             </div>
