@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from 'react';
 import { useOurStory } from '../hooks/useOurStory';
 import { OurStoryContent } from '../types';
@@ -81,7 +79,7 @@ const AdminOurStoryPage: React.FC = () => {
                     <div>
                          <label className="block text-sm font-medium text-gray-700 dark:text-dark-subtext">Image</label>
                          <div className="mt-2 flex items-center space-x-6">
-                            <img src={convertGoogleDriveUrl(localContent.imageUrl)} alt="Current story" className="h-24 w-24 object-cover rounded-md bg-gray-100" />
+                            <img src={convertGoogleDriveUrl(localContent.imageUrl)} alt="Current story" className="h-24 w-24 object-contain rounded-md bg-gray-100" />
                              <div className="flex-grow">
                                 <label htmlFor="imageUrl" className="block text-xs font-medium text-gray-700 dark:text-dark-subtext">Image URL</label>
                                 <input type="url" name="imageUrl" id="imageUrl" value={localContent.imageUrl} onChange={handleInputChange} className={inputStyles} />

@@ -192,7 +192,7 @@ const AdminProductFormPage: React.FC = () => {
                         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4 mb-4">
                             {product.images.map((imgSrc, index) => (
                                 <div key={index} className="relative group">
-                                    <img src={convertGoogleDriveUrl(imgSrc)} alt={`Product image ${index + 1}`} className="w-full h-24 object-cover rounded-md" />
+                                    <img src={convertGoogleDriveUrl(imgSrc)} alt={`Product image ${index + 1}`} className="w-full h-24 object-contain rounded-md bg-gray-100 dark:bg-dark-bg" />
                                     <button
                                         type="button"
                                         onClick={() => removeImage(index)}

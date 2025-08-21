@@ -37,7 +37,7 @@ const CartPage: React.FC = () => {
                     <div className="lg:col-span-2 space-y-6">
                         {cartItems.map(item => (
                             <div key={`${item.id}-${item.selectedSize}-${item.selectedColor}`} className="flex items-start space-x-4 bg-gray-50 dark:bg-dark-card p-4 rounded-lg">
-                                <img src={convertGoogleDriveUrl(item.images[0])} alt={item.name} className="w-24 h-32 object-cover rounded-md" />
+                                <img src={convertGoogleDriveUrl(item.images[0])} alt={item.name} className="w-24 h-32 object-contain rounded-md" />
                                 <div className="flex-1">
                                     <h2 className="font-bold text-lg text-brand-primary dark:text-dark-text">{item.name}</h2>
                                     <p className="text-sm text-gray-500 dark:text-dark-subtext">Color: {item.selectedColor}</p>

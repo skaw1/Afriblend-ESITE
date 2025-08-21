@@ -19,12 +19,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <img
           src={convertGoogleDriveUrl(product.images[0])}
           alt={generateAltText(product)}
-          className="absolute inset-0 h-full w-full object-cover opacity-100 group-hover:opacity-0 transition-opacity duration-500"
+          className="absolute inset-0 h-full w-full object-contain opacity-100 group-hover:opacity-0 transition-opacity duration-500"
         />
         <img
           src={convertGoogleDriveUrl(product.images[1] || product.images[0])}
           alt={generateAltText(product)}
-          className="absolute inset-0 h-full w-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+          className="absolute inset-0 h-full w-full object-contain opacity-0 group-hover:opacity-100 transition-opacity duration-500"
         />
       </div>
       <div className="pt-4 text-center">

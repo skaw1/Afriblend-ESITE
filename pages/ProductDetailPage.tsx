@@ -180,7 +180,7 @@ const ProductDetailPage: React.FC = () => {
               <img 
                 src={convertGoogleDriveUrl(selectedImage)} 
                 alt={generateAltText(product, product.images.indexOf(selectedImage))} 
-                className="w-full h-full object-cover transition-opacity duration-300"
+                className="w-full h-full object-contain transition-opacity duration-300"
               />
             </div>
             {/* Thumbnails */}
@@ -195,7 +195,7 @@ const ProductDetailPage: React.FC = () => {
                     <img 
                       src={convertGoogleDriveUrl(img)} 
                       alt={generateAltText(product, index)} 
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-contain bg-gray-100 dark:bg-dark-card"
                     />
                   </button>
                 ))}

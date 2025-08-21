@@ -157,7 +157,7 @@ const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({ isOpen, onClose }
                                 <li key={`prod-${p.id}`}>
                                     <ResultLink to={`/admin/products/edit/${p.id}`}>
                                         <div className="flex items-center space-x-3">
-                                            <img src={convertGoogleDriveUrl(p.images[0])} alt={p.name} className="h-10 w-10 rounded-md object-cover flex-shrink-0" />
+                                            <img src={convertGoogleDriveUrl(p.images[0])} alt={p.name} className="h-10 w-10 rounded-md object-contain flex-shrink-0 bg-gray-100 dark:bg-dark-bg" />
                                             <div className="text-sm">
                                                 <p className="font-semibold text-brand-primary dark:text-dark-text">{p.name}</p>
                                                 <p className="text-gray-500 dark:text-dark-subtext">SKU: {p.sku}</p>
