@@ -333,6 +333,8 @@ export const INITIAL_CONTACT_INFO: ContactInfo = {
       { id: 'sl_2', name: 'Facebook', url: '#', icon: 'Facebook' },
       { id: 'sl_3', name: 'Pinterest', url: '#', icon: 'Pin' },
       { id: 'sl_4', name: 'Youtube', url: '#', icon: 'Youtube' },
+      { id: 'sl_5', name: 'TikTok', url: '#', icon: 'TikTok' },
+      { id: 'sl_6', name: 'WhatsApp', url: '#', icon: 'WhatsApp' },
     ]
 };
 

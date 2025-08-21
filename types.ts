@@ -75,7 +75,7 @@ export interface Notification {
 // --- Icon Definitions ---
 export const IconNames = [
   'Phone', 'Mail', 'MapPin', 
-  'Instagram', 'Facebook', 'Pin', 'Youtube', 'Twitter', 'Linkedin'
+  'Instagram', 'Facebook', 'Pin', 'Youtube', 'Twitter', 'Linkedin', 'TikTok', 'WhatsApp'
 ] as const;
 export type IconName = typeof IconNames[number];
 
