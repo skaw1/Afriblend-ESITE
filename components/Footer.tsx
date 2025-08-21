@@ -41,24 +41,28 @@ const Footer: React.FC = () => {
               })}
             </div>
           </div>
-          <div>
-            <h4 className="text-base font-semibold mb-4">Shop</h4>
-            <ul className="space-y-2 text-xs">
-              <li><Link to="/products" className="hover:text-brand-accent dark:hover:text-dark-accent">All Products</Link></li>
-              {shopCategories.map(category => (
-                 <li key={category.id}><Link to={`/products?categoryId=${category.id}`} className="hover:text-brand-accent dark:hover:text-dark-accent">{category.name}</Link></li>
-              ))}
-            </ul>
+
+          <div className="grid grid-cols-2 gap-8 md:col-span-2">
+            <div>
+              <h4 className="text-base font-semibold mb-4">Shop</h4>
+              <ul className="space-y-2 text-xs">
+                <li><Link to="/products" className="hover:text-brand-accent dark:hover:text-dark-accent">All Products</Link></li>
+                {shopCategories.map(category => (
+                   <li key={category.id}><Link to={`/products?categoryId=${category.id}`} className="hover:text-brand-accent dark:hover:text-dark-accent">{category.name}</Link></li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-base font-semibold mb-4">About</h4>
+              <ul className="space-y-2 text-xs">
+                <li><Link to="/about" className="hover:text-brand-accent dark:hover:text-dark-accent">Our Story</Link></li>
+                <li><Link to="/track" className="hover:text-brand-accent dark:hover:text-dark-accent">Track Your Order</Link></li>
+                <li><Link to="/#contact-us" className="hover:text-brand-accent dark:hover:text-dark-accent">Contact Us</Link></li>
+                <li><Link to="/#faq" className="hover:text-brand-accent dark:hover:text-dark-accent">FAQs</Link></li>
+              </ul>
+            </div>
           </div>
-          <div>
-            <h4 className="text-base font-semibold mb-4">About</h4>
-            <ul className="space-y-2 text-xs">
-              <li><Link to="/about" className="hover:text-brand-accent dark:hover:text-dark-accent">Our Story</Link></li>
-              <li><Link to="/track" className="hover:text-brand-accent dark:hover:text-dark-accent">Track Your Order</Link></li>
-              <li><Link to="/#contact-us" className="hover:text-brand-accent dark:hover:text-dark-accent">Contact Us</Link></li>
-              <li><Link to="/#faq" className="hover:text-brand-accent dark:hover:text-dark-accent">FAQs</Link></li>
-            </ul>
-          </div>
+          
           <div>
             <h4 className="text-base font-semibold mb-4">Stay Connected</h4>
             <p className="text-xs text-gray-300 dark:text-dark-subtext mb-2">Join our newsletter for exclusive offers and new arrivals.</p>
