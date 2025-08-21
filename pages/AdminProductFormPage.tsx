@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useProducts } from '../hooks/useProducts';
 import { Product } from '../types';
 import { useCategories } from '../hooks/useCategories';
-import { X, CheckCircle2 } from 'lucide-react';
+import { X, CheckCircle2, Info } from 'lucide-react';
 import { convertGoogleDriveUrl } from '../utils/imageUtils';
 
 const AdminProductFormPage: React.FC = () => {
@@ -206,16 +206,34 @@ const AdminProductFormPage: React.FC = () => {
                         </div>
                     )}
                     <div>
-                        <label htmlFor="imageUrls" className="block text-sm font-medium text-gray-700 dark:text-dark-subtext mb-1">Add Image URLs</label>
-                        <p className="text-xs text-gray-500 dark:text-dark-subtext mb-2">
-                            For Google Drive images, go to your image, click 'Share', set 'General access' to 'Anyone with the link', and copy the link. Paste it here, and we'll handle the rest. You can paste multiple links, one per line.
-                        </p>
+                        <div className="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-400 dark:border-blue-500 p-4 rounded-r-lg mb-4">
+                            <div className="flex">
+                                <div className="flex-shrink-0">
+                                    <Info className="h-5 w-5 text-blue-400 dark:text-blue-300" aria-hidden="true" />
+                                </div>
+                                <div className="ml-3">
+                                    <h3 className="text-sm font-bold text-blue-800 dark:text-blue-200">
+                                        Important: How to Use Google Drive for Images
+                                    </h3>
+                                    <div className="mt-2 text-sm text-blue-700 dark:text-blue-300">
+                                        <p className="mb-2">Your image sharing permissions must be set correctly for them to display on the website.</p>
+                                        <ol className="list-decimal list-inside space-y-1">
+                                            <li>In Google Drive, right-click your image and choose <strong>Share</strong>.</li>
+                                            <li>Find the "General access" section. If it says "Restricted", click it.</li>
+                                            <li>Select <strong>"Anyone with the link"</strong> from the dropdown.</li>
+                                            <li>Click <strong>"Copy link"</strong>, then paste it in the box below.</li>
+                                        </ol>
+                                        <p className="mt-2 font-semibold">Images will appear broken if this setting is not correct.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div className="flex items-start">
                             <textarea
                                 id="imageUrls"
                                 value={imageUrlInput}
                                 onChange={(e) => setImageUrlInput(e.target.value)}
-                                placeholder="https://.../image1.jpg&#10;https://drive.google.com/file/d/.../view?usp=sharing"
+                                placeholder="Paste image URLs here, one per line..."
                                 rows={4}
                                 className="flex-grow border-gray-300 rounded-l-md shadow-sm p-2 bg-gray-100 focus:border-brand-accent focus:ring-brand-accent focus:ring-opacity-50 dark:bg-dark-bg dark:border-dark-border dark:text-dark-text"
                             />
