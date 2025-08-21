@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Order, ClientDetails } from '../types';
 import { X } from 'lucide-react';
+import { convertGoogleDriveUrl } from '../utils/imageUtils';
 
 interface ClientDetailsModalProps {
   order: Order;
@@ -55,7 +56,7 @@ const ClientDetailsModal: React.FC<ClientDetailsModalProps> = ({ order, onClose,
                             <div className="space-y-3 max-h-60 overflow-y-auto pr-2">
                                 {order.items.map((item, index) => (
                                     <div key={index} className="flex items-center space-x-4 p-2 bg-gray-50 dark:bg-dark-bg/50 rounded-md">
-                                        <img src={item.images[0]} alt={item.name} className="w-16 h-20 object-cover rounded"/>
+                                        <img src={convertGoogleDriveUrl(item.images[0])} alt={item.name} className="w-16 h-20 object-cover rounded"/>
                                         <div className="flex-1">
                                             <p className="font-semibold text-sm text-brand-primary dark:text-dark-text">{item.name}</p>
                                             <p className="text-xs text-gray-500 dark:text-dark-subtext">

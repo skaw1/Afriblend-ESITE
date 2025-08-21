@@ -5,6 +5,7 @@ import ConfirmationModal from '../components/ConfirmationModal';
 import { Product } from '../types';
 import { useCategories } from '../hooks/useCategories';
 import { Search, Plus, Edit, Trash2 } from 'lucide-react';
+import { convertGoogleDriveUrl } from '../utils/imageUtils';
 
 const AdminProductsPage: React.FC = () => {
     const { products, deleteProduct, updateProduct } = useProducts();
@@ -91,7 +92,7 @@ const AdminProductsPage: React.FC = () => {
                                 <td className="px-6 py-5 whitespace-nowrap">
                                     <div className="flex items-center">
                                         <div className="flex-shrink-0 h-12 w-12">
-                                            <img className="h-12 w-12 rounded-md object-cover" src={product.images[0]} alt={product.name} />
+                                            <img className="h-12 w-12 rounded-md object-cover" src={convertGoogleDriveUrl(product.images[0])} alt={product.name} />
                                         </div>
                                         <div className="ml-4">
                                             <div className="text-sm font-medium text-gray-900 dark:text-dark-text">{product.name}</div>

@@ -8,6 +8,7 @@ import { useFaqs } from '../hooks/useFaqs';
 import { useOurStory } from '../hooks/useOurStory';
 import { useContact } from '../hooks/useContact';
 import { IconMap } from '../components/IconMap';
+import { convertGoogleDriveUrl } from '../utils/imageUtils';
 
 const FaqItemComponent: React.FC<{ q: string; a: string }> = ({ q, a }) => (
     <details className="group border-b border-gray-200 dark:border-dark-border py-4 last:border-none">
@@ -124,7 +125,7 @@ const HomePage: React.FC = () => {
                         key={image.id}
                         className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === currentImage ? 'opacity-100' : 'opacity-0'}`}
                     >
-                        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${image.src})` }}></div>
+                        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${convertGoogleDriveUrl(image.src)})` }}></div>
                         <div className="absolute inset-0 bg-black/50"></div>
                     </div>
                 ))}

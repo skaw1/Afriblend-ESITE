@@ -4,6 +4,7 @@ import { useProducts } from '../hooks/useProducts';
 import { Product } from '../types';
 import { useCategories } from '../hooks/useCategories';
 import { X, CheckCircle2 } from 'lucide-react';
+import { convertGoogleDriveUrl } from '../utils/imageUtils';
 
 const AdminProductFormPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -191,7 +192,7 @@ const AdminProductFormPage: React.FC = () => {
                         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4 mb-4">
                             {product.images.map((imgSrc, index) => (
                                 <div key={index} className="relative group">
-                                    <img src={imgSrc} alt={`Product image ${index + 1}`} className="w-full h-24 object-cover rounded-md" />
+                                    <img src={convertGoogleDriveUrl(imgSrc)} alt={`Product image ${index + 1}`} className="w-full h-24 object-cover rounded-md" />
                                     <button
                                         type="button"
                                         onClick={() => removeImage(index)}
@@ -207,14 +208,14 @@ const AdminProductFormPage: React.FC = () => {
                     <div>
                         <label htmlFor="imageUrls" className="block text-sm font-medium text-gray-700 dark:text-dark-subtext mb-1">Add Image URLs</label>
                         <p className="text-xs text-gray-500 dark:text-dark-subtext mb-2">
-                            Upload your images to a hosting service like Google Drive, get the public URLs, and paste them here (one per line).
+                            For Google Drive images, go to your image, click 'Share', set 'General access' to 'Anyone with the link', and copy the link. Paste it here, and we'll handle the rest. You can paste multiple links, one per line.
                         </p>
                         <div className="flex items-start">
                             <textarea
                                 id="imageUrls"
                                 value={imageUrlInput}
                                 onChange={(e) => setImageUrlInput(e.target.value)}
-                                placeholder="https://.../image1.jpg&#10;https://.../image2.png"
+                                placeholder="https://.../image1.jpg&#10;https://drive.google.com/file/d/.../view?usp=sharing"
                                 rows={4}
                                 className="flex-grow border-gray-300 rounded-l-md shadow-sm p-2 bg-gray-100 focus:border-brand-accent focus:ring-brand-accent focus:ring-opacity-50 dark:bg-dark-bg dark:border-dark-border dark:text-dark-text"
                             />

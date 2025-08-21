@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Product } from '../types';
+import { convertGoogleDriveUrl } from '../utils/imageUtils';
 
 interface ProductCardProps {
   product: Product;
@@ -16,12 +17,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     <Link to={`/product/${product.slug}`} className="group block overflow-hidden">
       <div className="relative h-[220px] sm:h-[280px] overflow-hidden bg-gray-200 dark:bg-dark-border">
         <img
-          src={product.images[0]}
+          src={convertGoogleDriveUrl(product.images[0])}
           alt={generateAltText(product)}
           className="absolute inset-0 h-full w-full object-cover opacity-100 group-hover:opacity-0 transition-opacity duration-500"
         />
         <img
-          src={product.images[1] || product.images[0]}
+          src={convertGoogleDriveUrl(product.images[1] || product.images[0])}
           alt={generateAltText(product)}
           className="absolute inset-0 h-full w-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
         />

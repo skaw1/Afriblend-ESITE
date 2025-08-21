@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ClientDetails } from '../types';
 import { Wallet, ChevronLeft } from 'lucide-react';
 import { useSettings } from '../hooks/useSettings';
+import { convertGoogleDriveUrl } from '../utils/imageUtils';
 
 const CheckoutPage: React.FC = () => {
     const { cartItems, getCartTotal, clearCart } = useCart();
@@ -128,7 +129,7 @@ const CheckoutPage: React.FC = () => {
                             {cartItems.map(item => (
                                 <div key={`${item.id}-${item.selectedSize}-${item.selectedColor}`} className="flex justify-between items-center">
                                     <div className="flex items-center space-x-3">
-                                        <img src={item.images[0]} alt={item.name} className="w-12 h-16 object-cover rounded"/>
+                                        <img src={convertGoogleDriveUrl(item.images[0])} alt={item.name} className="w-12 h-16 object-cover rounded"/>
                                         <div>
                                             <p className="font-semibold">{item.name} <span className="text-sm font-normal">x {item.quantity}</span></p>
                                             <p className="text-sm text-gray-500 dark:text-dark-subtext">{item.selectedSize}, {item.selectedColor}</p>

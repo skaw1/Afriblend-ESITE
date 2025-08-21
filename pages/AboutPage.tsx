@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useOurStory } from '../hooks/useOurStory';
+import { convertGoogleDriveUrl } from '../utils/imageUtils';
 
 const AboutPage: React.FC = () => {
   const { ourStory } = useOurStory();
@@ -23,7 +24,7 @@ const AboutPage: React.FC = () => {
           {/* --- Image Column --- */}
           <div className="w-full">
             <img 
-              src={ourStory.imageUrl} 
+              src={convertGoogleDriveUrl(ourStory.imageUrl)} 
               alt="Artisan crafting traditional African textiles, representing the heritage of Afriblend." 
               className="w-full h-auto max-h-[60vh] object-cover lg:max-h-full lg:rounded-r-lg"
             />

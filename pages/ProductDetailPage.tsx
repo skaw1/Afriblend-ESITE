@@ -5,6 +5,7 @@ import { useCart } from '../hooks/useCart';
 import { useCategories } from '../hooks/useCategories';
 import { ChevronLeft } from 'lucide-react';
 import { Product } from '../types';
+import { convertGoogleDriveUrl } from '../utils/imageUtils';
 
 // --- Color Map Helper ---
 const colorMap: { [key: string]: string } = {
@@ -177,7 +178,7 @@ const ProductDetailPage: React.FC = () => {
             {/* Main Image */}
             <div className="aspect-square mb-4 overflow-hidden rounded-lg bg-gray-100 dark:bg-dark-card shadow-sm">
               <img 
-                src={selectedImage} 
+                src={convertGoogleDriveUrl(selectedImage)} 
                 alt={generateAltText(product, product.images.indexOf(selectedImage))} 
                 className="w-full h-full object-cover transition-opacity duration-300"
               />
@@ -192,7 +193,7 @@ const ProductDetailPage: React.FC = () => {
                     className={`flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-md overflow-hidden border-2 transition-all ${selectedImage === img ? 'border-brand-secondary dark:border-dark-accent scale-105' : 'border-transparent opacity-70 hover:opacity-100'}`}
                   >
                     <img 
-                      src={img} 
+                      src={convertGoogleDriveUrl(img)} 
                       alt={generateAltText(product, index)} 
                       className="w-full h-full object-cover"
                     />
