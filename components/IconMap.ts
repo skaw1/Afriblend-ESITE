@@ -12,6 +12,6 @@ export const IconMap: Record<IconName, React.FC<LucideProps>> = {
   Youtube,
   Twitter,
   Linkedin,
-  TikTok,
+  TikTok: TikTok,
   WhatsApp: MessageCircle,
 };
