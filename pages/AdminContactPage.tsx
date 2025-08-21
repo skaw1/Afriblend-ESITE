@@ -73,7 +73,7 @@ const AdminContactPage: React.FC = () => {
 
     // --- Social Links Handlers ---
     const handleAddSocialLink = () => {
-        const newLink: SocialLink = { id: `sl_${Date.now()}`, name: 'New Social', url: '#', icon: 'Instagram' };
+        const newLink: SocialLink = { id: `sl_${Date.now()}`, name: 'New Social', url: '#', iconUrl: '' };
         setLocalContactInfo(prev => ({ ...prev, socialLinks: [...prev.socialLinks, newLink] }));
     };
 
@@ -177,25 +177,24 @@ const AdminContactPage: React.FC = () => {
                     <div className="space-y-4">
                     {localContactInfo.socialLinks.map(link => (
                         <div key={link.id} className="p-4 border rounded-lg dark:border-dark-border space-y-4 bg-gray-50 dark:bg-dark-bg/50">
-                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
-                                <div className='md:col-span-2 grid grid-cols-2 gap-4'>
-                                    <div>
-                                        <label className="text-sm font-medium text-gray-700 dark:text-dark-subtext">Name</label>
-                                        <input type="text" value={link.name} onChange={e => handleSocialLinkChange(link.id, 'name', e.target.value)} className={inputStyles} />
-                                    </div>
-                                    <div>
-                                        <label className="text-sm font-medium text-gray-700 dark:text-dark-subtext">URL</label>
-                                        <input type="url" value={link.url} onChange={e => handleSocialLinkChange(link.id, 'url', e.target.value)} className={inputStyles} />
-                                    </div>
+                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label className="text-sm font-medium text-gray-700 dark:text-dark-subtext">Name</label>
+                                    <input type="text" value={link.name} onChange={e => handleSocialLinkChange(link.id, 'name', e.target.value)} className={inputStyles} />
                                 </div>
-                                <div className="flex items-center space-x-2">
-                                    <div className="flex-grow">
-                                        <label className="text-sm font-medium text-gray-700 dark:text-dark-subtext">Icon</label>
-                                        <select value={link.icon} onChange={e => handleSocialLinkChange(link.id, 'icon', e.target.value as IconName)} className={selectStyles}>
-                                            {IconNames.map(iconName => <option key={iconName} value={iconName}>{iconName}</option>)}
-                                        </select>
+                                <div>
+                                    <label className="text-sm font-medium text-gray-700 dark:text-dark-subtext">URL</label>
+                                    <input type="url" value={link.url} onChange={e => handleSocialLinkChange(link.id, 'url', e.target.value)} className={inputStyles} />
+                                </div>
+                                <div className="md:col-span-2">
+                                    <label className="text-sm font-medium text-gray-700 dark:text-dark-subtext">Icon URL</label>
+                                    <div className="flex items-center space-x-2">
+                                        <input type="url" placeholder="https://.../icon.svg" value={link.iconUrl} onChange={e => handleSocialLinkChange(link.id, 'iconUrl', e.target.value)} className={`${inputStyles} flex-grow !mt-0`} />
+                                        {link.iconUrl && (
+                                            <img src={link.iconUrl} alt="Icon Preview" className="h-10 w-10 p-1 bg-gray-200 dark:bg-dark-bg rounded-md object-contain flex-shrink-0" />
+                                        )}
+                                        <button type="button" onClick={() => handleRemoveSocialLink(link.id, link.name)} className="text-red-500 hover:text-red-700 p-2 self-end"><Trash2 size={20} /></button>
                                     </div>
-                                    <button type="button" onClick={() => handleRemoveSocialLink(link.id, link.name)} className="text-red-500 hover:text-red-700 p-2 mt-5"><Trash2 size={20} /></button>
                                 </div>
                             </div>
                         </div>

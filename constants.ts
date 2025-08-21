@@ -329,12 +329,12 @@ export const INITIAL_CONTACT_INFO: ContactInfo = {
         { id: 'cf_3', label: 'Visit Us', value: '123 Afriblend House, Nairobi, Kenya', icon: 'MapPin' },
     ],
     socialLinks: [
-      { id: 'sl_1', name: 'Instagram', url: '#', icon: 'Instagram' },
-      { id: 'sl_2', name: 'Facebook', url: '#', icon: 'Facebook' },
-      { id: 'sl_3', name: 'Pinterest', url: '#', icon: 'Pin' },
-      { id: 'sl_4', name: 'Youtube', url: '#', icon: 'Youtube' },
-      { id: 'sl_5', name: 'TikTok', url: '#', icon: 'TikTok' },
-      { id: 'sl_6', name: 'WhatsApp', url: '#', icon: 'WhatsApp' },
+      { id: 'sl_1', name: 'Instagram', url: '#', iconUrl: 'https://cdn.simpleicons.org/instagram' },
+      { id: 'sl_2', name: 'Facebook', url: '#', iconUrl: 'https://cdn.simpleicons.org/facebook' },
+      { id: 'sl_3', name: 'Pinterest', url: '#', iconUrl: 'https://cdn.simpleicons.org/pinterest' },
+      { id: 'sl_4', name: 'Youtube', url: '#', iconUrl: 'https://cdn.simpleicons.org/youtube' },
+      { id: 'sl_5', name: 'TikTok', url: '#', iconUrl: 'https://cdn.simpleicons.org/tiktok' },
+      { id: 'sl_6', name: 'WhatsApp', url: '#', iconUrl: 'https://cdn.simpleicons.org/whatsapp' },
     ]
 };
 

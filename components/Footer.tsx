@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useCategories } from '../hooks/useCategories';
 import { useContact } from '../hooks/useContact';
-import { IconMap } from './IconMap';
 
 const Footer: React.FC = () => {
   const { categories } = useCategories();
@@ -19,11 +18,24 @@ const Footer: React.FC = () => {
             <p className="text-sm text-gray-300 dark:text-dark-subtext">Celebrating the richness of African design and fashion.</p>
             <div className="flex space-x-4 mt-4">
               {socialLinks.map(link => {
-                  const IconComponent = IconMap[link.icon];
-                  if (!IconComponent) return null;
+                  if (!link.iconUrl) return null;
                   return (
-                    <a key={link.id} href={link.url} target="_blank" rel="noopener noreferrer" className="hover:text-brand-accent dark:hover:text-dark-accent transition-colors">
-                      <IconComponent className="h-6 w-6" />
+                    <a key={link.id} href={link.url} target="_blank" rel="noopener noreferrer" className="text-gray-300 dark:text-dark-subtext hover:text-brand-accent dark:hover:text-dark-accent transition-colors">
+                      <div
+                          className="h-6 w-6"
+                          style={{
+                              backgroundColor: 'currentColor',
+                              maskImage: `url(${link.iconUrl})`,
+                              WebkitMaskImage: `url(${link.iconUrl})`,
+                              maskSize: 'contain',
+                              WebkitMaskSize: 'contain',
+                              maskRepeat: 'no-repeat',
+                              WebkitMaskRepeat: 'no-repeat',
+                              maskPosition: 'center',
+                              WebkitMaskPosition: 'center',
+                          }}
+                          aria-label={`${link.name} icon`}
+                      />
                     </a>
                   );
               })}

@@ -74,8 +74,7 @@ export interface Notification {
 
 // --- Icon Definitions ---
 export const IconNames = [
-  'Phone', 'Mail', 'MapPin', 
-  'Instagram', 'Facebook', 'Pin', 'Youtube', 'Twitter', 'Linkedin', 'TikTok', 'WhatsApp'
+  'Phone', 'Mail', 'MapPin'
 ] as const;
 export type IconName = typeof IconNames[number];
 
@@ -92,7 +91,7 @@ export interface SocialLink {
   id: string;
   name:string;
   url: string;
-  icon: IconName;
+  iconUrl: string;
 }
 
 export interface ContactInfo {
