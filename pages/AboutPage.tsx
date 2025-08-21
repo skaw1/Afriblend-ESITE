@@ -34,12 +34,12 @@ const AboutPage: React.FC = () => {
           <div className="p-8 md:p-12 lg:p-16">
             {/* Set text alignment to left for better readability on all devices */}
             <div className="text-left">
-              <h1 className="text-4xl sm:text-5xl font-serif font-bold text-brand-primary dark:text-dark-text leading-tight break-words">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-brand-primary dark:text-dark-text leading-tight break-words">
                 {ourStory.title}
               </h1>
               
               {/* Added 'break-words' to prevent long text strings from overflowing their container. */}
-              <p className="mt-6 text-lg text-gray-700 dark:text-dark-subtext leading-relaxed max-w-prose break-words">
+              <p className="mt-6 text-base sm:text-lg text-gray-700 dark:text-dark-subtext leading-relaxed max-w-prose break-words">
                 {ourStory.text}
               </p>
 

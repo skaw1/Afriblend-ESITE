@@ -13,8 +13,8 @@ const CartPage: React.FC = () => {
   return (
     <div className="bg-white dark:bg-dark-bg">
         <div className="container mx-auto px-6 py-12">
-            <div className="flex justify-between items-center mb-12">
-                <h1 className="text-3xl md:text-4xl font-serif font-bold text-brand-primary dark:text-dark-text">Your Shopping Bag</h1>
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-8 sm:mb-12">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-brand-primary dark:text-dark-text text-center sm:text-left mb-4 sm:mb-0">Your Shopping Bag</h1>
                  {cartItems.length > 0 && (
                     <Link to="/products" className="inline-flex items-center text-sm font-medium text-brand-secondary hover:underline dark:text-dark-accent">
                         <ChevronLeft className="h-4 w-4 mr-1" />

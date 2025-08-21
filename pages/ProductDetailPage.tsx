@@ -207,9 +207,9 @@ const ProductDetailPage: React.FC = () => {
           <div className="lg:col-span-3">
             <div className="py-2">
               <Link to={`/products?categoryId=${product.categoryId}`} className="text-xs sm:text-sm text-gray-500 hover:text-brand-primary dark:text-dark-subtext dark:hover:text-dark-text">{category?.name || 'Category'}</Link>
-              <h1 className="text-xl sm:text-3xl md:text-4xl font-serif font-bold text-brand-primary dark:text-dark-text mt-1 sm:mt-2">{product.name}</h1>
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-brand-primary dark:text-dark-text mt-1 sm:mt-2">{product.name}</h1>
               
-              <p className="text-2xl md:text-3xl font-semibold text-brand-primary dark:text-dark-text mt-4 sm:mt-6">KSH {Math.round(product.price)}</p>
+              <p className="text-xl sm:text-2xl md:text-3xl font-semibold text-brand-primary dark:text-dark-text mt-4 sm:mt-6">KSH {Math.round(product.price)}</p>
 
               {/* Options */}
               <div className="mt-6 space-y-6">

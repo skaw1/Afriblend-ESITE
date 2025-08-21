@@ -133,8 +133,8 @@ const HomePage: React.FC = () => {
                 <div className="relative h-full flex items-center justify-center text-center text-white px-6">
                     {/* The content animates with a key change */}
                     <div className="transition-all duration-700 ease-out" key={sliderImages[currentImage].id}>
-                         <h1 className="text-4xl md:text-6xl font-serif font-bold leading-tight animate-fade-in">{sliderImages[currentImage].title}</h1>
-                        <p className="mt-4 text-lg md:text-xl max-w-3xl mx-auto animate-fade-in animation-delay-300">{sliderImages[currentImage].subtitle}</p>
+                         <h1 className="text-3xl sm:text-4xl md:text-6xl font-serif font-bold leading-tight animate-fade-in">{sliderImages[currentImage].title}</h1>
+                        <p className="mt-4 text-base sm:text-lg md:text-xl max-w-3xl mx-auto animate-fade-in animation-delay-300">{sliderImages[currentImage].subtitle}</p>
                         <Link
                             to={sliderImages[currentImage].link}
                             className="mt-8 inline-block bg-brand-secondary text-white font-bold py-3 px-8 text-lg hover:bg-brand-accent transition-transform duration-300 hover:scale-105 dark:bg-dark-accent dark:text-dark-bg dark:hover:bg-opacity-90 animate-fade-in animation-delay-500"
@@ -171,7 +171,7 @@ const HomePage: React.FC = () => {
             {/* Products Section */}
             <section className="py-8 bg-white dark:bg-dark-card">
                 <div className="container mx-auto px-6">
-                    <h2 className="text-3xl font-serif text-center text-brand-primary dark:text-dark-text mb-8">Shop Our Collection</h2>
+                    <h2 className="text-2xl sm:text-3xl font-serif text-center text-brand-primary dark:text-dark-text mb-8">Shop Our Collection</h2>
                     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-12">
                         {productsToShow.map(product => (
                             <ProductCard key={product.id} product={product} />
@@ -188,7 +188,7 @@ const HomePage: React.FC = () => {
             {/* FAQ Section */}
             <section id="faq" className="py-16 md:py-24 bg-brand-bg dark:bg-dark-bg">
                  <div className="container mx-auto px-6 max-w-3xl">
-                    <h2 className="text-3xl md:text-4xl font-serif text-center text-brand-primary dark:text-dark-text mb-12">Frequently Asked Questions</h2>
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif text-center text-brand-primary dark:text-dark-text mb-12">Frequently Asked Questions</h2>
                     <div className="space-y-2">
                          {faqs.map(faq => (
                             <FaqItemComponent key={faq.id} q={faq.q} a={faq.a} />
@@ -200,8 +200,8 @@ const HomePage: React.FC = () => {
             {/* Contact Us Section */}
             <section id="contact-us" className="py-16 md:py-24 bg-white dark:bg-dark-card">
                 <div className="container mx-auto px-6 text-center">
-                    <h2 className="text-3xl md:text-4xl font-serif text-brand-primary dark:text-dark-text mb-4">{contactInfo.title}</h2>
-                    <p className="max-w-2xl mx-auto text-gray-600 dark:text-dark-subtext mb-12">
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif text-brand-primary dark:text-dark-text mb-4">{contactInfo.title}</h2>
+                    <p className="max-w-2xl mx-auto text-sm sm:text-base text-gray-600 dark:text-dark-subtext mb-12">
                         {contactInfo.subtitle}
                     </p>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
@@ -212,12 +212,12 @@ const HomePage: React.FC = () => {
                             const Wrapper = isClickable ? 'a' : 'div';
 
                             return (
-                                <div key={field.id} className="flex flex-col items-center">
-                                    <IconComponent className="h-10 w-10 text-brand-secondary dark:text-dark-accent mb-3"/>
-                                    <h3 className="font-semibold text-lg">{field.label}</h3>
+                                <div key={field.id} className="flex flex-col items-center space-y-1">
+                                    <IconComponent className="h-8 w-8 sm:h-10 sm:w-10 text-brand-secondary dark:text-dark-accent mb-2"/>
+                                    <h3 className="font-semibold text-base sm:text-lg">{field.label}</h3>
                                     <Wrapper 
                                         href={isClickable ? linkHref : undefined} 
-                                        className={`text-gray-600 dark:text-dark-subtext ${isClickable ? 'hover:text-brand-primary dark:hover:text-dark-text' : ''}`}
+                                        className={`text-sm sm:text-base text-gray-600 dark:text-dark-subtext ${isClickable ? 'hover:text-brand-primary dark:hover:text-dark-text' : ''}`}
                                     >
                                         {field.value}
                                     </Wrapper>

@@ -404,7 +404,7 @@ const ProductsPage: React.FC = () => {
   return (
     <div className="container mx-auto px-6 py-8">
       <div className="text-center py-8">
-        <h1 className="text-4xl font-serif font-bold text-brand-primary dark:text-dark-text">Our Collection</h1>
+        <h1 className="text-3xl sm:text-4xl font-serif font-bold text-brand-primary dark:text-dark-text">Our Collection</h1>
         <p className="mt-2 text-gray-600 dark:text-dark-subtext">Explore handcrafted pieces that blend tradition with modern style.</p>
       </div>
 

@@ -27,9 +27,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           className="absolute inset-0 h-full w-full object-contain opacity-0 group-hover:opacity-100 transition-opacity duration-500"
         />
       </div>
-      <div className="pt-4 text-center">
-        <h3 className="text-lg font-semibold text-brand-primary dark:text-dark-text group-hover:text-brand-secondary dark:group-hover:text-dark-accent transition-colors">{product.name}</h3>
-        <p className="mt-2 font-semibold text-brand-primary dark:text-dark-text">KSH {Math.round(product.price)}</p>
+      <div className="pt-3 text-left">
+        <h3 className="text-base sm:text-lg font-semibold text-brand-primary dark:text-dark-text group-hover:text-brand-secondary dark:group-hover:text-dark-accent transition-colors">{product.name}</h3>
+        <p className="mt-1 text-sm sm:text-base font-semibold text-brand-primary dark:text-dark-text">KSH {Math.round(product.price)}</p>
       </div>
     </Link>
   );
