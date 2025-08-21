@@ -1,21 +1,18 @@
 import React, { useState, useEffect, ChangeEvent, useRef } from 'react';
-import * as ReactRouterDOM from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useProducts } from '../hooks/useProducts';
 import { Product } from '../types';
 import { useCategories } from '../hooks/useCategories';
-import { X, CloudUpload, CheckCircle2, LoaderCircle } from 'lucide-react';
-import { storage } from '../services/firebase';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { X, CheckCircle2 } from 'lucide-react';
 
 const AdminProductFormPage: React.FC = () => {
-    const { id } = ReactRouterDOM.useParams<{ id: string }>();
-    const navigate = ReactRouterDOM.useNavigate();
+    const { id } = useParams<{ id: string }>();
+    const navigate = useNavigate();
     const { getProductById, addProduct, updateProduct } = useProducts();
     const { categories } = useCategories();
     
     const [product, setProduct] = useState<Omit<Product, 'id' | 'slug' | 'sku' | 'rating' | 'reviewCount'> | Product | null>(null);
     const [isSaving, setIsSaving] = useState(false);
-    const [isUploading, setIsUploading] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
     const [imageUrlInput, setImageUrlInput] = useState('');
     const formInitialized = useRef(false);
@@ -81,33 +78,6 @@ const AdminProductFormPage: React.FC = () => {
         }
     };
     
-    const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files && e.target.files.length > 0) {
-            setIsUploading(true);
-            try {
-                const fileList = Array.from(e.target.files);
-                const uploadPromises = fileList.map(async (file) => {
-                    const storageRef = ref(storage, `products/${Date.now()}-${file.name}`);
-                    const snapshot = await uploadBytes(storageRef, file);
-                    const downloadURL = await getDownloadURL(snapshot.ref);
-                    return downloadURL;
-                });
-
-                const imageUrls = await Promise.all(uploadPromises);
-
-                setProduct(prev => {
-                    if (!prev) return null;
-                    return { ...prev, images: [...prev.images, ...imageUrls] };
-                });
-            } catch (error) {
-                console.error("Error uploading files to Firebase Storage:", error);
-                alert("Failed to upload one or more images. Please check your Firebase Storage rules.");
-            } finally {
-                setIsUploading(false);
-            }
-        }
-    };
-
     const addImagesFromUrls = () => {
         if (imageUrlInput.trim()) {
             const urls = imageUrlInput.split('\n').map(url => url.trim()).filter(Boolean);
@@ -234,43 +204,28 @@ const AdminProductFormPage: React.FC = () => {
                             ))}
                         </div>
                     )}
-                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                        <div>
-                             <label htmlFor="imageUrls" className="block text-xs font-medium text-gray-700 dark:text-dark-subtext mb-1">Add Image URLs (one per line)</label>
-                            <div className="flex items-start">
-                                <textarea
-                                    id="imageUrls"
-                                    value={imageUrlInput}
-                                    onChange={(e) => setImageUrlInput(e.target.value)}
-                                    placeholder="https://.../image1.jpg&#10;https://.../image2.png"
-                                    rows={3}
-                                    className="flex-grow border-gray-300 rounded-l-md shadow-sm p-2 bg-gray-100 focus:border-brand-accent focus:ring-brand-accent focus:ring-opacity-50 dark:bg-dark-bg dark:border-dark-border dark:text-dark-text"
-                                />
-                                <button
-                                    type="button"
-                                    onClick={addImagesFromUrls}
-                                    className="bg-gray-200 text-gray-700 font-semibold px-4 py-2 rounded-r-md hover:bg-gray-300 dark:bg-gray-600 dark:text-dark-text dark:hover:bg-gray-500 self-stretch"
-                                >
-                                    Add
-                                </button>
-                            </div>
+                    <div>
+                        <label htmlFor="imageUrls" className="block text-sm font-medium text-gray-700 dark:text-dark-subtext mb-1">Add Image URLs</label>
+                        <p className="text-xs text-gray-500 dark:text-dark-subtext mb-2">
+                            Upload your images to a hosting service like Google Drive, get the public URLs, and paste them here (one per line).
+                        </p>
+                        <div className="flex items-start">
+                            <textarea
+                                id="imageUrls"
+                                value={imageUrlInput}
+                                onChange={(e) => setImageUrlInput(e.target.value)}
+                                placeholder="https://.../image1.jpg&#10;https://.../image2.png"
+                                rows={4}
+                                className="flex-grow border-gray-300 rounded-l-md shadow-sm p-2 bg-gray-100 focus:border-brand-accent focus:ring-brand-accent focus:ring-opacity-50 dark:bg-dark-bg dark:border-dark-border dark:text-dark-text"
+                            />
+                            <button
+                                type="button"
+                                onClick={addImagesFromUrls}
+                                className="bg-gray-200 text-gray-700 font-semibold px-4 py-2 rounded-r-md hover:bg-gray-300 dark:bg-gray-600 dark:text-dark-text dark:hover:bg-gray-500 self-stretch"
+                            >
+                                Add URLs
+                            </button>
                         </div>
-                         <div className="flex flex-col items-center justify-center">
-                            <label htmlFor="file-upload" className={`w-full cursor-pointer bg-brand-secondary text-white font-bold py-2 px-4 rounded-md hover:bg-brand-primary transition-colors flex items-center justify-center dark:bg-dark-accent dark:text-dark-bg dark:hover:bg-opacity-90 ${isUploading ? 'cursor-not-allowed bg-gray-400' : ''}`}>
-                                 {isUploading ? (
-                                    <>
-                                        <LoaderCircle className="animate-spin mr-2 h-5 w-5" />
-                                        Uploading...
-                                    </>
-                                ) : (
-                                    <>
-                                        <CloudUpload className="mr-2 h-5 w-5" />
-                                        Upload from Device (Multiple)
-                                    </>
-                                )}
-                            </label>
-                            <input id="file-upload" name="file-upload" type="file" className="sr-only" onChange={handleImageUpload} accept="image/*" multiple disabled={isUploading} />
-                         </div>
                     </div>
                 </div>
             </div>

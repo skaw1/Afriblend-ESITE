@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import * as ReactRouterDOM from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useProducts } from '../hooks/useProducts';
 import ProductCard from '../components/ProductCard';
 import { useCategories } from '../hooks/useCategories';
@@ -48,7 +48,7 @@ const getColorStyle = (colorName: string): React.CSSProperties => {
 
 
 const ProductsPage: React.FC = () => {
-  const [searchParams, setSearchParams] = ReactRouterDOM.useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   
   const { products } = useProducts();
@@ -281,10 +281,10 @@ const ProductsPage: React.FC = () => {
 
     return (
         <>
-        <ReactRouterDOM.Link to="/" className="inline-flex items-center text-sm text-gray-500 hover:text-brand-primary dark:text-dark-subtext dark:hover:text-dark-text mb-6 transition-colors">
+        <Link to="/" className="inline-flex items-center text-sm text-gray-500 hover:text-brand-primary dark:text-dark-subtext dark:hover:text-dark-text mb-6 transition-colors">
             <ChevronLeft className="h-4 w-4 mr-1" />
             Back to Home
-        </ReactRouterDOM.Link>
+        </Link>
         <div className="flex justify-between items-center pt-6 border-t dark:border-dark-border">
             <h3 className="text-lg font-semibold text-gray-800 dark:text-dark-text">Options</h3>
             {isAnyFilterActive && (

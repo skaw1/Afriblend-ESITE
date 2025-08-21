@@ -1,10 +1,10 @@
 import React from 'react';
-import * as ReactRouterDOM from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useOrders } from '../hooks/useOrders';
 import { CheckCircle2 } from 'lucide-react';
 
 const OrderConfirmationPage: React.FC = () => {
-    const { orderId } = ReactRouterDOM.useParams<{ orderId: string }>();
+    const { orderId } = useParams<{ orderId: string }>();
     const { getOrderById } = useOrders();
     const order = getOrderById(orderId || '');
 
@@ -12,9 +12,9 @@ const OrderConfirmationPage: React.FC = () => {
         return (
             <div className="container mx-auto px-6 py-12 text-center">
                 <h1 className="text-2xl font-semibold">Order not found.</h1>
-                <ReactRouterDOM.Link to="/" className="mt-4 inline-block text-brand-secondary dark:text-dark-accent">
+                <Link to="/" className="mt-4 inline-block text-brand-secondary dark:text-dark-accent">
                     Go to Homepage
-                </ReactRouterDOM.Link>
+                </Link>
             </div>
         );
     }
@@ -36,13 +36,13 @@ const OrderConfirmationPage: React.FC = () => {
                     <div className="mt-4 pt-4 border-t dark:border-dark-border">
                         <p className="font-semibold">Track your order:</p>
                         <p className="text-sm text-gray-500 dark:text-dark-subtext">Use the link below to track the status of your delivery.</p>
-                        <ReactRouterDOM.Link to={`/track/${order.trackingId}`} className="text-brand-secondary dark:text-dark-accent font-bold break-all hover:underline">{trackingUrl}</ReactRouterDOM.Link>
+                        <Link to={`/track/${order.trackingId}`} className="text-brand-secondary dark:text-dark-accent font-bold break-all hover:underline">{trackingUrl}</Link>
                     </div>
                 </div>
 
-                <ReactRouterDOM.Link to="/products" className="mt-8 inline-block bg-brand-secondary text-white font-bold py-3 px-8 text-lg hover:bg-brand-primary transition-colors dark:bg-dark-accent dark:text-dark-bg dark:hover:bg-opacity-90">
+                <Link to="/products" className="mt-8 inline-block bg-brand-secondary text-white font-bold py-3 px-8 text-lg hover:bg-brand-primary transition-colors dark:bg-dark-accent dark:text-dark-bg dark:hover:bg-opacity-90">
                     Continue Shopping
-                </ReactRouterDOM.Link>
+                </Link>
             </div>
         </div>
     );

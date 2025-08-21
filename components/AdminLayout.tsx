@@ -1,12 +1,12 @@
 import React, { useState, useRef } from 'react';
-import * as ReactRouterDOM from 'react-router-dom';
+import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { LayoutGrid, Package, Tags, ArrowLeft, LogOut, Settings, Menu, X, HelpCircle, BookUser, FileText, ShoppingCart, Bike, BarChart3, TrendingUp, Image, Search, UserCircle } from 'lucide-react';
 import GlobalSearchModal from './GlobalSearchModal';
 
 const AdminLayout: React.FC = () => {
     const { logout, userRole } = useAuth();
-    const location = ReactRouterDOM.useLocation();
+    const location = useLocation();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
 
@@ -56,66 +56,66 @@ const AdminLayout: React.FC = () => {
                     }`}
                 >
                     <div className="flex items-center justify-between h-20 px-4 flex-shrink-0 border-b border-gray-700/50 dark:border-dark-border">
-                        <ReactRouterDOM.Link to="/" onClick={closeSidebar}>
+                        <Link to="/" onClick={closeSidebar}>
                              <img 
                                 src="https://res.cloudinary.com/dwwvh34yi/image/upload/v1753865210/Afriblend_uyhbef.png" 
                                 alt="Afriblend Logo" 
                                 className="h-10 w-auto" 
                               />
-                        </ReactRouterDOM.Link>
+                        </Link>
                          <button onClick={closeSidebar} className="md:hidden text-gray-300 hover:text-white">
                             <X className="h-6 w-6" />
                         </button>
                     </div>
                     
                     <nav className="flex-1 px-3 py-4 space-y-2 overflow-y-auto scrollbar-hide">
-                        <ReactRouterDOM.NavLink to="/admin/dashboard" className={navLinkClasses} onClick={closeSidebar}>
+                        <NavLink to="/admin/dashboard" className={navLinkClasses} onClick={closeSidebar}>
                             <LayoutGrid className="mr-3 h-5 w-5" /> Dashboard
-                        </ReactRouterDOM.NavLink>
-                        <ReactRouterDOM.NavLink to="/admin/reports" className={navLinkClasses} onClick={closeSidebar}>
+                        </NavLink>
+                        <NavLink to="/admin/reports" className={navLinkClasses} onClick={closeSidebar}>
                             <BarChart3 className="mr-3 h-5 w-5" /> Reports
-                        </ReactRouterDOM.NavLink>
-                        <ReactRouterDOM.NavLink to="/admin/seo-report" className={navLinkClasses} onClick={closeSidebar}>
+                        </NavLink>
+                        <NavLink to="/admin/seo-report" className={navLinkClasses} onClick={closeSidebar}>
                             <TrendingUp className="mr-3 h-5 w-5" /> SEO Report
-                        </ReactRouterDOM.NavLink>
-                        <ReactRouterDOM.NavLink to="/admin/orders" className={navLinkClasses} onClick={closeSidebar}>
+                        </NavLink>
+                        <NavLink to="/admin/orders" className={navLinkClasses} onClick={closeSidebar}>
                             <ShoppingCart className="mr-3 h-5 w-5" /> Orders
-                        </ReactRouterDOM.NavLink>
-                        <ReactRouterDOM.NavLink to="/admin/products" className={navLinkClasses} onClick={closeSidebar}>
+                        </NavLink>
+                        <NavLink to="/admin/products" className={navLinkClasses} onClick={closeSidebar}>
                             <Package className="mr-3 h-5 w-5" /> Products
-                        </ReactRouterDOM.NavLink>
-                         <ReactRouterDOM.NavLink to="/admin/categories" className={navLinkClasses} onClick={closeSidebar}>
+                        </NavLink>
+                         <NavLink to="/admin/categories" className={navLinkClasses} onClick={closeSidebar}>
                             <Tags className="mr-3 h-5 w-5" /> Categories
-                        </ReactRouterDOM.NavLink>
-                        <ReactRouterDOM.NavLink to="/admin/riders" className={navLinkClasses} onClick={closeSidebar}>
+                        </NavLink>
+                        <NavLink to="/admin/riders" className={navLinkClasses} onClick={closeSidebar}>
                             <Bike className="mr-3 h-5 w-5" /> Riders
-                        </ReactRouterDOM.NavLink>
+                        </NavLink>
                          
                         {isDeveloper && (
                             <>
                                 <div className="pt-4">
                                     <p className="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Site Content</p>
                                     <div className="space-y-2 mt-2">
-                                        <ReactRouterDOM.NavLink to="/admin/our-story" className={navLinkClasses} onClick={closeSidebar}>
+                                        <NavLink to="/admin/our-story" className={navLinkClasses} onClick={closeSidebar}>
                                             <FileText className="mr-3 h-5 w-5" /> Our Story
-                                        </ReactRouterDOM.NavLink>
-                                        <ReactRouterDOM.NavLink to="/admin/faq" className={navLinkClasses} onClick={closeSidebar}>
+                                        </NavLink>
+                                        <NavLink to="/admin/faq" className={navLinkClasses} onClick={closeSidebar}>
                                             <HelpCircle className="mr-3 h-5 w-5" /> FAQs
-                                        </ReactRouterDOM.NavLink>
-                                        <ReactRouterDOM.NavLink to="/admin/contact" className={navLinkClasses} onClick={closeSidebar}>
+                                        </NavLink>
+                                        <NavLink to="/admin/contact" className={navLinkClasses} onClick={closeSidebar}>
                                             <BookUser className="mr-3 h-5 w-5" /> Contact Info
-                                        </ReactRouterDOM.NavLink>
+                                        </NavLink>
                                     </div>
                                 </div>
                                 <div className="pt-4">
                                     <p className="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Configuration</p>
                                     <div className="space-y-2 mt-2">
-                                        <ReactRouterDOM.NavLink to="/admin/settings" className={navLinkClasses} onClick={closeSidebar}>
+                                        <NavLink to="/admin/settings" className={navLinkClasses} onClick={closeSidebar}>
                                             <Settings className="mr-3 h-5 w-5" /> Site Settings
-                                        </ReactRouterDOM.NavLink>
-                                        <ReactRouterDOM.NavLink to="/admin/image-generator" className={navLinkClasses} onClick={closeSidebar}>
+                                        </NavLink>
+                                        <NavLink to="/admin/image-generator" className={navLinkClasses} onClick={closeSidebar}>
                                             <Image className="mr-3 h-5 w-5" /> Image Generator
-                                        </ReactRouterDOM.NavLink>
+                                        </NavLink>
                                     </div>
                                 </div>
                             </>
@@ -123,9 +123,9 @@ const AdminLayout: React.FC = () => {
                     </nav>
 
                     <div className="px-3 py-4 mt-auto flex-shrink-0 border-t border-gray-700/50 dark:border-dark-border">
-                         <ReactRouterDOM.Link to="/" className={`${navLinkClasses({isActive: false})} !mt-2`}>
+                         <Link to="/" className={`${navLinkClasses({isActive: false})} !mt-2`}>
                             <ArrowLeft className="mr-3 h-5 w-5" /> Back to Store
-                        </ReactRouterDOM.Link>
+                        </Link>
                          <div className="flex items-center space-x-3 p-3 mt-4 bg-gray-700/50 dark:bg-dark-bg/50 rounded-lg">
                             <UserCircle className="h-9 w-9 text-dark-accent" />
                             <div>
@@ -167,7 +167,7 @@ const AdminLayout: React.FC = () => {
                         </div>
                     </header>
                     <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 dark:bg-dark-bg p-6">
-                        <ReactRouterDOM.Outlet />
+                        <Outlet />
                     </main>
                 </div>
             </div>

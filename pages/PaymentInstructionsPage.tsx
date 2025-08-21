@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
-import * as ReactRouterDOM from 'react-router-dom';
+import { Link, useParams, Navigate } from 'react-router-dom';
 import { useOrders } from '../hooks/useOrders';
 import { CheckCircle2, Copy, Check, Phone } from 'lucide-react';
 import { useSettings } from '../hooks/useSettings';
 
 const PaymentInstructionsPage: React.FC = () => {
-    const { orderId } = ReactRouterDOM.useParams<{ orderId: string }>();
+    const { orderId } = useParams<{ orderId: string }>();
     const { getOrderById } = useOrders();
     const { settings } = useSettings();
     const order = getOrderById(orderId || '');
     const [copied, setCopied] = useState(false);
 
     if (!order) {
-        return <ReactRouterDOM.Navigate to="/track" replace />;
+        return <Navigate to="/track" replace />;
     }
 
     const paymentMethodDetails = settings.paymentMethods.find(pm => pm.name === order.paymentMethod);
@@ -85,9 +85,9 @@ const PaymentInstructionsPage: React.FC = () => {
 
                 <div className="mt-8">
                      <p className="text-sm text-gray-500 dark:text-dark-subtext">Once payment is sent, your order status will be updated to 'Processing'.</p>
-                    <ReactRouterDOM.Link to={`/track/${order.trackingId}`} className="mt-4 inline-block bg-brand-secondary text-white font-bold py-3 px-8 text-lg hover:bg-brand-primary transition-colors dark:bg-dark-accent dark:text-dark-bg dark:hover:bg-opacity-90">
+                    <Link to={`/track/${order.trackingId}`} className="mt-4 inline-block bg-brand-secondary text-white font-bold py-3 px-8 text-lg hover:bg-brand-primary transition-colors dark:bg-dark-accent dark:text-dark-bg dark:hover:bg-opacity-90">
                         Check Order Status
-                    </ReactRouterDOM.Link>
+                    </Link>
                 </div>
             </div>
         </div>

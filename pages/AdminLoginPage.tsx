@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import * as ReactRouterDOM from 'react-router-dom';
+import { Link, useLocation, Navigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { X } from 'lucide-react';
 
@@ -10,7 +10,7 @@ const AdminLoginPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   
   const usernameInputRef = useRef<HTMLInputElement>(null);
-  const location = ReactRouterDOM.useLocation();
+  const location = useLocation();
   const auth = useAuth();
 
   const from = location.state?.from?.pathname || "/admin/dashboard";
@@ -31,7 +31,7 @@ const AdminLoginPage: React.FC = () => {
 
   // If user is already authenticated, redirect them away from the login page.
   if (auth.isAuthenticated) {
-    return <ReactRouterDOM.Navigate to={from} replace />;
+    return <Navigate to={from} replace />;
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -57,10 +57,10 @@ const AdminLoginPage: React.FC = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-dark-bg py-12 px-4 sm:px-6 lg:px-8">
       <div className="relative max-w-md w-full space-y-8 bg-white dark:bg-dark-card p-10 rounded-xl shadow-lg animate-slide-up-fade-in">
-        <ReactRouterDOM.Link to="/" className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:text-dark-subtext dark:hover:text-dark-text transition-colors" aria-label="Close login panel">
+        <Link to="/" className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:text-dark-subtext dark:hover:text-dark-text transition-colors" aria-label="Close login panel">
             <span className="sr-only">Close</span>
             <X className="h-6 w-6" />
-        </ReactRouterDOM.Link>
+        </Link>
         <div>
           <h2 className="mt-6 text-center text-3xl font-serif font-extrabold text-brand-primary dark:text-dark-text">
             Admin Sign In

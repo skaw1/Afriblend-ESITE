@@ -1,7 +1,7 @@
-import * as firebaseApp from "firebase/app";
-import * as firestore from "firebase/firestore";
-import * as firebaseAuth from "firebase/auth";
-import * as firebaseStorage from "firebase/storage";
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import { getStorage } from "firebase/storage";
 
 // Hardcoded Firebase configuration for development
 const firebaseConfig = {
@@ -14,9 +14,9 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = firebaseApp.initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
 // Export the services you'll use in your app
-export const db = firestore.getFirestore(app);
-export const auth = firebaseAuth.getAuth(app);
-export const storage = firebaseStorage.getStorage(app);
+export const db = getFirestore(app);
+export const auth = getAuth(app);
+export const storage = getStorage(app);

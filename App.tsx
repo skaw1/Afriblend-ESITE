@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import * as ReactRouterDOM from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link, Outlet, useLocation, Navigate } from 'react-router-dom';
 import { doc, onSnapshot, setDoc } from 'firebase/firestore';
 import { db } from './services/firebase';
 import Header from './components/Header';
@@ -109,13 +109,13 @@ const SalesModal: React.FC<{ notification: Notification; onClose: () => void }> 
           <h2 className="text-3xl font-serif font-bold text-brand-primary dark:text-dark-text">{notification.title}</h2>
           <p className="mt-2 text-gray-600 dark:text-dark-subtext">{notification.message}</p>
           {notification.link && notification.linkLabel && (
-            <ReactRouterDOM.Link 
+            <Link
               to={notification.link} 
               onClick={onClose} 
               className="mt-6 inline-block w-full bg-brand-secondary text-white font-bold py-3 px-8 text-lg hover:bg-brand-primary transition-transform duration-300 hover:scale-105 dark:bg-dark-accent dark:text-dark-bg dark:hover:bg-opacity-90 rounded-md"
             >
               {notification.linkLabel}
-            </ReactRouterDOM.Link>
+            </Link>
           )}
         </div>
       </div>
@@ -137,9 +137,9 @@ const NotificationPopup: React.FC<{ notification: Notification; onClose: () => v
                         <p className="mt-1 text-sm text-gray-600 dark:text-dark-subtext">{notification.message}</p>
                         {notification.link && notification.linkLabel && (
                              <div className="mt-3">
-                                 <ReactRouterDOM.Link to={notification.link} onClick={onClose} className="text-sm font-bold text-brand-secondary dark:text-dark-accent hover:underline">
+                                 <Link to={notification.link} onClick={onClose} className="text-sm font-bold text-brand-secondary dark:text-dark-accent hover:underline">
                                     {notification.linkLabel}
-                                </ReactRouterDOM.Link>
+                                </Link>
                              </div>
                         )}
                     </div>
@@ -202,7 +202,7 @@ const NotificationDisplayController: React.FC = () => {
 
 
 const PublicLayout: React.FC = () => {
-    const location = ReactRouterDOM.useLocation();
+    const location = useLocation();
 
     useEffect(() => {
         // This effect handles scrolling. It depends on pathname and hash.
@@ -227,7 +227,7 @@ const PublicLayout: React.FC = () => {
         <div className="bg-brand-bg dark:bg-dark-bg text-brand-primary dark:text-dark-text font-sans flex flex-col min-h-screen">
             <Header />
             <main className="flex-grow">
-                <ReactRouterDOM.Outlet />
+                <Outlet />
             </main>
             <Footer />
             <NotificationDisplayController />
@@ -243,7 +243,7 @@ const App: React.FC = () => {
   
   return (
     <ThemeProvider>
-      <ReactRouterDOM.BrowserRouter>
+      <BrowserRouter>
         <AuthProvider>
           <ContactProvider>
             <OurStoryProvider>
@@ -255,12 +255,12 @@ const App: React.FC = () => {
                         <ProductProvider>
                           <OrderProvider>
                             <NotificationProvider>
-                              <ReactRouterDOM.Routes>
+                              <Routes>
                                 {/* Admin login route - no layout */}
-                                <ReactRouterDOM.Route path="/admin/login" element={<AdminLoginPage />} />
+                                <Route path="/admin/login" element={<AdminLoginPage />} />
 
                                 {/* Protected Admin routes with AdminLayout */}
-                                <ReactRouterDOM.Route
+                                <Route
                                   path="/admin"
                                   element={
                                     <ProtectedRoute>
@@ -268,39 +268,39 @@ const App: React.FC = () => {
                                     </ProtectedRoute>
                                   }
                                 >
-                                  <ReactRouterDOM.Route index element={<ReactRouterDOM.Navigate to="dashboard" replace />} />
-                                  <ReactRouterDOM.Route path="dashboard" element={<ProtectedRoute allowedRoles={storeOwnerRoles}><AdminDashboardPage /></ProtectedRoute>} />
-                                  <ReactRouterDOM.Route path="reports" element={<ProtectedRoute allowedRoles={storeOwnerRoles}><AdminReportsPage /></ProtectedRoute>} />
-                                  <ReactRouterDOM.Route path="seo-report" element={<ProtectedRoute allowedRoles={storeOwnerRoles}><AdminSeoReportPage /></ProtectedRoute>} />
-                                  <ReactRouterDOM.Route path="orders" element={<ProtectedRoute allowedRoles={storeOwnerRoles}><AdminOrdersPage /></ProtectedRoute>} />
-                                  <ReactRouterDOM.Route path="products" element={<ProtectedRoute allowedRoles={storeOwnerRoles}><AdminProductsPage /></ProtectedRoute>} />
-                                  <ReactRouterDOM.Route path="products/new" element={<ProtectedRoute allowedRoles={storeOwnerRoles}><AdminProductFormPage /></ProtectedRoute>} />
-                                  <ReactRouterDOM.Route path="products/edit/:id" element={<ProtectedRoute allowedRoles={storeOwnerRoles}><AdminProductFormPage /></ProtectedRoute>} />
-                                  <ReactRouterDOM.Route path="riders" element={<ProtectedRoute allowedRoles={storeOwnerRoles}><AdminRidersPage /></ProtectedRoute>} />
-                                  <ReactRouterDOM.Route path="categories" element={<ProtectedRoute allowedRoles={storeOwnerRoles}><AdminCategoriesPage /></ProtectedRoute>} />
+                                  <Route index element={<Navigate to="dashboard" replace />} />
+                                  <Route path="dashboard" element={<ProtectedRoute allowedRoles={storeOwnerRoles}><AdminDashboardPage /></ProtectedRoute>} />
+                                  <Route path="reports" element={<ProtectedRoute allowedRoles={storeOwnerRoles}><AdminReportsPage /></ProtectedRoute>} />
+                                  <Route path="seo-report" element={<ProtectedRoute allowedRoles={storeOwnerRoles}><AdminSeoReportPage /></ProtectedRoute>} />
+                                  <Route path="orders" element={<ProtectedRoute allowedRoles={storeOwnerRoles}><AdminOrdersPage /></ProtectedRoute>} />
+                                  <Route path="products" element={<ProtectedRoute allowedRoles={storeOwnerRoles}><AdminProductsPage /></ProtectedRoute>} />
+                                  <Route path="products/new" element={<ProtectedRoute allowedRoles={storeOwnerRoles}><AdminProductFormPage /></ProtectedRoute>} />
+                                  <Route path="products/edit/:id" element={<ProtectedRoute allowedRoles={storeOwnerRoles}><AdminProductFormPage /></ProtectedRoute>} />
+                                  <Route path="riders" element={<ProtectedRoute allowedRoles={storeOwnerRoles}><AdminRidersPage /></ProtectedRoute>} />
+                                  <Route path="categories" element={<ProtectedRoute allowedRoles={storeOwnerRoles}><AdminCategoriesPage /></ProtectedRoute>} />
 
-                                  <ReactRouterDOM.Route path="settings" element={<ProtectedRoute allowedRoles={developerRoles}><AdminSettingsPage /></ProtectedRoute>} />
-                                  <ReactRouterDOM.Route path="image-generator" element={<ProtectedRoute allowedRoles={developerRoles}><AdminImageGeneratorPage /></ProtectedRoute>} />
-                                  <ReactRouterDOM.Route path="faq" element={<ProtectedRoute allowedRoles={developerRoles}><AdminFaqPage /></ProtectedRoute>} />
-                                  <ReactRouterDOM.Route path="contact" element={<ProtectedRoute allowedRoles={developerRoles}><AdminContactPage /></ProtectedRoute>} />
-                                  <ReactRouterDOM.Route path="our-story" element={<ProtectedRoute allowedRoles={developerRoles}><AdminOurStoryPage /></ProtectedRoute>} />
-                                </ReactRouterDOM.Route>
+                                  <Route path="settings" element={<ProtectedRoute allowedRoles={developerRoles}><AdminSettingsPage /></ProtectedRoute>} />
+                                  <Route path="image-generator" element={<ProtectedRoute allowedRoles={developerRoles}><AdminImageGeneratorPage /></ProtectedRoute>} />
+                                  <Route path="faq" element={<ProtectedRoute allowedRoles={developerRoles}><AdminFaqPage /></ProtectedRoute>} />
+                                  <Route path="contact" element={<ProtectedRoute allowedRoles={developerRoles}><AdminContactPage /></ProtectedRoute>} />
+                                  <Route path="our-story" element={<ProtectedRoute allowedRoles={developerRoles}><AdminOurStoryPage /></ProtectedRoute>} />
+                                </Route>
 
                                 {/* Public routes with PublicLayout */}
-                                <ReactRouterDOM.Route element={<PublicLayout />}>
-                                  <ReactRouterDOM.Route path="/" element={<HomePage />} />
-                                  <ReactRouterDOM.Route path="/products" element={<ProductsPage />} />
-                                  <ReactRouterDOM.Route path="/product/:slug" element={<ProductDetailPage />} />
-                                  <ReactRouterDOM.Route path="/cart" element={<CartPage />} />
-                                  <ReactRouterDOM.Route path="/about" element={<AboutPage />} />
-                                  <ReactRouterDOM.Route path="/checkout" element={<CheckoutPage />} />
-                                  <ReactRouterDOM.Route path="/payment-instructions/:orderId" element={<PaymentInstructionsPage />} />
-                                  <ReactRouterDOM.Route path="/order-confirmation/:orderId" element={<OrderConfirmationPage />} />
-                                  <ReactRouterDOM.Route path="/track" element={<TrackOrderInputPage />} />
-                                  <ReactRouterDOM.Route path="/track/:trackingId" element={<TrackOrderPage />} />
-                                  <ReactRouterDOM.Route path="/orders-by-phone/:phone" element={<OrdersByPhonePage />} />
-                                </ReactRouterDOM.Route>
-                              </ReactRouterDOM.Routes>
+                                <Route element={<PublicLayout />}>
+                                  <Route path="/" element={<HomePage />} />
+                                  <Route path="/products" element={<ProductsPage />} />
+                                  <Route path="/product/:slug" element={<ProductDetailPage />} />
+                                  <Route path="/cart" element={<CartPage />} />
+                                  <Route path="/about" element={<AboutPage />} />
+                                  <Route path="/checkout" element={<CheckoutPage />} />
+                                  <Route path="/payment-instructions/:orderId" element={<PaymentInstructionsPage />} />
+                                  <Route path="/order-confirmation/:orderId" element={<OrderConfirmationPage />} />
+                                  <Route path="/track" element={<TrackOrderInputPage />} />
+                                  <Route path="/track/:trackingId" element={<TrackOrderPage />} />
+                                  <Route path="/orders-by-phone/:phone" element={<OrdersByPhonePage />} />
+                                </Route>
+                              </Routes>
                             </NotificationProvider>
                           </OrderProvider>
                         </ProductProvider>
@@ -312,7 +312,7 @@ const App: React.FC = () => {
             </OurStoryProvider>
           </ContactProvider>
         </AuthProvider>
-      </ReactRouterDOM.BrowserRouter>
+      </BrowserRouter>
     </ThemeProvider>
   );
 };

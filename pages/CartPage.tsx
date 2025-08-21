@@ -1,5 +1,5 @@
 import React from 'react';
-import * as ReactRouterDOM from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useCart } from '../hooks/useCart';
 import { ShoppingBag, ChevronLeft } from 'lucide-react';
 
@@ -15,10 +15,10 @@ const CartPage: React.FC = () => {
             <div className="flex justify-between items-center mb-12">
                 <h1 className="text-3xl md:text-4xl font-serif font-bold text-brand-primary dark:text-dark-text">Your Shopping Bag</h1>
                  {cartItems.length > 0 && (
-                    <ReactRouterDOM.Link to="/products" className="inline-flex items-center text-sm font-medium text-brand-secondary hover:underline dark:text-dark-accent">
+                    <Link to="/products" className="inline-flex items-center text-sm font-medium text-brand-secondary hover:underline dark:text-dark-accent">
                         <ChevronLeft className="h-4 w-4 mr-1" />
                         Continue Shopping
-                    </ReactRouterDOM.Link>
+                    </Link>
                 )}
             </div>
             
@@ -27,9 +27,9 @@ const CartPage: React.FC = () => {
                     <ShoppingBag className="mx-auto h-16 w-16 text-gray-400 dark:text-dark-subtext" />
                     <h2 className="mt-4 text-2xl font-semibold text-brand-primary dark:text-dark-text">Your bag is empty</h2>
                     <p className="mt-2 text-gray-500 dark:text-dark-subtext">Looks like you haven't added anything yet.</p>
-                    <ReactRouterDOM.Link to="/products" className="mt-6 inline-block bg-brand-secondary text-white font-bold py-3 px-8 text-lg hover:bg-brand-primary transition-colors dark:bg-dark-accent dark:text-dark-bg dark:hover:bg-opacity-90">
+                    <Link to="/products" className="mt-6 inline-block bg-brand-secondary text-white font-bold py-3 px-8 text-lg hover:bg-brand-primary transition-colors dark:bg-dark-accent dark:text-dark-bg dark:hover:bg-opacity-90">
                         Continue Shopping
-                    </ReactRouterDOM.Link>
+                    </Link>
                 </div>
             ) : (
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
@@ -72,9 +72,9 @@ const CartPage: React.FC = () => {
                             <p className="mt-4 text-xs text-gray-500 dark:text-dark-subtext text-center">
                                 * Delivery charges vary by location and will be confirmed by the store.
                             </p>
-                            <ReactRouterDOM.Link to="/checkout" className="w-full text-center block mt-6 bg-brand-primary text-white py-3 rounded-md font-semibold hover:bg-brand-secondary transition-colors dark:bg-dark-accent dark:text-dark-bg dark:hover:bg-opacity-90">
+                            <Link to="/checkout" className="w-full text-center block mt-6 bg-brand-primary text-white py-3 rounded-md font-semibold hover:bg-brand-secondary transition-colors dark:bg-dark-accent dark:text-dark-bg dark:hover:bg-opacity-90">
                                 Proceed to Checkout
-                            </ReactRouterDOM.Link>
+                            </Link>
                         </div>
                     </div>
                 </div>

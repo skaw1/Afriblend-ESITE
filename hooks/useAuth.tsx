@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
-import * as ReactRouterDOM from 'react-router-dom';
-import * as firebaseAuth from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
+import { onAuthStateChanged, signInWithEmailAndPassword, signOut, User } from 'firebase/auth';
 import { auth } from '../services/firebase';
 import { UserRole } from '../types';
 
@@ -15,13 +15,13 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<firebaseAuth.User | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [userRole, setUserRole] = useState<UserRole | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const navigate = ReactRouterDOM.useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const unsubscribe = firebaseAuth.onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       if (currentUser) {
         // Simple role system based on email
@@ -43,11 +43,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   }, []);
 
   const login = async (email: string, pass: string): Promise<void> => {
-    await firebaseAuth.signInWithEmailAndPassword(auth, email, pass);
+    await signInWithEmailAndPassword(auth, email, pass);
   };
 
   const logout = () => {
-    firebaseAuth.signOut(auth);
+    signOut(auth);
     navigate('/');
   };
   

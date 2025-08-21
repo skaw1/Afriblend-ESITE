@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useOrders } from '../hooks/useOrders';
 import { useProducts } from '../hooks/useProducts';
-import * as ReactRouterDOM from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Banknote, Package, Receipt, ShoppingCart } from 'lucide-react';
 
 const StatCard = ({ title, value, icon: Icon }: { title: string; value: string | number; icon: React.ElementType }) => (
@@ -153,7 +153,7 @@ const AdminReportsPage: React.FC = () => {
                             {filteredSales.map(order => (
                                 <tr key={order.id}>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">
-                                       <ReactRouterDOM.Link to={`/admin/orders`}>#{order.id}</ReactRouterDOM.Link>
+                                       <Link to={`/admin/orders`}>#{order.id}</Link>
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-dark-subtext">{new Date(order.orderDate).toLocaleDateString()}</td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-dark-text">{order.clientDetails.name}</td>

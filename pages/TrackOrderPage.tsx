@@ -1,5 +1,5 @@
 import React from 'react';
-import * as ReactRouterDOM from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useOrders } from '../hooks/useOrders';
 import { OrderStatus } from '../types';
 import { Check, Circle } from 'lucide-react';
@@ -8,7 +8,7 @@ import { useRiders } from '../hooks/useRiders';
 const statusSteps: OrderStatus[] = ['Pending Payment', 'Processing', 'Out for Delivery', 'Delivered'];
 
 const TrackOrderPage: React.FC = () => {
-    const { trackingId } = ReactRouterDOM.useParams<{ trackingId: string }>();
+    const { trackingId } = useParams<{ trackingId: string }>();
     const { getOrderByTrackingId } = useOrders();
     const { riders } = useRiders();
     const order = getOrderByTrackingId(trackingId || '');
@@ -18,9 +18,9 @@ const TrackOrderPage: React.FC = () => {
             <div className="container mx-auto px-6 py-12 text-center">
                 <h1 className="text-2xl font-semibold dark:text-dark-text">Invalid Tracking ID.</h1>
                 <p className="mt-2 text-gray-600 dark:text-dark-subtext">Please check the tracking ID and try again.</p>
-                <ReactRouterDOM.Link to="/track" className="mt-4 inline-block text-brand-secondary dark:text-dark-accent">
+                <Link to="/track" className="mt-4 inline-block text-brand-secondary dark:text-dark-accent">
                     Try Again
-                </ReactRouterDOM.Link>
+                </Link>
             </div>
         );
     }
