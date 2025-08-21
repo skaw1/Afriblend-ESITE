@@ -1,4 +1,5 @@
 
+
 import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
 import { collection, onSnapshot, doc, addDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../services/firebase';
@@ -65,7 +66,15 @@ export const OrderProvider = ({ children }: { children: ReactNode }) => {
         paymentMethod,
     };
     const docRef = await addDoc(collection(db, 'orders'), newOrderData);
-    return { id: docRef.id, ...newOrderData };
+    const newOrder = { id: docRef.id, ...newOrderData } as Order;
+
+    // Optimistically update the local state to prevent race conditions on navigation
+    setOrders(prevOrders => [
+        newOrder,
+        ...prevOrders
+    ].sort((a, b) => new Date(b.orderDate).getTime() - new Date(a.orderDate).getTime()));
+
+    return newOrder;
   };
   
   const getOrderById = (id: string) => {
