@@ -21,6 +21,8 @@ interface OrderContextType {
   updateClientDetails: (orderId: string, details: ClientDetails) => void;
   updateOrderPaymentStatus: (orderId: string, paymentStatus: PaymentStatus) => void;
   assignRiderToOrder: (orderId: string, riderId: string) => void;
+  archiveOrder: (orderId: string) => void;
+  restoreOrder: (orderId: string) => void;
 }
 
 const OrderContext = createContext<OrderContextType | undefined>(undefined);
@@ -64,6 +66,7 @@ export const OrderProvider = ({ children }: { children: ReactNode }) => {
         paymentStatus: 'Unpaid' as PaymentStatus,
         orderDate: new Date().toISOString(),
         paymentMethod,
+        isDeleted: false,
     };
     const docRef = await addDoc(collection(db, 'orders'), newOrderData);
     const newOrder = { id: docRef.id, ...newOrderData } as Order;
@@ -141,8 +144,18 @@ export const OrderProvider = ({ children }: { children: ReactNode }) => {
     await updateDoc(orderRef, { riderId, status: 'Out for Delivery' });
   };
 
+  const archiveOrder = async (orderId: string) => {
+    const orderRef = doc(db, 'orders', orderId);
+    await updateDoc(orderRef, { isDeleted: true });
+  };
+
+  const restoreOrder = async (orderId: string) => {
+    const orderRef = doc(db, 'orders', orderId);
+    await updateDoc(orderRef, { isDeleted: false });
+  };
+
   return React.createElement(OrderContext.Provider, {
-    value: { orders, addOrder, getOrderById, getOrderByTrackingId, getOrdersByPhone, updateOrderStatus, updateClientDetails, updateOrderPaymentStatus, assignRiderToOrder }
+    value: { orders, addOrder, getOrderById, getOrderByTrackingId, getOrdersByPhone, updateOrderStatus, updateClientDetails, updateOrderPaymentStatus, assignRiderToOrder, archiveOrder, restoreOrder }
   }, children);
 };
 

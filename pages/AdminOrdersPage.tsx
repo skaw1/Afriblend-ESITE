@@ -4,14 +4,38 @@ import { useRiders } from '../hooks/useRiders';
 import { Order, OrderStatus, ClientDetails, Rider, PaymentStatus } from '../types';
 import ClientDetailsModal from '../components/ClientDetailsModal';
 import DispatchModal from '../components/DispatchModal';
-import { FileText, MessageSquare, Send } from 'lucide-react';
+import ConfirmationModal from '../components/ConfirmationModal';
+import { FileText, MessageSquare, Send, Trash2, ArchiveRestore } from 'lucide-react';
+
+const formatDateHeader = (isoDate: string) => {
+    const date = new Date(isoDate);
+    const today = new Date();
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+
+    if (date.toDateString() === today.toDateString()) {
+        return 'Today';
+    }
+    if (date.toDateString() === yesterday.toDateString()) {
+        return 'Yesterday';
+    }
+    return date.toLocaleDateString(undefined, {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+    });
+};
+
 
 const AdminOrdersPage: React.FC = () => {
-    const { orders, updateOrderStatus, updateClientDetails, updateOrderPaymentStatus, assignRiderToOrder } = useOrders();
+    const { orders, updateOrderStatus, updateClientDetails, updateOrderPaymentStatus, assignRiderToOrder, archiveOrder, restoreOrder } = useOrders();
     const { riders } = useRiders();
 
+    const [view, setView] = useState<'active' | 'archived'>('active');
     const [selectedOrderForDetails, setSelectedOrderForDetails] = useState<Order | null>(null);
     const [selectedOrderForDispatch, setSelectedOrderForDispatch] = useState<Order | null>(null);
+    const [orderToArchive, setOrderToArchive] = useState<Order | null>(null);
 
     const handleStatusChange = (orderId: string, newStatus: OrderStatus) => {
         updateOrderStatus(orderId, newStatus);
@@ -23,6 +47,17 @@ const AdminOrdersPage: React.FC = () => {
 
     const handleSaveDetails = (orderId: string, details: ClientDetails) => {
         updateClientDetails(orderId, details);
+    };
+    
+    const openArchiveModal = (order: Order) => {
+        setOrderToArchive(order);
+    };
+
+    const handleArchiveConfirm = () => {
+        if (orderToArchive) {
+            archiveOrder(orderToArchive.id);
+            setOrderToArchive(null);
+        }
     };
 
     const handleWhatsAppShare = (order: Order) => {
@@ -44,10 +79,8 @@ const AdminOrdersPage: React.FC = () => {
             return;
         }
 
-        // 1. Assign rider and update order status
         assignRiderToOrder(selectedOrderForDispatch.id, riderId);
 
-        // 2. Prepare and send WhatsApp message to rider
         const riderPhone = rider.phone.replace(/[^0-9]/g, '');
         const client = selectedOrderForDispatch.clientDetails;
         const itemsSummary = selectedOrderForDispatch.items.map(item => `- ${item.name} (${item.quantity})`).join('\n');
@@ -64,6 +97,10 @@ const AdminOrdersPage: React.FC = () => {
 
         setSelectedOrderForDispatch(null);
     };
+    
+    const ordersToDisplay = view === 'active'
+        ? orders.filter(o => !o.isDeleted)
+        : orders.filter(o => o.isDeleted);
 
     return (
         <div className="space-y-8">
@@ -82,10 +119,36 @@ const AdminOrdersPage: React.FC = () => {
                     onDispatch={handleDispatch}
                 />
             )}
+            {orderToArchive && (
+                <ConfirmationModal
+                    isOpen={!!orderToArchive}
+                    onClose={() => setOrderToArchive(null)}
+                    onConfirm={handleArchiveConfirm}
+                    title="Archive Order"
+                    message={`Are you sure you want to archive order #${orderToArchive.id.substring(0, 6)}? The order will be moved to the archive log.`}
+                />
+            )}
 
             <div className="bg-white dark:bg-dark-card shadow-md border dark:border-dark-border/50 rounded-lg overflow-hidden">
-                <div className="p-6 border-b dark:border-dark-border">
-                     <h2 className="text-xl font-serif font-bold text-brand-primary dark:text-dark-text">All Orders</h2>
+                <div className="p-6 border-b dark:border-dark-border flex justify-between items-center">
+                     <div>
+                        <h2 className="text-xl font-serif font-bold text-brand-primary dark:text-dark-text">Manage Orders</h2>
+                        <p className="text-sm text-gray-500 dark:text-dark-subtext">Viewing {view} orders.</p>
+                     </div>
+                     <div className="flex items-center space-x-1 bg-gray-100 dark:bg-dark-bg p-1 rounded-lg">
+                        <button
+                            onClick={() => setView('active')}
+                            className={`px-4 py-2 text-sm font-semibold rounded-md transition-colors ${view === 'active' ? 'bg-white dark:bg-dark-card shadow-sm text-brand-primary dark:text-dark-text' : 'text-gray-600 dark:text-dark-subtext'}`}
+                        >
+                            Active
+                        </button>
+                        <button
+                            onClick={() => setView('archived')}
+                            className={`px-4 py-2 text-sm font-semibold rounded-md transition-colors ${view === 'archived' ? 'bg-white dark:bg-dark-card shadow-sm text-brand-primary dark:text-dark-text' : 'text-gray-600 dark:text-dark-subtext'}`}
+                        >
+                            Archived
+                        </button>
+                     </div>
                 </div>
                 <div className="overflow-x-auto">
                     <table className="min-w-full">
@@ -99,48 +162,81 @@ const AdminOrdersPage: React.FC = () => {
                                 <th className="px-6 py-4 text-right text-xs font-medium text-gray-500 dark:text-dark-subtext uppercase tracking-wider">Actions</th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-gray-200 dark:divide-dark-border">
-                            {orders.map((order) => (
-                                <tr key={order.id} className="hover:bg-gray-50 dark:hover:bg-dark-bg/50 transition-colors">
-                                    <td className="px-6 py-5 whitespace-nowrap">
-                                        <div className="text-sm font-medium text-gray-900 dark:text-dark-text">#{order.id.substring(0,6)}...</div>
-                                        <div className="text-sm text-gray-500 dark:text-dark-subtext">{new Date(order.orderDate).toLocaleDateString()}</div>
-                                    </td>
-                                    <td className="px-6 py-5 whitespace-nowrap">
-                                        <div className="text-sm font-medium text-gray-900 dark:text-dark-text">{order.clientDetails.name}</div>
-                                        <div className="text-sm text-gray-500 dark:text-dark-subtext">{order.clientDetails.phone}</div>
-                                    </td>
-                                    <td className="px-6 py-5 whitespace-nowrap">
-                                        <span className="text-sm text-gray-900 dark:text-dark-text">KSH {Math.round(order.total)}</span>
-                                    </td>
-                                    <td className="px-6 py-5 whitespace-nowrap">
-                                        <select 
-                                            value={order.paymentStatus} 
-                                            onChange={(e) => handlePaymentStatusChange(order.id, e.target.value as PaymentStatus)} 
-                                            className={`p-1 border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-xs focus:ring-brand-accent focus:border-brand-accent bg-transparent ${order.paymentStatus === 'Paid' ? 'text-green-600 dark:text-green-400' : 'text-yellow-600 dark:text-yellow-400'}`}
-                                        >
-                                            <option value="Unpaid">Unpaid</option>
-                                            <option value="Paid">Paid</option>
-                                        </select>
-                                    </td>
-                                    <td className="px-6 py-5 whitespace-nowrap">
-                                        <select value={order.status} onChange={(e) => handleStatusChange(order.id, e.target.value as OrderStatus)} className="p-1 border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-xs focus:ring-brand-accent focus:border-brand-accent bg-transparent text-gray-800 dark:text-gray-200">
-                                            <option>Pending Payment</option>
-                                            <option>Processing</option>
-                                            <option>Out for Delivery</option>
-                                            <option>Delivered</option>
-                                            <option>Cancelled</option>
-                                        </select>
-                                    </td>
-                                    <td className="px-6 py-5 whitespace-nowrap text-right text-sm font-medium">
-                                        <div className="flex items-center justify-end space-x-2">
-                                            <button onClick={() => setSelectedOrderForDetails(order)} className="text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors p-2 rounded-full hover:bg-gray-100 dark:hover:bg-dark-bg"><FileText size={18} /></button>
-                                            <button onClick={() => handleWhatsAppShare(order)} className="text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors p-2 rounded-full hover:bg-gray-100 dark:hover:bg-dark-bg"><MessageSquare size={18} /></button>
-                                            <button onClick={() => setSelectedOrderForDispatch(order)} className="text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors p-2 rounded-full hover:bg-gray-100 dark:hover:bg-dark-bg"><Send size={18} /></button>
-                                        </div>
+                        <tbody className="bg-white dark:bg-dark-card">
+                            {ordersToDisplay.length > 0 ? (
+                                ordersToDisplay.map((order, index) => {
+                                    const orderDate = new Date(order.orderDate).toDateString();
+                                    const prevOrderDate = index > 0 ? new Date(ordersToDisplay[index - 1].orderDate).toDateString() : null;
+                                    const showDateHeader = orderDate !== prevOrderDate;
+
+                                    return (
+                                        <React.Fragment key={order.id}>
+                                            {showDateHeader && (
+                                                <tr className="bg-gray-100 dark:bg-dark-bg/50">
+                                                    <td colSpan={6} className="px-6 py-2 text-sm font-bold text-gray-700 dark:text-dark-text">
+                                                        {formatDateHeader(order.orderDate)}
+                                                    </td>
+                                                </tr>
+                                            )}
+                                            <tr className="hover:bg-gray-50 dark:hover:bg-dark-bg/50 transition-colors border-t border-gray-200 dark:border-dark-border">
+                                                <td className="px-6 py-5 whitespace-nowrap">
+                                                    <div className="text-sm font-medium text-gray-900 dark:text-dark-text">#{order.id.substring(0,6)}...</div>
+                                                    <div className="text-sm text-gray-500 dark:text-dark-subtext">{new Date(order.orderDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+                                                </td>
+                                                <td className="px-6 py-5 whitespace-nowrap">
+                                                    <div className="text-sm font-medium text-gray-900 dark:text-dark-text">{order.clientDetails.name}</div>
+                                                    <div className="text-sm text-gray-500 dark:text-dark-subtext">{order.clientDetails.phone}</div>
+                                                </td>
+                                                <td className="px-6 py-5 whitespace-nowrap">
+                                                    <span className="text-sm text-gray-900 dark:text-dark-text">KSH {Math.round(order.total)}</span>
+                                                </td>
+                                                <td className="px-6 py-5 whitespace-nowrap">
+                                                    <select 
+                                                        value={order.paymentStatus} 
+                                                        onChange={(e) => handlePaymentStatusChange(order.id, e.target.value as PaymentStatus)} 
+                                                        className={`p-1 border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-xs focus:ring-brand-accent focus:border-brand-accent bg-transparent ${order.paymentStatus === 'Paid' ? 'text-green-600 dark:text-green-400' : 'text-yellow-600 dark:text-yellow-400'}`}
+                                                    >
+                                                        <option value="Unpaid">Unpaid</option>
+                                                        <option value="Paid">Paid</option>
+                                                    </select>
+                                                </td>
+                                                <td className="px-6 py-5 whitespace-nowrap">
+                                                    <select value={order.status} onChange={(e) => handleStatusChange(order.id, e.target.value as OrderStatus)} className="p-1 border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-xs focus:ring-brand-accent focus:border-brand-accent bg-transparent text-gray-800 dark:text-gray-200">
+                                                        <option>Pending Payment</option>
+                                                        <option>Processing</option>
+                                                        <option>Out for Delivery</option>
+                                                        <option>Delivered</option>
+                                                        <option>Cancelled</option>
+                                                    </select>
+                                                </td>
+                                                <td className="px-6 py-5 whitespace-nowrap text-right text-sm font-medium">
+                                                    <div className="flex items-center justify-end space-x-2">
+                                                        {view === 'active' ? (
+                                                            <>
+                                                                <button onClick={() => setSelectedOrderForDetails(order)} title="View Details" className="text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors p-2 rounded-full hover:bg-gray-100 dark:hover:bg-dark-bg"><FileText size={18} /></button>
+                                                                <button onClick={() => handleWhatsAppShare(order)} title="Contact Client" className="text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors p-2 rounded-full hover:bg-gray-100 dark:hover:bg-dark-bg"><MessageSquare size={18} /></button>
+                                                                <button onClick={() => setSelectedOrderForDispatch(order)} title="Dispatch Order" className="text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors p-2 rounded-full hover:bg-gray-100 dark:hover:bg-dark-bg"><Send size={18} /></button>
+                                                                <button onClick={() => openArchiveModal(order)} title="Archive Order" className="text-gray-400 hover:text-red-600 dark:hover:text-red-500 transition-colors p-2 rounded-full hover:bg-gray-100 dark:hover:bg-dark-bg"><Trash2 size={18} /></button>
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                <button onClick={() => setSelectedOrderForDetails(order)} title="View Details" className="text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors p-2 rounded-full hover:bg-gray-100 dark:hover:bg-dark-bg"><FileText size={18} /></button>
+                                                                <button onClick={() => restoreOrder(order.id)} title="Restore Order" className="text-gray-400 hover:text-green-600 dark:hover:text-green-500 transition-colors p-2 rounded-full hover:bg-gray-100 dark:hover:bg-dark-bg"><ArchiveRestore size={18} /></button>
+                                                            </>
+                                                        )}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </React.Fragment>
+                                    );
+                                })
+                            ) : (
+                                 <tr>
+                                    <td colSpan={6} className="text-center py-10">
+                                        <p className="text-gray-500 dark:text-dark-subtext">No {view} orders found.</p>
                                     </td>
                                 </tr>
-                            ))}
+                            )}
                         </tbody>
                     </table>
                 </div>

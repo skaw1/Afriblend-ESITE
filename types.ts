@@ -55,6 +55,7 @@ export interface Order {
   riderId?: string;
   orderDate: string; // ISO string
   paymentMethod: string;
+  isDeleted?: boolean;
 }
 
 export interface Rider {
