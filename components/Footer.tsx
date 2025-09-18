@@ -78,7 +78,7 @@ const Footer: React.FC = () => {
             <span>&copy; 2025 Afriblend</span>
             <span className="text-gray-500" aria-hidden="true">|</span>
             <span>
-              Store by <a href="https://kaste.brand" target="_blank" rel="noopener noreferrer" className="font-semibold text-brand-accent dark:text-dark-accent hover:underline">Kaste Brands</a>
+              Store by <a href="https://https://www.instagram.com/_.kaste?utm_source=ig_web_button_share_sheet&igsh=amF2cWoxaGU4Njg3.brand" target="_blank" rel="noopener noreferrer" className="font-semibold text-brand-accent dark:text-dark-accent hover:underline">https://www.instagram.com/_.kaste?utm_source=ig_web_button_share_sheet&igsh=amF2cWoxaGU4Njg3 Brands</a>
             </span>
           </p>
         </div>
