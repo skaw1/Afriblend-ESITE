@@ -378,5 +378,6 @@ export const INITIAL_STORE_SETTINGS: StoreSettings = {
     iconUrl: 'https://res.cloudinary.com/dwwvh34yi/image/upload/v1753228298/contact_vawnks.svg',
     whatsappIconUrl: 'https://res.cloudinary.com/dwwvh34yi/image/upload/v1753228296/whatsapp-svgrepo-com_q3mpio.svg',
     callIconUrl: 'https://icongr.am/feather/phone-call.svg?size=128&color=ffffff'
-  }
+  },
+  showComingSoonBanner: true
 };

@@ -209,6 +209,25 @@ const AdminSettingsPage: React.FC = () => {
                 message={deleteMessage}
             />
             <form onSubmit={handleSubmit} className="space-y-8">
+                <Card title="General Settings">
+                    <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium text-gray-700 dark:text-dark-subtext">Show "Coming Soon" Banner</span>
+                        <label htmlFor="coming-soon-enabled" className="flex items-center cursor-pointer">
+                            <span className="mr-3 text-sm font-medium text-gray-900 dark:text-gray-300"></span>
+                            <div className="relative">
+                                <input
+                                    type="checkbox"
+                                    id="coming-soon-enabled"
+                                    className="sr-only"
+                                    checked={localSettings.showComingSoonBanner ?? false}
+                                    onChange={(e) => setLocalSettings(prev => ({ ...prev, showComingSoonBanner: e.target.checked }))}
+                                />
+                                <div className="block bg-gray-600 w-14 h-8 rounded-full"></div>
+                                <div className={`dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition ${localSettings.showComingSoonBanner ? 'transform translate-x-6 bg-green-400' : ''}`}></div>
+                            </div>
+                        </label>
+                    </div>
+                </Card>
                 <Card title="Hero Section Slides" actions={
                     <button type="button" onClick={handleAddHeroSlide} className="flex items-center text-sm text-brand-secondary dark:text-dark-accent font-semibold hover:underline">
                         <PlusCircle size={16} className="mr-1" /> Add Slide

@@ -32,7 +32,7 @@ import { INITIAL_NOTIFICATION } from './constants';
 import { CategoryProvider } from './hooks/useCategories';
 import { Megaphone, X } from 'lucide-react';
 import AdminSettingsPage from './pages/AdminSettingsPage';
-import { SettingsProvider } from './hooks/useSettings';
+import { SettingsProvider, useSettings } from './hooks/useSettings';
 import FloatingActionButton from './components/FloatingActionButton';
 import { FaqProvider } from './hooks/useFaqs';
 import AdminFaqPage from './pages/AdminFaqPage';
@@ -203,6 +203,7 @@ const NotificationDisplayController: React.FC = () => {
 
 const PublicLayout: React.FC = () => {
     const location = useLocation();
+    const { settings } = useSettings();
 
     useEffect(() => {
         // This effect handles scrolling. It depends on pathname and hash.
@@ -225,6 +226,11 @@ const PublicLayout: React.FC = () => {
 
     return (
         <div className="bg-brand-bg dark:bg-dark-bg text-brand-primary dark:text-dark-text font-sans flex flex-col min-h-screen">
+            {settings.showComingSoonBanner && (
+                <div className="bg-brand-secondary text-white text-center py-2 px-4 text-sm font-bold shadow-md relative z-50">
+                    Coming Soon! We are currently restocking our products.
+                </div>
+            )}
             <Header />
             <main className="flex-grow">
                 <Outlet />

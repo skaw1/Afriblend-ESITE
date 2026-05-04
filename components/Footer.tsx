@@ -72,14 +72,13 @@ const Footer: React.FC = () => {
             </form>
           </div>
         </div>
-        <div className="border-t border-white/20 dark:border-dark-border mt-10 pt-6 text-center text-xs text-gray-400 dark:text-dark-subtext">
-          <p className="flex justify-center items-center space-x-3 flex-wrap">
+        <div className="border-t border-white/20 dark:border-dark-border mt-10 pt-6 text-center text-gray-400 dark:text-dark-subtext flex flex-col items-center space-y-2">
+          <p className="flex justify-center items-center space-x-3 flex-wrap text-xs">
             <Link to="/admin/login" className="hover:text-brand-accent dark:hover:text-dark-accent transition-colors">Admin</Link>
             <span>&copy; 2025 Afriblend</span>
-            <span className="text-gray-500" aria-hidden="true">|</span>
-            <span>
-              Store by <a href="https://www.instagram.com/_.kaste?igsh=MTU4MnFyM3N3ZmZsag%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer" className="font-semibold text-brand-accent dark:text-dark-accent hover:underline">Kaste</a>
-            </span>
+          </p>
+          <p className="text-sm font-medium text-gray-200 dark:text-gray-300">
+            Built and Designed by <a href="https://www.instagram.com/_.kaste?igsh=MTU4MnFyM3N3ZmZsag%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer" className="font-bold text-brand-accent dark:text-dark-accent hover:underline">Kaste</a>
           </p>
         </div>
       </div>

@@ -148,4 +148,5 @@ export interface StoreSettings {
   paymentMethods: PaymentMethodDetails[];
   heroSlides: HeroSlide[];
   fab: FabSettings;
+  showComingSoonBanner?: boolean;
 }
